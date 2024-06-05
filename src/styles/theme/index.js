@@ -2,7 +2,7 @@ import { createTheme } from "@mui/material";
 import { lighten } from "polished";
 
 export const Colors = {
-  primary: "#8B22E2",
+  primary: "#8b22e2",
   secondary: "#d1adcc",
   success: "#4CAF50",
   info: "#00a2ff",
@@ -62,6 +62,24 @@ const theme = createTheme({
           "&:hover": {
             background: lighten(0.05, Colors.secondary),
           },
+        },
+      },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          width: 250,
+          background: Colors.primary,
+          color: Colors.secondary,
+          borderRadius: "0px 100px 0px 0px",
+          borderRight: `5px solid ${Colors.appbar}`,
+        },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          borderColor: lighten(0.2, Colors.appbar),
         },
       },
     },
