@@ -6,7 +6,6 @@ import { UIProvider } from "./context/ui";
 import Footer from "./components/footer";
 import Login from "./components/login";
 import SignUp from "./components/signup";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
@@ -14,13 +13,8 @@ function App() {
       <UIProvider>
         <Appbar />
         <AppDrawer />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/" element={<Login />} />
-            <Route path="signup" element={<SignUp />} />
-          </Routes>
-        </BrowserRouter>
+        <Login />
+        {/* <SignUp /> */}
         <Footer />
       </UIProvider>
     </ThemeProvider>

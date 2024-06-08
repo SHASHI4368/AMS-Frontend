@@ -13,11 +13,9 @@ import {
   MyLink,
 } from "../../styles/login";
 import LoginPassword from "./loginPassword";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
-  const navigate = useNavigate();
   return (
     <LoginContainer>
       <LoginPaper>
@@ -69,7 +67,6 @@ const Login = () => {
               color={Colors.dim_grey}
               underline="hover"
               sx={{ mt: 5 }}
-              onClick={() => navigate("/signup")}
             >
               Don't have an account ? Sign up
             </MyLink>
