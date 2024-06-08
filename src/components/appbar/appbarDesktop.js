@@ -5,11 +5,16 @@ import {
   LoginButton,
   SignUpButton,
 } from "../../styles/appbar/desktop";
-import { ShapeBottom, ShapeTop } from "../../styles/footer";
 import StudentBar from "./studentBar";
-import { Colors } from "../../styles/theme";
+import { ShapeTop } from "../../styles/footer";
+import { useNavigate } from "react-router-dom";
 
 const AppbarDesktop = () => {
+  const navigate = useNavigate();
+
+  const toHome = (e) => {
+    navigate("/");
+  }
   return (
     <>
       <AppbarContainer>
@@ -19,6 +24,7 @@ const AppbarDesktop = () => {
           <LoginButton
             variant="button"
             sx={{ textTransform: "capitalize", fontSize: "18px" }}
+            onClick={toHome}
           >
             Login
           </LoginButton>

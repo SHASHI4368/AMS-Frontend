@@ -53,7 +53,7 @@ export const DrawerListItem = styled("li")(() => ({
   margin: "20px 0",
   padding: "0 30px",
   fontSize: "18px",
-  fontFamily: "Roboto, sans-serif",
+  fontFamily: "Raleway",
   overflow: "hidden",
   zIndex: 9999,
 }));

@@ -1,7 +1,14 @@
-import { Box, Button, FormControl, Link, Paper, TextField, Typography, styled } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  Link,
+  TextField,
+  Typography,
+  styled,
+} from "@mui/material";
 import { Colors } from "../theme";
 import "@fontsource/raleway";
-import { margin } from "polished";
 
 export const LoginContainer = styled(Box)(({ theme }) => ({
   height: "550px",
@@ -39,6 +46,11 @@ export const LoginHeader = styled(Typography)(({ theme }) => ({
   color: Colors.primary,
   marginBottom: "60px",
   [theme.breakpoints.down("md")]: {
+    fontSize: "26px",
+    marginTop: "-20px",
+    marginBottom: "40px",
+  },
+  [theme.breakpoints.down("sm")]: {
     fontSize: "19px",
     marginTop: "-20px",
     marginBottom: "40px",
@@ -58,14 +70,21 @@ export const LoginInput = styled(TextField)(({ theme }) => ({
   marginTop: "-20px",
   width: "60%",
   [theme.breakpoints.down("md")]: {
+    width: "100%",
+  },
+  [theme.breakpoints.down("sm")]: {
     width: "120%",
   },
 }));
 
 export const PasswordFormControl = styled(FormControl)(({ theme }) => ({
   width: "60%",
-  marginTop: "20px",
+  marginTop: "30px",
+  marginBottom: "20px",
   [theme.breakpoints.down("md")]: {
+    width: "100%",
+  },
+  [theme.breakpoints.down("sm")]: {
     width: "120%",
   },
 }));
@@ -89,6 +108,11 @@ export const LoginButton = styled(Button, {
   borderRadius: "5px",
   fontSize: "16px",
   fontWeight: 500,
+  [theme.breakpoints.down("md")]: {
+    padding: "10px 0",
+    fontSize: "14px",
+    width: "100%",
+  },
   [theme.breakpoints.down("sm")]: {
     padding: "10px 0",
     fontSize: "14px",
@@ -118,6 +142,11 @@ export const GoogleLoginButton = styled(Button, {
   [theme.breakpoints.down("md")]: {
     padding: "10px 0",
     fontSize: "14px",
+    width: "100%",
+  },
+  [theme.breakpoints.down("sm")]: {
+    padding: "10px 0",
+    fontSize: "14px",
     width: "120%",
   },
 }));
@@ -128,12 +157,11 @@ export const GoogleIcon = styled("img")(({ theme }) => ({
   marginRight: "10px",
 }));
 
-export const MyLink = styled(Typography)(({ theme }) => ({
-  styles: "none",
+export const MyLink = styled(Link)(({ theme }) => ({
   color: Colors.dim_grey,
-  fontSize: "14px",
+  fontSize: "16px",
   fontFamily: "Raleway",
-  marginTop: "20px",
+  marginTop: "25px",
   "&:hover": {
     cursor: "pointer",
     color: Colors.primary,
