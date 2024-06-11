@@ -167,3 +167,20 @@ export const MyLink = styled(Link)(({ theme }) => ({
     color: Colors.primary,
   },
 }));
+
+export const ErrorMessageContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "column",
+  width: "100%",
+  height: "30px",
+}));
+
+export const ErrorMessage = styled(Typography)(({ theme }) => ({
+  color: Colors.danger,
+  fontSize: "14px",
+  fontFamily: "Raleway",
+  marginTop: "5px",
+  flexGrow: 1,
+}));

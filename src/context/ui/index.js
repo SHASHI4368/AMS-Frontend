@@ -9,6 +9,10 @@ export const UIProvider = ({ children }) => {
     return savedValue !== null ? JSON.parse(savedValue) : defaultValue;
   };
 
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [progressOpen, setProgressOpen] = useState(false); 
+  const [alertMessage, setAlertMessage] = useState("");
+
   const [drawerOpen, setDrawerOpen] = useState(
     getInitialState("drawerOpen", false)
   );
@@ -21,8 +25,14 @@ export const UIProvider = ({ children }) => {
     getInitialState("department", "")
   );
   const [userType, setUserType] = useState(
-    getInitialState("userType", "Staff")
+    getInitialState("userType", "Student")
   );
+
+  // Login page
+  const [authorized, setAuthorized] = useState(
+    getInitialState("authorized", false)
+  );
+  const [regNumber, setRegNumber] = useState(getInitialState("regNumber", ""));
 
   const saveState = (key, value) => {
     sessionStorage.setItem(key, JSON.stringify(value));
@@ -45,6 +55,12 @@ export const UIProvider = ({ children }) => {
   }, [department]);
 
   const value = {
+    alertOpen,
+    setAlertOpen,
+    progressOpen,
+    setProgressOpen,
+    alertMessage,
+    setAlertMessage,
     drawerOpen,
     setDrawerOpen,
     activeStep,
@@ -55,6 +71,11 @@ export const UIProvider = ({ children }) => {
     setDepartment,
     userType,
     setUserType,
+    // Login page
+    authorized,
+    setAuthorized,
+    regNumber,
+    setRegNumber,
   };
 
   return <UIContext.Provider value={value}>{children}</UIContext.Provider>;

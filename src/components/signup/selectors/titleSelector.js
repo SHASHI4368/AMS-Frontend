@@ -1,9 +1,16 @@
-import { Box, FormControl, InputLabel, MenuItem, Select, useTheme } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  useTheme,
+} from "@mui/material";
 import React, { useState } from "react";
-import { useUIContext } from "../../context/ui";
+import { useUIContext } from "../../../context/ui";
 
 const TitleSelector = () => {
-  const [title, setTitle ] = useState("");
+  const [title, setTitle] = useState("");
   const handleChange = (event) => {
     setTitle(event.target.value);
   };
@@ -12,7 +19,7 @@ const TitleSelector = () => {
     <Box
       sx={{
         width: "33.33%",
-        [theme.breakpoints.down("sm")]: { width: "40%", mt: "0px", ml: "11px"},
+        [theme.breakpoints.down("sm")]: { width: "40%", mt: "0px", ml: "11px" },
       }}
     >
       <FormControl fullWidth>

@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-const LoginPassword = () => {
+const LoginPassword = ({password, setPassword}) => {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -21,8 +21,11 @@ const LoginPassword = () => {
     <PasswordFormControl variant="outlined">
       <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
       <OutlinedInput
+        
         id="outlined-adornment-password"
         type={showPassword ? "text" : "password"}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
         endAdornment={
           <InputAdornment position="end">
             <IconButton

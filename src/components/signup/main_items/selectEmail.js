@@ -4,11 +4,19 @@ import {
   DescriptionText,
   TextInput,
   FieldContainer,
-} from "../../styles/signup";
-import {  GoogleSignupButton,  } from "../../styles/signup/selectEmail";
-import { GoogleIcon} from "../../styles/login";
+} from "../../../styles/signup";
+import { GoogleSignupButton } from "../../../styles/signup/selectEmail";
+import {
+  ErrorMessage,
+  ErrorMessageContainer,
+  GoogleIcon,
+} from "../../../styles/login";
+import { useSignupContext } from "../../../context/signup";
+import { useUIContext } from "../../../context/ui";
 
 const SelectEmail = () => {
+  const { stdEmail, setStdEmail, message } = useSignupContext();
+
   return (
     <FieldContainer>
       <DescriptionText>Please enter your university email</DescriptionText>
@@ -16,7 +24,12 @@ const SelectEmail = () => {
         variant="outlined"
         label="University email"
         sx={{ lineHeight: "1px" }}
+        value={stdEmail}
+        onChange={(e) => setStdEmail(e.target.value)}
       />
+      <ErrorMessageContainer sx={{ mt: 1, mb: -2 }}>
+        <ErrorMessage>{message}</ErrorMessage>
+      </ErrorMessageContainer>
       <DescriptionText sx={{ marginTop: "40px", marginBottom: "0px" }}>
         or
       </DescriptionText>

@@ -1,13 +1,20 @@
-import { Box, FormControl, InputLabel, MenuItem, Select, useTheme } from '@mui/material';
-import React, { useState } from 'react'
-import { useUIContext } from '../../context/ui';
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  useTheme,
+} from "@mui/material";
+import React, { useState } from "react";
+import { useSignupContext } from "../../../context/signup";
 
 const BatchSelector = () => {
- const [batch, setBatch] = useState("");
- const handleChange = (event) => {
-   setBatch(event.target.value);
- };
- const theme = useTheme();
+  const {batch, setBatch} = useSignupContext();
+  const handleChange = (event) => {
+    setBatch(event.target.value);
+  };
+  const theme = useTheme();
   return (
     <Box
       sx={{
@@ -35,6 +42,6 @@ const BatchSelector = () => {
       </FormControl>
     </Box>
   );
-}
+};
 
-export default BatchSelector
+export default BatchSelector;

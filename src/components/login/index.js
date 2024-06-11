@@ -1,8 +1,10 @@
 import { Box, Tooltip } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { Colors } from "../../styles/theme";
 import {
   ButtonContainer,
+  ErrorMessage,
+  ErrorMessageContainer,
   GoogleIcon,
   GoogleLoginButton,
   LoginButton,
@@ -13,8 +15,71 @@ import {
   MyLink,
 } from "../../styles/login";
 import LoginPassword from "./loginPassword";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useUIContext } from "../../context/ui";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+
+  const { setAuthorized, setRegNumber } = useUIContext();
+
+  const navigate = useNavigate();
+
+  axios.defaults.withCredentials = true;
+
+  const getRegNumber = async (Email) => {
+    try {
+      const url = `http://localhost:8080/db/student/regnumber/${Email}`;
+      const response = await axios.get(url);
+      console.log(response.data[0].Reg_number);
+      setRegNumber(response.data[0].Reg_number);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleStdLogin = async (Email, Password) => {
+    try {
+      const url = `http://localhost:8080/db/student/login`;
+      const response = await axios.post(url, { Email, Password });
+      if (response.data.Status === "Success") {
+        sessionStorage.setItem(
+          "jwt",
+          JSON.stringify(response.data.RefreshToken)
+        );
+        setAuthorized(true);
+        getRegNumber(Email);
+        console.log("Login successful");
+        //socket.connect();
+        navigate("/student/home");
+      } else {
+        setMessage("Invalid email or password");
+      }
+    } catch (err) {
+      console.log(err.message);
+      setMessage("Invalid email or password");
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    if (email === "" || password === "") {
+      setMessage("Please fill all the fields");
+    } else if (
+      !email.includes("engug.ruh.ac.lk") &&
+      !email.includes("eng.ruh.ac.lk")
+    ) {
+      setMessage("Invalid email");
+    } else {
+      if (email.includes("engug.ruh.ac.lk")) {
+        handleStdLogin(email, password);
+      } else {
+        // handleStaffLogin(email, password);
+      }
+    }
+  };
 
   return (
     <LoginContainer>
@@ -30,12 +95,16 @@ const Login = () => {
         </LoginHeader>
         <ButtonContainer>
           <LoginInput
-            // color="success"
             variant="outlined"
             label="University email"
             sx={{ lineHeight: "1px" }}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-          <LoginPassword />
+          <LoginPassword password={password} setPassword={setPassword} />
+          <ErrorMessageContainer>
+            <ErrorMessage>{message}</ErrorMessage>
+          </ErrorMessageContainer>
           <MyLink
             href="#"
             color={Colors.dim_grey}
@@ -44,7 +113,11 @@ const Login = () => {
           >
             Forgot password ?
           </MyLink>
-          <LoginButton variant="contained" color="primary">
+          <LoginButton
+            onClick={handleSubmit}
+            variant="contained"
+            color="primary"
+          >
             Login
           </LoginButton>
           <Tooltip title="Only for staff members" placement="bottom">
@@ -63,13 +136,9 @@ const Login = () => {
               </Box>
             </GoogleLoginButton>
           </Tooltip>
-            <MyLink
-              color={Colors.dim_grey}
-              underline="hover"
-              sx={{ mt: 5 }}
-            >
-              Don't have an account ? Sign up
-            </MyLink>
+          <MyLink onClick={() => navigate('/signup')} color={Colors.dim_grey} underline="hover" sx={{ mt: 5 }}>
+            Don't have an account ? Sign up
+          </MyLink>
         </ButtonContainer>
       </LoginPaper>
     </LoginContainer>

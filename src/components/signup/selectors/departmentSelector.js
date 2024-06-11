@@ -1,9 +1,18 @@
-import { Box, FormControl, InputLabel, MenuItem, Select, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import React, { useState } from "react";
-import { useUIContext } from "../../context/ui";
+import { useUIContext } from "../../../context/ui";
+import { useSignupContext } from "../../../context/signup";
 
 const DepartmentSelector = () => {
-  const [ department, setDepartment ] = useState("");
+  const {department, setDepartment} = useSignupContext();
   const handleChange = (event) => {
     setDepartment(event.target.value);
   };
@@ -12,7 +21,7 @@ const DepartmentSelector = () => {
     <Box
       sx={{
         flexGrow: 1,
-        width: '30%',
+        width: "30%",
         margin: "0px 10px 0 10px",
       }}
     >

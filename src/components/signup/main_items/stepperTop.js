@@ -3,14 +3,14 @@ import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepButton from "@mui/material/StepButton";
-import { useUIContext } from "../../context/ui";
+import { useUIContext } from "../../../context/ui";
 import { useTheme } from "@emotion/react";
 import { useMediaQuery } from "@mui/material";
 
 const steps = ["Select faculty email", "Faculty verification", "Enter detals"];
 
 export default function StepperTop() {
-  const { activeStep, setActiveStep, completed} = useUIContext();
+  const { activeStep, setActiveStep, completed } = useUIContext();
 
   const handleStep = (step) => () => {
     setActiveStep(step);
@@ -23,7 +23,7 @@ export default function StepperTop() {
   return (
     <Box
       sx={{
-        marginTop: '-20px',
+        marginTop: "-20px",
         width: "100%",
         [theme.breakpoints.down("md")]: { width: "130%" },
         [theme.breakpoints.down("sm")]: { width: "150%" },

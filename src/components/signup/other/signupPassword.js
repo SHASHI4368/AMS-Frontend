@@ -8,9 +8,11 @@ import {
   useTheme,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { PasswordFormControl } from "../../styles/signup/details";
+import { PasswordFormControl } from "../../../styles/signup/details";
+import { useSignupContext } from "../../../context/signup";
 
 const SignupPassword = () => {
+  const { password, setPassword } = useSignupContext();
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -20,17 +22,17 @@ const SignupPassword = () => {
   };
 
   const theme = useTheme();
-  const medium = useMediaQuery(theme.breakpoints.down('md'));
-  const small = useMediaQuery(theme.breakpoints.down('sm'));
+  const medium = useMediaQuery(theme.breakpoints.down("md"));
+  const small = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <PasswordFormControl
-      variant="outlined"
-    >
+    <PasswordFormControl variant="outlined">
       <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
       <OutlinedInput
         id="outlined-adornment-password"
         type={showPassword ? "text" : "password"}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
         endAdornment={
           <InputAdornment position="end">
             <IconButton

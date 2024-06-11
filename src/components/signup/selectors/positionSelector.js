@@ -7,7 +7,7 @@ import {
   useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
-import { useUIContext } from "../../context/ui";
+import { useUIContext } from "../../../context/ui";
 
 const PositionSelector = () => {
   const [position, setPosition] = useState("");
@@ -20,8 +20,8 @@ const PositionSelector = () => {
       sx={{
         marginRight: "10px",
         marginLeft: "10px",
-        width: '33.33%',
-        [theme.breakpoints.down('sm')]: {width: "140%", mt: '-5px'},
+        width: "33.33%",
+        [theme.breakpoints.down("sm")]: { width: "140%", mt: "-5px" },
       }}
     >
       <FormControl fullWidth>
