@@ -1,5 +1,5 @@
 import { Box, Tooltip } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   DescriptionText,
   TextInput,
@@ -13,9 +13,33 @@ import {
 } from "../../../styles/login";
 import { useSignupContext } from "../../../context/signup";
 import { useUIContext } from "../../../context/ui";
+import axios from "axios";
 
 const SelectEmail = () => {
-  const { stdEmail, setStdEmail, message } = useSignupContext();
+  const { email, setEmail, message, setStaff } = useSignupContext();
+
+  const handleGoogleAuth = (e, action) => {
+    e.preventDefault();
+    window.open(`http://localhost:8080/auth/google?action=${action}`, "_self");
+  };
+
+    useEffect(() => {
+      const getStaff = async () => {
+        try {
+          const url = `http://localhost:8080/auth/login/success`;
+          const { data } = await axios.get(url, { withCredentials: true });
+          if (data.error === false) {
+            setStaff(data.user._json);
+            setEmail(data.user._json.email);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      getStaff();
+    }, []);
+
+
 
   return (
     <FieldContainer>
@@ -24,17 +48,21 @@ const SelectEmail = () => {
         variant="outlined"
         label="University email"
         sx={{ lineHeight: "1px" }}
-        value={stdEmail}
-        onChange={(e) => setStdEmail(e.target.value)}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
-      <ErrorMessageContainer sx={{ mt: 1, mb: -2 }}>
-        <ErrorMessage>{message}</ErrorMessage>
+      <ErrorMessageContainer sx={{mt:3, mb:-2}}>
+        {message && <ErrorMessage severity="error">{message}</ErrorMessage>}
       </ErrorMessageContainer>
       <DescriptionText sx={{ marginTop: "40px", marginBottom: "0px" }}>
         or
       </DescriptionText>
       <Tooltip title="Only for staff members" placement="bottom">
-        <GoogleSignupButton variant="contained" color="primary">
+        <GoogleSignupButton
+          onClick={(e) => handleGoogleAuth(e, "signup")}
+          variant="contained"
+          color="primary"
+        >
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <GoogleIcon
               src="https://img.icons8.com/color/48/000000/google-logo.png"

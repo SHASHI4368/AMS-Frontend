@@ -77,8 +77,8 @@ const Verification = () => {
           onChange={(e) => setFour(e.target.value)}
         />
       </CodeContainer>
-      <ErrorMessageContainer sx={{ mt: 4, mb: -5 }}>
-        <ErrorMessage>{message}</ErrorMessage>
+      <ErrorMessageContainer sx={{ mt: 6, mb: -4 }}>
+        {message && <ErrorMessage severity="error">{message}</ErrorMessage>}
       </ErrorMessageContainer>
       <MyLink href="#" color={Colors.dim_grey} underline="hover">
         Didn't receive a code? Resend

@@ -7,7 +7,7 @@ import Footer from "./components/footer";
 import Login from "./components/login";
 import SignUp from "./components/signup";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import StudentHome from "./components/student_home";
+import StudentHome from "./components/home";
 import MyAlert from "./components/signup/other/alert";
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/student/home" element={<StudentHome/>}/>
+            <Route path="/home" element={<StudentHome />} />
           </Routes>
           <Footer />
         </BrowserRouter>

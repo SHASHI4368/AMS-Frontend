@@ -20,6 +20,8 @@ export const UIProvider = ({ children }) => {
     getInitialState("activeStep", 0)
   );
   const [completed, setCompleted] = useState(getInitialState("completed", {}));
+  const [email, setEmail] = useState(getInitialState("email", ""));
+  const [googleAuth, setGoogleAuth] = useState(getInitialState("googleAuth", false));
 
   const [department, setDepartment] = useState(
     getInitialState("department", "")
@@ -42,9 +44,22 @@ export const UIProvider = ({ children }) => {
     saveState("drawerOpen", drawerOpen);
   }, [drawerOpen]);
 
+
   useEffect(() => {
     saveState("activeStep", activeStep);
   }, [activeStep]);
+
+  useEffect(() => {
+    saveState("userType", userType);
+  }, [userType]);
+
+  useEffect(() => {
+    saveState("googleAuth", googleAuth);
+  }, [googleAuth]);
+
+  useEffect(() => {
+    saveState("email", email);
+  }, [email]);
 
   useEffect(() => {
     saveState("completed", completed);
@@ -55,6 +70,10 @@ export const UIProvider = ({ children }) => {
   }, [department]);
 
   const value = {
+    
+
+    email,
+    setEmail,
     alertOpen,
     setAlertOpen,
     progressOpen,
@@ -76,6 +95,8 @@ export const UIProvider = ({ children }) => {
     setAuthorized,
     regNumber,
     setRegNumber,
+    googleAuth,
+    setGoogleAuth,
   };
 
   return <UIContext.Provider value={value}>{children}</UIContext.Provider>;

@@ -8,9 +8,10 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { useUIContext } from "../../../context/ui";
+import { useSignupContext } from "../../../context/signup";
 
 const PositionSelector = () => {
-  const [position, setPosition] = useState("");
+  const {position, setPosition} = useSignupContext();
   const handleChange = (event) => {
     setPosition(event.target.value);
   };

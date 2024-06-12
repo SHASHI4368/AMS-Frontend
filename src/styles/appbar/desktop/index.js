@@ -28,6 +28,7 @@ export const ButtonContainer = styled("ul")(() => ({
 
 export const DepartmentContainer = styled("ul")(({ open }) => ({
   position: "absolute",
+  border: `1px solid ${Colors.dove_gray}`,
   opacity: open ? 1 : 0,
   visibility: open ? "visible" : "hidden",
   transition: "opacity 0.9s ease, visibility 0.3s ease-in-out",

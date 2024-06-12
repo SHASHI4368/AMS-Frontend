@@ -8,9 +8,10 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { useUIContext } from "../../../context/ui";
+import { useSignupContext } from "../../../context/signup";
 
 const TitleSelector = () => {
-  const [title, setTitle] = useState("");
+  const {title, setTitle} = useSignupContext();
   const handleChange = (event) => {
     setTitle(event.target.value);
   };

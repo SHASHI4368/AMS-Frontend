@@ -14,19 +14,25 @@ const StepperBottom = () => {
     setActiveStep,
     completed,
     setCompleted,
+    userType,
     setUserType,
     setAlertOpen,
     setAlertMessage,
     setProgressOpen,
   } = useUIContext();
   const {
-    stdEmail,
+    staff,
+    setStaff,
+    email,
     setMessage,
     one,
     two,
     three,
     four,
-    
+    position,
+    setPosition,
+    title,
+    setTitle,
     firstName,
     setFirstName,
     lastName,
@@ -41,7 +47,7 @@ const StepperBottom = () => {
     setDepartment,
     password,
     setPassword,
-    setStdEmail,
+    setEmail,
   } = useSignupContext();
 
   const navigate = useNavigate();
@@ -68,7 +74,10 @@ const StepperBottom = () => {
       setDepartment("");
       setPassword("");
       setMessage("");
-
+      setEmail("");
+      setPosition("");
+      setTitle("");
+      setStaff({});
       setAlertMessage("Sign up successful");
       setAlertOpen(true);
       navigate("/");
@@ -125,28 +134,57 @@ const StepperBottom = () => {
     }
   };
 
+  const getStaff = async (Email) => {
+    try {
+      const url = `http://localhost:8080/db/staff/${Email}`;
+      const { data } = await axios.get(url);
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleEmailSelect = async (newActiveStep) => {
-    if (stdEmail === "") {
+    if (email === "") {
       setMessage("Email is required");
     } else if (
-      !stdEmail.includes("engug.ruh.ac.lk") &&
-      !stdEmail.includes("eng.ruh.ac.lk")
+      !email.includes("engug.ruh.ac.lk") &&
+      !email.includes("eng.ruh.ac.lk")
     ) {
       setMessage("Please enter a valid email");
     } else {
-      if (stdEmail.includes("engug.ruh.ac.lk")) {
+      if (email.includes("engug.ruh.ac.lk")) {
         setUserType("Student");
         const code = `${Math.floor(Math.random() * 10)}${Math.floor(
           Math.random() * 10
         )}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`;
-        const student = await getStudent(stdEmail);
-        const tempUser = await getTempUser(stdEmail);
+        const student = await getStudent(email);
+        const tempUser = await getTempUser(email);
         if (!student.length && (!tempUser.length || !tempUser.Verified)) {
           if (!tempUser.length) {
-            addTempUser(stdEmail, code);
-            sendVerificationMail(stdEmail, code);
+            addTempUser(email, code);
+            sendVerificationMail(email, code);
           } else if (tempUser.length && !tempUser.Verified) {
-            updateVerificationCode(stdEmail, code);
+            updateVerificationCode(email, code);
+          }
+          setMessage("");
+          activateLoader(newActiveStep);
+        } else {
+          setMessage("Email already exists");
+        }
+      } else {
+        setUserType("Staff");
+        const code = `${Math.floor(Math.random() * 10)}${Math.floor(
+          Math.random() * 10
+        )}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`;
+        const staff = await getStaff(email);
+        const tempUser = await getTempUser(email);
+        if (!staff.length && (!tempUser.length || !tempUser.Verified)) {
+          if (!tempUser.length) {
+            addTempUser(email, code);
+            sendVerificationMail(email, code);
+          } else if (tempUser.length && !tempUser.Verified) {
+            updateVerificationCode(email, code);
           }
           setMessage("");
           activateLoader(newActiveStep);
@@ -171,17 +209,14 @@ const StepperBottom = () => {
   };
 
   const handleVerification = async (newActiveStep) => {
-    const passCode = await getPasscode(stdEmail);
+    const passCode = await getPasscode(email);
     if (one === "" || two === "" || three === "" || four === "") {
       setMessage("Please enter the code");
     } else if (`${one}${two}${three}${four}` !== passCode) {
       setMessage("Incorrect code");
     } else {
-      if (JSON.parse(sessionStorage.getItem("userType")) === "Staff") {
-      } else {
-        setMessage("");
-        activateLoader(newActiveStep);
-      }
+      setMessage("");
+      activateLoader(newActiveStep);
     }
   };
 
@@ -208,8 +243,8 @@ const StepperBottom = () => {
       console.log(response.data.message);
       if (response.data.message === "Error") {
         setMessage("Registration number already exists");
-      }else{
-        setStdEmail("");
+      } else {
+        setEmail("");
         signupLoader();
       }
     } catch (err) {
@@ -223,6 +258,41 @@ const StepperBottom = () => {
     }
   };
 
+    const addStaff = async (
+      First_name,
+      Last_name,
+      Department,
+      Email,
+      Picture_URL,
+      Password,
+      Position,
+      Title
+    ) => {
+      try {
+        const url = `http://localhost:8080/db/staff`;
+        const response = await axios.post(url, {
+          First_name,
+          Last_name,
+          Department,
+          Email,
+          Picture_URL,
+          Password,
+          Position,
+          Title,
+        });
+        setEmail("");
+        signupLoader();
+      } catch (err) {
+        if (err.response) {
+          console.log(err.response.data.message);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log(err.message);
+        }
+      }
+    };
+
   const deleteTempUser = async (Email) => {
     try {
       const url = `http://localhost:8080/db/tempUser/${Email}`;
@@ -235,28 +305,48 @@ const StepperBottom = () => {
 
   const handleStudentAdd = async (e) => {
     e.preventDefault();
-    if (firstName === "") {
-      setMessage("First name is required");
-    } else if (lastName === "") {
-      setMessage("Last name is required");
-    } else if (regNo === "") {
-      setMessage("Registration number is required");
-    } else if (department === "") {
-      setMessage("Department is required");
-    } else if (password === "") {
-      setMessage("Password is required");
-    } else {
-      deleteTempUser(stdEmail);
+    if (userType === "Student") {
+      if (firstName === "") {
+        setMessage("First name is required");
+      } else if (lastName === "") {
+        setMessage("Last name is required");
+      } else if (regNo === "") {
+        setMessage("Registration number is required");
+      } else if (department === "") {
+        setMessage("Department is required");
+      } else if (password === "") {
+        setMessage("Password is required");
+      } else {
+        deleteTempUser(email);
 
-      addStudent(
-        regNo,
-        firstName,
-        lastName,
-        department,
-        stdEmail,
-        batch,
-        password
-      );
+        addStudent(
+          regNo,
+          firstName,
+          lastName,
+          department,
+          email,
+          batch,
+          password
+        );
+      }
+    } else {
+      if (firstName === "") {
+        setMessage("First name is required");
+      } else if (lastName === "") {
+        setMessage("Last name is required");
+      } else if (position === "") {
+        setMessage("Position is required");
+      } else if (title === "") {
+        setMessage("Title is required");
+      } else if (department === "") {
+        setMessage("Department is required");
+      } else if (password === "") {
+        setMessage("Password is required");
+      } else {
+        const picture = staff ? staff.picture : "";
+        deleteTempUser(email);
+        addStaff(firstName, lastName, department, email, picture, password, position, title);
+      }
     }
   };
 
@@ -269,6 +359,7 @@ const StepperBottom = () => {
       handleVerification(newActiveStep);
     }
   };
+
   const handleBack = () => {
     if (activeStep === 0) {
       navigate("/");

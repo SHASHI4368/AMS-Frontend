@@ -6,6 +6,7 @@ import {
   DepartmentContainer,
   DepartmentItem,
 } from "../../styles/appbar/desktop";
+import Avatar from "./avatar";
 
 const StudentBar = () => {
   const [open, setOpen] = useState(false);
@@ -29,8 +30,8 @@ const StudentBar = () => {
           <DepartmentItem>Computer</DepartmentItem>
         </DepartmentContainer>
       </DepartmentButton>
-
       <ButtonItem>My Appointments</ButtonItem>
+      <Avatar/>
     </ButtonContainer>
   );
 };

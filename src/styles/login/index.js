@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   FormControl,
@@ -177,10 +178,6 @@ export const ErrorMessageContainer = styled(Box)(({ theme }) => ({
   height: "30px",
 }));
 
-export const ErrorMessage = styled(Typography)(({ theme }) => ({
-  color: Colors.danger,
-  fontSize: "14px",
-  fontFamily: "Raleway",
-  marginTop: "5px",
-  flexGrow: 1,
+export const ErrorMessage = styled(Alert)(({ theme }) => ({
+
 }));

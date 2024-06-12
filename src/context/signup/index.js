@@ -9,9 +9,11 @@ export const SignupProvider = ({ children }) => {
     const savedValue = sessionStorage.getItem(key);
     return savedValue !== null ? JSON.parse(savedValue) : defaultValue;
   };
-  const [stdEmail, setStdEmail] = useState(getInitialState("stdEmail", ""));
+  const [email, setEmail] = useState(getInitialState("email", ""));
+  const [staff, setStaff] = useState(getInitialState("staff", {}));
   const [message, setMessage] = useState("");
-  
+  const [position, setPosition] = useState("");
+  const [title, setTitle] = useState("");
   const [one, setOne] = useState("");
   const [two, setTwo] = useState("");
   const [three, setThree] = useState("");
@@ -29,11 +31,15 @@ export const SignupProvider = ({ children }) => {
   };
 
     useEffect(() => {
-      saveState("stdEmail", stdEmail);
-    }, [stdEmail]);
+      saveState("email", email);
+    }, [email]);
+
+    useEffect(() => {
+      saveState("staff", staff);
+    }, [staff]);
 
   const value = {
-    stdEmail, setStdEmail,
+    email, setEmail,
     message, setMessage,
     one, setOne, two, setTwo, three, setThree, four, setFour,
     firstName, setFirstName,
@@ -43,7 +49,9 @@ export const SignupProvider = ({ children }) => {
     batch, setBatch, 
     department, setDepartment,
     password, setPassword,
-
+    position, setPosition,
+    title, setTitle,
+    staff, setStaff
   };
   return <SignupContext.Provider value={value}>{children}</SignupContext.Provider>;
 };
