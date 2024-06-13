@@ -44,6 +44,10 @@ export const UIProvider = ({ children }) => {
     saveState("drawerOpen", drawerOpen);
   }, [drawerOpen]);
 
+  useEffect(() => {
+    saveState("authorized", authorized);
+  }, [authorized]);
+
 
   useEffect(() => {
     saveState("activeStep", activeStep);

@@ -1,6 +1,6 @@
 import { createTheme } from "@mui/material";
 import { lighten } from "polished";
-
+import "@fontsource/poppins"; 
 export const Colors = {
   primary: "#8b22e2",
   secondary: "#d1adcc",
@@ -80,6 +80,31 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderColor: lighten(0.2, Colors.appbar),
+        },
+      },
+    },
+    MuiMultiSectionDigitalClockSection: {
+      styleOverrides: {
+        root: {
+          // fontFamily: "Poppins",
+          width: 54,
+          borderLeft: `1px solid ${Colors.dove_gray}`,
+          overflow: "hidden", // Ensures the scrollbar is hidden
+          "&::-webkit-scrollbar": {
+            display: "none", // Hides the scrollbar in WebKit browsers (like Chrome and Safari)
+          },
+          msOverflowStyle: "none", // Hides the scrollbar in IE and Edge
+          scrollbarWidth: "none", // Hides the scrollbar in Firefox
+        },
+      },
+    },
+    MuiPickersPopper: {
+      styleOverrides: {
+        root: {
+          fontFamily: "Poppins",
+          "*": {
+            fontFamily: "Poppins",
+          },
         },
       },
     },

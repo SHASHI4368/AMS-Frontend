@@ -4,19 +4,24 @@ import { IconButton } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
 import { Colors } from '../../styles/theme';
 import { useUIContext } from '../../context/ui';
+import { useNavigate } from 'react-router-dom';
 
 const Avatar = () => {
  const [open, setOpen] = useState(false);
  const {setAuthorized} = useUIContext();
+ const navigate = useNavigate();
+
+ const handleLogout = () => {
+    setAuthorized(false);
+    navigate('/');
+ }
   return (
     <DepartmentButton>
       <IconButton
         onMouseLeave={(e) => setOpen(false)}
         onMouseEnter={(e) => setOpen(true)}
         sx={{
-          "&:hover": {
-            color: Colors.primary,
-          },
+          color: open ? Colors.primary : Colors.dim_grey,
           width: "40px",
           height: "40px",
         }}
@@ -37,7 +42,7 @@ const Avatar = () => {
         <DepartmentItem sx={{ mt: "10px", width: "100px" }}>
           Profile
         </DepartmentItem>
-        <DepartmentItem onClick={(e) => setAuthorized(false)} sx={{ width: "100px" }}>Logout</DepartmentItem>
+        <DepartmentItem onClick={handleLogout} sx={{ width: "100px" }}>Logout</DepartmentItem>
       </DepartmentContainer>
     </DepartmentButton>
   );

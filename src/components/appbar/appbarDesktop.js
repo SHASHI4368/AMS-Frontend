@@ -9,6 +9,7 @@ import StudentBar from "./studentBar";
 import { ShapeTop } from "../../styles/footer";
 import { useNavigate } from "react-router-dom";
 import { useUIContext } from "../../context/ui";
+import StaffBar from "./staffBar";
 
 const AppbarDesktop = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const AppbarDesktop = () => {
         <AppbarLogo>ams</AppbarLogo>
         <AppbarContainer>
           {authorized && userType === "Student" && <StudentBar />}
-          {authorized && userType === "Staff" && <StudentBar />}
+          {authorized && userType === "Staff" && <StaffBar />}
           {!authorized && (
             <>
               <LoginButton

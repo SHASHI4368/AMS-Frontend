@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import { Colors } from "../../theme";
 import "@fontsource/montez";
+import "@fontsource/raleway";
 import { lighten } from "polished";
 
 export const AppbarContainer = styled(Box)(({ theme }) => ({
@@ -47,6 +48,7 @@ export const DepartmentItem = styled("li")(() => ({
   cursor: "pointer",
   textAlign: "center",
   marginBottom: "10px",
+  fontFamily: "Raleway",
   padding: "3px 0",
   "&::before": {
     content: '""',
@@ -62,10 +64,10 @@ export const DepartmentItem = styled("li")(() => ({
     content: '""',
     background: Colors.primary,
     position: "absolute",
-    left: 0,
+    left: 3,
     bottom: "-0.4rem",
     height: "3px",
-    width: "100%",
+    width: "94%",
   },
 }));
 
@@ -74,6 +76,7 @@ export const ButtonItem = styled("li")(() => ({
   position: "relative",
   listStyle: "none",
   cursor: "pointer",
+  fontFamily: "Raleway",
 
   "&::before": {
     content: '""',

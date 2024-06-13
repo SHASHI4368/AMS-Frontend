@@ -9,21 +9,27 @@ import SignUp from "./components/signup";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import StudentHome from "./components/home";
 import MyAlert from "./components/signup/other/alert";
+import Calendar from "./components/calendar";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <UIProvider>
-        <BrowserRouter>
-          <Appbar />
-          <AppDrawer />
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/home" element={<StudentHome />} />
-          </Routes>
-          <Footer />
-        </BrowserRouter>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <BrowserRouter>
+            <Appbar />
+            <AppDrawer />
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/home" element={<StudentHome />} />
+              <Route path="/calendar" element={<Calendar />} />
+            </Routes>
+            <Footer />
+          </BrowserRouter>
+        </LocalizationProvider>
         <MyAlert />
       </UIProvider>
     </ThemeProvider>
