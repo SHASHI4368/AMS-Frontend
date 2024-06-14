@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useUIContext } from "../../context/ui";
 import Loader from "../signup/other/loader";
+import { se } from "date-fns/locale";
 
 const Login = () => {
   const [password, setPassword] = useState("");
@@ -34,6 +35,9 @@ const Login = () => {
     googleAuth,
     setGoogleAuth,
     setUserType,
+    socket,
+    setJwt,
+
   } = useUIContext();
 
   const navigate = useNavigate();
@@ -56,19 +60,16 @@ const Login = () => {
       const url = `http://localhost:8080/db/student/login`;
       const response = await axios.post(url, { Email, Password });
       if (response.data.Status === "Success") {
-        sessionStorage.setItem(
-          "jwt",
-          JSON.stringify(response.data.RefreshToken)
-        );
+        setJwt(response.data.RefreshToken);
         setAuthorized(true);
         getRegNumber(Email);
         setUserType("Student");
         console.log("Login successful");
-        //socket.connect();
         setProgressOpen(true);
         setTimeout(() => {
           console.log(progressOpen);
           setProgressOpen(false);
+          socket.connect();
           navigate("/home");
         }, 500);
       } else {
@@ -86,13 +87,9 @@ const Login = () => {
       const body = { Email, Original_password };
       const response = await axios.post(url, body, { withCredentials: true });
       if (response.data.Status === "Success") {
-        sessionStorage.setItem(
-          "jwt",
-          JSON.stringify(response.data.RefreshToken)
-        );
-        sessionStorage.setItem("authorized", JSON.stringify(true));
+        setJwt(response.data.RefreshToken);
+        setAuthorized(true);
         console.log("Login successful");
-        // socket.connect();
         setProgressOpen(true);
         setTempEmail("");
         setUserType("Staff");
@@ -100,6 +97,7 @@ const Login = () => {
         setEmail(Email);
         setTimeout(() => {
           setProgressOpen(false);
+          socket.connect();
           navigate("/home");
         }, 200);
       } else {

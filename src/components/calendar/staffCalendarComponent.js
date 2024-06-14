@@ -21,7 +21,7 @@ import {
 import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
 import { DateTimePickerComponent } from "@syncfusion/ej2-react-calendars";
 import { L10n } from "@syncfusion/ej2-base";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { useCalendarContext } from "../../context/calendar";
 // import ColorCode from "./helpers/ColorCode";
 
@@ -71,7 +71,7 @@ const getMinutes = (value) => {
   const date = new Date(value);
   const minutes = date.getMinutes();
   return minutes;
-}
+};
 
 const getTimeString = (start, end) => {
   const startTime = getTime(start);
@@ -106,11 +106,16 @@ const eventTemplate = (e) => {
   );
 };
 
-const StaffCalendarComponent = ({ socket }) => {
-  const { email } = useUIContext();
-  const { setStartTime, setEndTime, setPopupOpen, setAptId } = useCalendarContext();
+const StaffCalendarComponent = () => {
+  const { email, socket } = useUIContext();
+  const { setStartTime, setEndTime, setPopupOpen, setAptId, setBlock } =
+    useCalendarContext();
   const [blocked, setBlocked] = useState();
+  const theme = useTheme();
+  const small = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const dayCount = small ? 1 : 3;
+  const dayDisplay = small ? "Day" : "3 Days";
   const [appointments, setAppointments] = useState({
     dataSource: [],
     fields: {
@@ -173,27 +178,25 @@ const StaffCalendarComponent = ({ socket }) => {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   socket.on("block time slot", () => {
-  //     fetchData();
-  //   });
-  //   socket.on("add appointment", (msg) => {
-  //     if (
-  //       (msg.lecMail = JSON.parse(
-  //         sessionStorage.getItem("email")
-  //       )) &&
-  //       JSON.parse(sessionStorage.getItem("userType")) === "Staff"
-  //     ) {
-  //       fetchData();
-  //     }
-  //   });
-  //   socket.on("delete appointment", () => {
-  //     fetchData();
-  //   });
-  //   socket.on("change appointment", (msg) => {
-  //     fetchData();
-  //   });
-  // }, [socket]);
+  useEffect(() => {
+    socket.on("block time slot", () => {
+      fetchData();
+    });
+    socket.on("add appointment", (msg) => {
+      if (
+        (msg.lecMail = JSON.parse(sessionStorage.getItem("email"))) &&
+        JSON.parse(sessionStorage.getItem("userType")) === "Staff"
+      ) {
+        fetchData();
+      }
+    });
+    socket.on("delete appointment", () => {
+      fetchData();
+    });
+    socket.on("change appointment", (msg) => {
+      fetchData();
+    });
+  }, [socket]);
 
   useEffect(() => {
     sessionStorage.setItem("isDragged", JSON.stringify(false));
@@ -209,9 +212,9 @@ const StaffCalendarComponent = ({ socket }) => {
     getStaffDetails();
     fetchData();
     setBlocked(false);
-    // socket.on("block time slot", () => {
-    //   fetchData();
-    // });
+    socket.on("block time slot", () => {
+      fetchData();
+    });
   }, [blocked]);
 
   const onDragStart = (e) => {
@@ -358,7 +361,7 @@ const StaffCalendarComponent = ({ socket }) => {
         Apt_status,
       });
       console.log(response.data);
-      // socket.emit("block time slot");
+      socket.emit("block time slot");
     } catch (err) {
       if (err.response) {
         console.log(err.response.data.message);
@@ -465,7 +468,7 @@ const StaffCalendarComponent = ({ socket }) => {
       `;
         const { data } = await axios.post(url, { stdMail, subject, content });
         const msg = { email };
-        // socket.emit("change appointment", msg);
+        socket.emit("change appointment", msg);
       } catch (err) {
         console.log(err);
       }
@@ -492,7 +495,7 @@ const StaffCalendarComponent = ({ socket }) => {
         <p>${staffDetails.Department}</p>
       `;
         const { data } = await axios.post(url, { stdMail, subject, content });
-        // socket.emit("change appointment", msg);
+        socket.emit("change appointment", msg);
       } catch (err) {
         console.log(err);
       }
@@ -519,7 +522,7 @@ const StaffCalendarComponent = ({ socket }) => {
         <p>${staffDetails.Department}</p>
       `;
         const { data } = await axios.post(url, { stdMail, subject, content });
-        // socket.emit("change appointment", msg);
+        socket.emit("change appointment", msg);
       } catch (err) {
         console.log(err);
       }
@@ -545,7 +548,7 @@ const StaffCalendarComponent = ({ socket }) => {
         <p>${staffDetails.Department}</p>
       `;
         const { data } = await axios.post(url, { stdMail, subject, content });
-        // socket.emit("change appointment", msg);
+        socket.emit("change appointment", msg);
       } catch (err) {
         console.log(err);
       }
@@ -604,24 +607,44 @@ const StaffCalendarComponent = ({ socket }) => {
   };
 
   const onPopupOpen = (e) => {
-    console.log(e.data.EndTime - e.data.StartTime);
-    if (e.type === "Editor" && e.data.Id === undefined) {
+    if(e.data.StartTime < new Date()){
+      e.cancel = true;
+    }else{
+    if (
+      (e.type === "Editor" && e.data.Id === undefined) ||
+      e.data.Subject === "Blocked"
+    ) {
       e.cancel = true;
       setSelectedAptId(e.data.Id);
       setAptId(e.data.Id);
+      if (e.data.Id === undefined) {
+        setBlock(false);
+      } else {
+        setBlock(true);
+      }
       setStartTime(e.data.StartTime);
       setEndTime(e.data.EndTime);
       setPopupOpen(true);
-    }else if (e.type === "QuickInfo" && e.data.EndTime - e.data.StartTime > 1800000) {
+    } else if (
+      e.type === "QuickInfo" &&
+      e.data.EndTime - e.data.StartTime > 1800000 &&
+      e.data.Id === undefined
+    ) {
       e.cancel = true;
       setSelectedAptId(e.data.Id);
       setAptId(e.data.Id);
+      if (e.data.Id === undefined) {
+        setBlock(false);
+      } else {
+        setBlock(true);
+      }
       setStartTime(e.data.StartTime);
       setEndTime(e.data.EndTime);
       setPopupOpen(true);
     } else if (e.type === "QuickInfo") {
       e.cancel = true;
     }
+  }
   };
 
   const deleteAppointment = async (Id, EventType, StdReg) => {
@@ -634,7 +657,7 @@ const StaffCalendarComponent = ({ socket }) => {
       if (EventType === "New") {
         sendAppointmentDeleteMail(StdReg, EventType);
       } else {
-        // socket.emit("delete appointment", msg);
+        socket.emit("delete appointment", msg);
       }
     } catch (err) {
       console.log(err);
@@ -654,7 +677,7 @@ const StaffCalendarComponent = ({ socket }) => {
       `;
       const { data } = await axios.post(url, { stdMail, subject, content });
       const msg = { email, EventType };
-      // socket.emit("delete appointment", msg);
+      socket.emit("delete appointment", msg);
     } catch (err) {
       console.log(err);
     }
@@ -684,14 +707,15 @@ const StaffCalendarComponent = ({ socket }) => {
           cssClass="schedule-cell-dimension"
           rowAutoHeight={true}
           quickInfoOnSelectionEnd={true}
+          
         >
           <ViewsDirective>
             <ViewDirective
               option="Day"
               startHour="08:00"
               endHour="16:00"
-              interval={3}
-              displayName="3 Days"
+              interval={dayCount}
+              displayName={dayDisplay}
             />
             <ViewDirective option="Week" startHour="08:00" endHour="16:00" />
             <ViewDirective

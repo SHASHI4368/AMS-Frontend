@@ -31,11 +31,11 @@ export const LoginPaper = styled(Box)(({ theme }) => ({
   padding: "46px",
   width: "60%",
   textAlign: "center",
-  height: "700px",
+  height: "730px",
   zIndex: 999,
   [theme.breakpoints.down("md")]: {
     width: "80%",
-    height: "600px",
+    height: "650px",
   },
 }));
 

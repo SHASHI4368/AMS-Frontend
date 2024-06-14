@@ -5,12 +5,13 @@ import "@fontsource/poppins";
 import "@fontsource/raleway"; 
 import BlockPopup from "./staff/blockPopup";
 import { useCalendarContext } from "../../../context/calendar";
+import UnblockPopup from "./staff/unblockPopup";
 
 const Popup = () => {
-  const {popupOpen, setPopupOpen} = useCalendarContext();
+  const {popupOpen, setPopupOpen, aptId, block} = useCalendarContext();
   return (
-    <Dialog open={popupOpen}>
-      <BlockPopup/>
+    <Dialog fullScreen={false} open={popupOpen}>
+      {block ? <UnblockPopup/> : <BlockPopup/>}
     </Dialog>
   );
 };

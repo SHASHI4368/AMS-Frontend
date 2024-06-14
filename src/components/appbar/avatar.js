@@ -1,20 +1,62 @@
-import React, { useState } from 'react'
-import { DepartmentButton, DepartmentContainer, DepartmentItem } from '../../styles/appbar/desktop';
-import { IconButton } from '@mui/material';
-import { AccountCircle } from '@mui/icons-material';
-import { Colors } from '../../styles/theme';
-import { useUIContext } from '../../context/ui';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import {
+  DepartmentButton,
+  DepartmentContainer,
+  DepartmentItem,
+} from "../../styles/appbar/desktop";
+import { IconButton } from "@mui/material";
+import { AccountCircle } from "@mui/icons-material";
+import { Colors } from "../../styles/theme";
+import { useUIContext } from "../../context/ui";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Avatar = () => {
- const [open, setOpen] = useState(false);
- const {setAuthorized} = useUIContext();
- const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const { setAuthorized, socket, jwt, setJwt, userType } = useUIContext();
+  const navigate = useNavigate();
 
- const handleLogout = () => {
+  const handleStdLogout = async () => {
+    try {
+      const config = {
+        headers: { Authorization: jwt },
+      };
+      const url = `http://localhost:8080/db/student/logout`;
+      const response = await axios.get(url, config);
+      setJwt("");
+      socket.disconnect();
+      const accessToken = response.data.accessToken;
+      return accessToken;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleStaffLogout = async () => {
+    try {
+      const config = {
+        headers: { Authorization: jwt },
+      };
+      const url = `http://localhost:8080/db/staff/logout`;
+      const response = await axios.get(url, config);
+      setJwt("");
+      socket.disconnect();
+      const accessToken = response.data.accessToken;
+      return accessToken;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleLogout = () => {
+    if (userType === "Student") {
+      handleStdLogout();
+    } else {
+      handleStaffLogout();
+    }
     setAuthorized(false);
-    navigate('/');
- }
+    navigate("/");
+  };
   return (
     <DepartmentButton>
       <IconButton
@@ -26,7 +68,7 @@ const Avatar = () => {
           height: "40px",
         }}
       >
-        <AccountCircle sx={{ fontSize: '40px'}} />
+        <AccountCircle sx={{ fontSize: "40px" }} />
       </IconButton>
       <DepartmentContainer
         onMouseLeave={(e) => setOpen(false)}
@@ -42,10 +84,12 @@ const Avatar = () => {
         <DepartmentItem sx={{ mt: "10px", width: "100px" }}>
           Profile
         </DepartmentItem>
-        <DepartmentItem onClick={handleLogout} sx={{ width: "100px" }}>Logout</DepartmentItem>
+        <DepartmentItem onClick={handleLogout} sx={{ width: "100px" }}>
+          Logout
+        </DepartmentItem>
       </DepartmentContainer>
     </DepartmentButton>
   );
-}
+};
 
-export default Avatar
+export default Avatar;

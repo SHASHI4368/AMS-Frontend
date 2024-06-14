@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Paper, Typography, styled } from "@mui/material";
+import { Box, Button, DialogContent, DialogTitle, Divider, Paper, Typography, styled } from "@mui/material";
 import "@fontsource/raleway";
 import "@fontsource/poppins";
 import { Colors } from "../theme";
@@ -11,60 +11,75 @@ export const CalendarContainer = styled(Box)(({ theme }) => ({
   justifyContent: "center",
 }));
 
-export const PopupPaper = styled(Paper)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'flex-start',
-  minHeight: '500px',
-  minWidth: '500px',
+export const PopupPaper = styled(DialogContent)(({ theme }) => ({
+  // display: "flex",
+  // width: "100%",
+  // flexDirection: "column",
+  // alignItems: "center",
+  // justifyContent: "flex-start",
+  // minHeight: "400px",
+  // minWidth: "400px",
   backgroundColor: Colors.appbar,
+  [theme.breakpoints.down("sm")]: {
+    // minWidth: "400px",
+  },
 }));
 
-export const PopupTitle = styled(Typography)(({ theme }) => ({
-  marginTop: "20px",
+export const PopupTitle = styled(DialogTitle)(({ theme }) => ({
+  marginTop: "0px",
   fontFamily: "Poppins",
   color: Colors.primary,
   fontWeight: 500,
+  fontSize: '22px',
+  marginBottom: '10px'
 }));
 
 export const PopupDivider = styled(Divider)(({ theme }) => ({
-  width: "90%",
+  width: "95%",
   height: "2px",
-  margin: "16px 0",
+  marginTop: '-10px',
   background: Colors.dove_gray,
 }));
 
 export const PopupLabel = styled(Typography)(({ theme }) => ({
   fontFamily: "Poppins",
   fontWeight: 500,
-  fontSize: "1.2rem",
+  fontSize: "1rem",
   color: Colors.dark,
-  marginLeft: "-400px",
   marginTop: "20px",
 }));
 
 export const PopupDate = styled(Typography)(({ theme }) => ({
   fontFamily: "Poppins",
   fontWeight: 500,
-  fontSize: "2rem",
+  fontSize: "1.5rem",
   color: Colors.dim_grey,
-  marginLeft: "20px",
-  marginTop: "20px",
+  marginTop: "10px",
+  textAlign: 'center'
+}));
+
+export const TextContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "100%",
+  padding: "20px",
 }));
 
 export const PopupButton = styled(Button)(({ theme }) => ({
-  width: "100px",
   fontFamily: "Poppins",
   fontWeight: 500,
   fontSize: "1rem",
-  margin: "0 10px",
 }));
 
 export const PopupButtonContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   width: "100%",
   justifyContent: "space-between",
-  marginTop: "80px",
+  marginTop: "60px",
   padding: "0 20px",
+  [theme.breakpoints.down("sm")]: {
+    padding: "0 10px",
+  },
 }));

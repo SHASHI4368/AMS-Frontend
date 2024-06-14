@@ -7,28 +7,16 @@ import {
   PopupLabel,
   PopupPaper,
   PopupTitle,
-  TextContainer,
 } from "../../../../styles/calendar";
-import {
-  Button,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Divider,
-  Typography,
-} from "@mui/material";
 import { useCalendarContext } from "../../../../context/calendar";
 import { format } from "date-fns";
-import { Colors } from "../../../../styles/theme";
-import { lighten } from "polished";
 import axios from "axios";
 import { useUIContext } from "../../../../context/ui";
-import { DateTimePicker } from "@mui/x-date-pickers";
+import { DialogActions, DialogContent, DialogContentText, Typography } from "@mui/material";
 
-const BlockPopup = () => {
-  const { email, socket } = useUIContext();
-  const { startTime, endTime, setPopupOpen, setAptId } = useCalendarContext();
+const UnblockPopup = () => {
+  const { socket } = useUIContext();
+  const { startTime, endTime, setPopupOpen, aptId, setAptId } = useCalendarContext();
   const [formattedStartTime, setFormattedStartTime] = useState("");
   const [formattedEndTime, setFormattedEndTime] = useState("");
 
@@ -40,35 +28,13 @@ const BlockPopup = () => {
     setFormattedEndTime(format(new Date(endTime), "EEE MMM dd yyyy HH:mm"));
   }, [endTime]);
 
-  const getLastAppointment = async () => {
+  const deleteBlockTimeSlot = async () => {
+    console.log(aptId);
     try {
-      const url = `http://localhost:8080/db/appointment/last`;
-      const response = await axios.get(url);
+      const url = `http://localhost:8080/db/appointment/${aptId}`;
+      const response = await axios.delete(url);
       console.log(response.data);
-      if (response.data.length === 0) {
-        return 1;
-      } else {
-        return response.data[0].Id;
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const addBlockTimeSlot = async () => {
-    const id = (await getLastAppointment()) + 1;
-    console.log(id);
-    try {
-      const url = `http://localhost:8080/db/appointment/block`;
-      const data = {
-        Id: id,
-        Lecturer_mail: email,
-        StartTime: startTime,
-        EndTime: endTime,
-      };
-      const response = await axios.post(url, data);
-      console.log(response.data);
-      socket.emit("block time slot");
+      socket.emit("delete appointment");
       setPopupOpen(false);
     } catch (err) {
       console.log(err);
@@ -76,14 +42,14 @@ const BlockPopup = () => {
   };
 
   const handleClose = () => {
-    setAptId(undefined);
+   setAptId(undefined);
     setPopupOpen(false);
   };
 
   return (
-    <PopupPaper>
+   <PopupPaper>
       <PopupTitle id="responsive-dialog-title">
-        {"Do you want to block this time slot?"}
+        {"Do you want to unblock this time slot?"}
       </PopupTitle>
       <PopupDivider />
       <DialogContent>
@@ -101,8 +67,8 @@ const BlockPopup = () => {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <PopupButton autoFocus onClick={() => addBlockTimeSlot()}>
-          Block
+        <PopupButton autoFocus onClick={() => deleteBlockTimeSlot()}>
+          Unblock
         </PopupButton>
         <PopupButton onClick={() => handleClose()} autoFocus>
           Cancel
@@ -112,4 +78,4 @@ const BlockPopup = () => {
   );
 };
 
-export default BlockPopup;
+export default UnblockPopup;

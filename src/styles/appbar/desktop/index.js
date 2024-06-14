@@ -104,6 +104,7 @@ export const DepartmentButton = styled("li")(() => ({
   position: "relative",
   listStyle: "none",
   cursor: "pointer",
+  fontFamily: "Raleway",
 }));
 
 export const AppbarLogo = styled(Box)(({ theme }) => ({

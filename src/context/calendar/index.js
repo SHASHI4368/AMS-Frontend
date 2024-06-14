@@ -13,6 +13,7 @@ export const CalendarProvider = ({ children }) => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [popupOpen, setPopupOpen] = useState(false);
+  const [block, setBlock] = useState(false);
   const [aptId, setAptId] = useState(undefined);
 
   const saveState = (key, value) => {
@@ -36,6 +37,8 @@ export const CalendarProvider = ({ children }) => {
     setAptId,
     popupOpen,
     setPopupOpen,
+    block,
+    setBlock,
 
   };
   return (
