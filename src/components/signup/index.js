@@ -43,7 +43,7 @@ const SignUp = () => {
             <StepperBottom />
           </Box>
         </SignupPaper>
-      <Loader progeressOpen={progressOpen} />
+      <Loader progressOpen={progressOpen} />
       </SignupContainer>
     </SignupProvider>
   );

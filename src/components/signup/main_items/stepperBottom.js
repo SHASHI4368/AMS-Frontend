@@ -39,7 +39,6 @@ const StepperBottom = () => {
     setLastName,
     regNo,
     setRegNo,
-    tempRegNo,
     setTempRegNo,
     batch,
     setBatch,
@@ -258,40 +257,43 @@ const StepperBottom = () => {
     }
   };
 
-    const addStaff = async (
-      First_name,
-      Last_name,
-      Department,
-      Email,
-      Picture_URL,
-      Password,
-      Position,
-      Title
-    ) => {
-      try {
-        const url = `http://localhost:8080/db/staff`;
-        const response = await axios.post(url, {
-          First_name,
-          Last_name,
-          Department,
-          Email,
-          Picture_URL,
-          Password,
-          Position,
-          Title,
-        });
-        setEmail("");
-        signupLoader();
-      } catch (err) {
-        if (err.response) {
-          console.log(err.response.data.message);
-          console.log(err.response.status);
-          console.log(err.response.headers);
-        } else {
-          console.log(err.message);
-        }
+  const addStaff = async (
+    First_name,
+    Last_name,
+    Department,
+    Email,
+    Picture_URL,
+    Password,
+    Position,
+    Title
+  ) => {
+    try {
+      if (Picture_URL === "") {
+        Picture_URL = "https://www.w3schools.com/howto/img_avatar.png";
       }
-    };
+      const url = `http://localhost:8080/db/staff`;
+      const response = await axios.post(url, {
+        First_name,
+        Last_name,
+        Department,
+        Email,
+        Picture_URL,
+        Password,
+        Position,
+        Title,
+      });
+      setEmail("");
+      signupLoader();
+    } catch (err) {
+      if (err.response) {
+        console.log(err.response.data.message);
+        console.log(err.response.status);
+        console.log(err.response.headers);
+      } else {
+        console.log(err.message);
+      }
+    }
+  };
 
   const deleteTempUser = async (Email) => {
     try {
@@ -303,7 +305,7 @@ const StepperBottom = () => {
     }
   };
 
-  const handleStudentAdd = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (userType === "Student") {
       if (firstName === "") {
@@ -345,7 +347,16 @@ const StepperBottom = () => {
       } else {
         const picture = staff ? staff.picture : "";
         deleteTempUser(email);
-        addStaff(firstName, lastName, department, email, picture, password, position, title);
+        addStaff(
+          firstName,
+          lastName,
+          department,
+          email,
+          picture,
+          password,
+          position,
+          title
+        );
       }
     }
   };
@@ -427,7 +438,7 @@ const StepperBottom = () => {
                   Step {activeStep + 1} already completed
                 </Typography>
               ) : (
-                <Button onClick={handleStudentAdd} disabled={!isLastStep()}>
+                <Button onClick={handleSubmit} disabled={!isLastStep()}>
                   Sign up
                 </Button>
               ))}

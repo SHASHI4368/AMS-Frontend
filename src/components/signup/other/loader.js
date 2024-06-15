@@ -4,9 +4,9 @@ import Dialog from "@mui/material/Dialog";
 import { CircularProgress } from "@mui/material";
 import { Colors } from "../../../styles/theme";
 
-const Loader = ({ progeressOpen }) => {
+const Loader = ({ progressOpen }) => {
   return (
-    <Dialog open={progeressOpen}>
+    <Dialog open={progressOpen}>
       <CircularProgress sx={{margin: 'auto', mt: 2}} />
       <DialogTitle sx={{fontSize: '16px'}}>Please wait...</DialogTitle>
     </Dialog>

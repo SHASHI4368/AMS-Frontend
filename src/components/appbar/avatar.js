@@ -13,7 +13,7 @@ import axios from "axios";
 
 const Avatar = () => {
   const [open, setOpen] = useState(false);
-  const { setAuthorized, socket, jwt, setJwt, userType } = useUIContext();
+  const { setAuthorized, socket, jwt, setJwt, userType, setEmail } = useUIContext();
   const navigate = useNavigate();
 
   const handleStdLogout = async () => {
@@ -23,6 +23,7 @@ const Avatar = () => {
       };
       const url = `http://localhost:8080/db/student/logout`;
       const response = await axios.get(url, config);
+      setEmail("");
       setJwt("");
       socket.disconnect();
       const accessToken = response.data.accessToken;
@@ -39,6 +40,7 @@ const Avatar = () => {
       };
       const url = `http://localhost:8080/db/staff/logout`;
       const response = await axios.get(url, config);
+      setEmail("");
       setJwt("");
       socket.disconnect();
       const accessToken = response.data.accessToken;

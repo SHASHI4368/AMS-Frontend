@@ -2,7 +2,7 @@ import { ThemeProvider } from "@mui/material";
 import Appbar from "./components/appbar";
 import theme from "./styles/theme";
 import AppDrawer from "./components/drawer";
-import { UIProvider } from "./context/ui";
+import { UIProvider, useUIContext } from "./context/ui";
 import Footer from "./components/footer";
 import Login from "./components/login";
 import SignUp from "./components/signup";
@@ -12,8 +12,12 @@ import MyAlert from "./components/signup/other/alert";
 import Calendar from "./components/calendar";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import Department from "./components/department";
+import axios from "axios";
+import { useEffect } from "react";
 
 function App() {
+
   return (
     <ThemeProvider theme={theme}>
       <UIProvider>
@@ -26,6 +30,7 @@ function App() {
               <Route path="/signup" element={<SignUp />} />
               <Route path="/home" element={<StudentHome />} />
               <Route path="/calendar" element={<Calendar />} />
+              <Route path="/department" element={<Department />} />
             </Routes>
             <Footer />
           </BrowserRouter>

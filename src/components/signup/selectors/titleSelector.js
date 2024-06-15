@@ -32,7 +32,7 @@ const TitleSelector = () => {
           label="Title"
           onChange={handleChange}
         >
-          <MenuItem value={"Professor"}>Professor</MenuItem>
+          <MenuItem value={"Prof."}>Professor</MenuItem>
           <MenuItem value={"Dr"}>Dr</MenuItem>
           <MenuItem value={"Mr"}>Mr</MenuItem>
           <MenuItem value={"Mrs"}>Mrs</MenuItem>

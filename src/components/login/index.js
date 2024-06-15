@@ -69,6 +69,7 @@ const Login = () => {
         setTimeout(() => {
           console.log(progressOpen);
           setProgressOpen(false);
+          setEmail(Email);
           socket.connect();
           navigate("/home");
         }, 500);
@@ -97,6 +98,7 @@ const Login = () => {
         setEmail(Email);
         setTimeout(() => {
           setProgressOpen(false);
+          setEmail(Email);
           socket.connect();
           navigate("/home");
         }, 200);
@@ -255,7 +257,7 @@ const Login = () => {
             Don't have an account ? Sign up
           </MyLink>
         </ButtonContainer>
-        <Loader progeressOpen={progressOpen} />
+        <Loader progressOpen={progressOpen} />
       </LoginPaper>
     </LoginContainer>
   );
