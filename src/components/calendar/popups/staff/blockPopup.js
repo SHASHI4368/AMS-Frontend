@@ -28,7 +28,7 @@ import { DateTimePicker } from "@mui/x-date-pickers";
 
 const BlockPopup = () => {
   const { email, socket } = useUIContext();
-  const { startTime, endTime, setPopupOpen, setAptId } = useCalendarContext();
+  const { startTime, endTime, setPopupOpen, setAptId, setBlockPopupOpen } = useCalendarContext();
   const [formattedStartTime, setFormattedStartTime] = useState("");
   const [formattedEndTime, setFormattedEndTime] = useState("");
 
@@ -77,6 +77,7 @@ const BlockPopup = () => {
 
   const handleClose = () => {
     setAptId(undefined);
+    setBlockPopupOpen(false);
     setPopupOpen(false);
   };
 

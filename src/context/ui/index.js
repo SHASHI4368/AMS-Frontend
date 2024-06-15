@@ -97,50 +97,55 @@ export const UIProvider = ({ children }) => {
   useEffect(() => {
     saveState("department", department);
   }, [department]);
+  const [selectedStaffEmail, setSelectedStaffEmail] = useState(getInitialState("selectedStaffEmail", ""));
+  useEffect(() => {
+    saveState("selectedStaffEmail", selectedStaffEmail);
+  }, [selectedStaffEmail]);
 
-useEffect(() => {
-  const getStdToken = async () => {
-    try {
-      const config = {
-        headers: { Authorization: `Bearer ${jwt}` },
-      };
-      const url = `http://localhost:8080/db/student/refresh`;
-      const response = await axios.post(url, null, config); // 'null' for the data parameter
-      const accessToken = response.data.accessToken;
-      setToken(accessToken);
-    } catch (err) {
-      console.error(err);
-      setAuthorized(false);
+  // refresh management
+  useEffect(() => {
+    const getStdToken = async () => {
+      try {
+        const config = {
+          headers: { Authorization: `Bearer ${jwt}` },
+        };
+        const url = `http://localhost:8080/db/student/refresh`;
+        const response = await axios.post(url, null, config); // 'null' for the data parameter
+        const accessToken = response.data.accessToken;
+        setToken(accessToken);
+      } catch (err) {
+        console.error(err);
+        setAuthorized(false);
+      }
+    };
+
+    const getStaffToken = async () => {
+      try {
+        const config = {
+          headers: { Authorization: jwt },
+        };
+        const url = `http://localhost:8080/db/staff/refresh`;
+        const response = await axios.get(url, config);
+        const accessToken = response.data.accessToken;
+        setToken(accessToken);
+      } catch (err) {
+        setAuthorized(false);
+      }
+    };
+
+    if (userType === "Student") {
+      getStdToken();
+    } else {
+      getStaffToken();
     }
-  };
+  }, []);
 
-  const getStaffToken = async () => {
-    try {
-      const config = {
-        headers: { Authorization: jwt },
-      };
-      const url = `http://localhost:8080/db/staff/refresh`;
-      const response = await axios.get(url, config);
-      const accessToken = response.data.accessToken;
-      setToken(accessToken);
-    } catch (err) {
-      setAuthorized(false);
+  useEffect(() => {
+    if (token !== undefined && token !== "") {
+      socket.connect();
+      setAuthorized(true);
     }
-  };
-
-  if (userType === "Student") {
-    getStdToken();
-  } else {
-    getStaffToken();
-  }
-}, []);
-
-useEffect(() => {
-  if (token !== undefined && token !== "") {
-    socket.connect();
-    setAuthorized(true);
-  }
-}, [token]);
+  }, [token]);
 
   const value = {
     socket,
@@ -173,6 +178,8 @@ useEffect(() => {
     setJwt,
     staffList,
     setStaffList,
+    selectedStaffEmail,
+    setSelectedStaffEmail,
   };
 
   return <UIContext.Provider value={value}>{children}</UIContext.Provider>;

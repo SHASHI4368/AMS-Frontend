@@ -7,16 +7,27 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { StaffCardContainer, StaffCardMedia, StaffCardSubtitle, StaffCardTitle } from "../../styles/department";
+import { useUIContext } from "../../context/ui";
+import { useNavigate } from "react-router-dom";
 
 const StaffCard = ({staff}) => {
+ const {setSelectedStaffEmail} = useUIContext();
+
+ const navigate = useNavigate();
  useEffect(() => {
     console.log(staff);
  }, []);
+
+ const handleClick = () => {
+    setSelectedStaffEmail(staff.Email);
+    navigate("/calendar");
+ }
+
   return (
     <StaffCardContainer>
       <StaffCardMedia
         image={staff.Picture_URL}
-        title="green iguana"
+        title={`${staff.First_name} ${staff.Last_name}`}
       />
       <CardContent>
         <StaffCardTitle gutterBottom variant="h5" component="div">
@@ -30,7 +41,7 @@ const StaffCard = ({staff}) => {
         </StaffCardSubtitle>
       </CardContent>
       <CardActions>
-        <Button sx={{fontFamily: 'Poppins', fontSize: '18px'}}>Calendar</Button>
+        <Button onClick={() => handleClick()}  sx={{fontFamily: 'Poppins', fontSize: '18px'}}>Calendar</Button>
       </CardActions>
     </StaffCardContainer>
   );

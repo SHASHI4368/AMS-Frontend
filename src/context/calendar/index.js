@@ -14,7 +14,12 @@ export const CalendarProvider = ({ children }) => {
   const [endTime, setEndTime] = useState("");
   const [popupOpen, setPopupOpen] = useState(false);
   const [block, setBlock] = useState(false);
+  const [blockPopupOpen, setBlockPopupOpen] = useState(false);
+  const [addAppointmentPopupOpen, setAddAppointmentPopupOpen] = useState(false);
+  const [editAppointmentPopupOpen, setEditAppointmentPopupOpen] = useState(false);
   const [aptId, setAptId] = useState(undefined);
+  const [subject, setSubject] = useState("");
+  const [description, setDescription] = useState("");
 
   const saveState = (key, value) => {
     sessionStorage.setItem(key, JSON.stringify(value));
@@ -39,7 +44,16 @@ export const CalendarProvider = ({ children }) => {
     setPopupOpen,
     block,
     setBlock,
-
+    blockPopupOpen,
+    setBlockPopupOpen,
+    addAppointmentPopupOpen,
+    setAddAppointmentPopupOpen,
+    editAppointmentPopupOpen,
+    setEditAppointmentPopupOpen,
+    subject,
+    setSubject,
+    description,
+    setDescription,
   };
   return (
     <CalendarContext.Provider value={value}>{children}</CalendarContext.Provider>

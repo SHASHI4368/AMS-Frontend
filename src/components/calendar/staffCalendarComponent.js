@@ -67,12 +67,6 @@ const getTime = (value) => {
   }
 };
 
-const getMinutes = (value) => {
-  const date = new Date(value);
-  const minutes = date.getMinutes();
-  return minutes;
-};
-
 const getTimeString = (start, end) => {
   const startTime = getTime(start);
   const endTime = getTime(end);
@@ -107,8 +101,10 @@ const eventTemplate = (e) => {
 };
 
 const StaffCalendarComponent = () => {
+
+  //========================================================================
   const { email, socket } = useUIContext();
-  const { setStartTime, setEndTime, setPopupOpen, setAptId, setBlock } =
+  const { setStartTime, setEndTime, setPopupOpen, setAptId, setBlock, setBlockPopupOpen } =
     useCalendarContext();
   const [blocked, setBlocked] = useState();
   const theme = useTheme();
@@ -624,6 +620,7 @@ const StaffCalendarComponent = () => {
       }
       setStartTime(e.data.StartTime);
       setEndTime(e.data.EndTime);
+      setBlockPopupOpen(true);
       setPopupOpen(true);
     } else if (
       e.type === "QuickInfo" &&

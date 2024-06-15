@@ -16,7 +16,7 @@ import { DialogActions, DialogContent, DialogContentText, Typography } from "@mu
 
 const UnblockPopup = () => {
   const { socket } = useUIContext();
-  const { startTime, endTime, setPopupOpen, aptId, setAptId } = useCalendarContext();
+  const { startTime, endTime, setPopupOpen, aptId, setAptId, setBlockPopupOpen } = useCalendarContext();
   const [formattedStartTime, setFormattedStartTime] = useState("");
   const [formattedEndTime, setFormattedEndTime] = useState("");
 
@@ -43,6 +43,7 @@ const UnblockPopup = () => {
 
   const handleClose = () => {
    setAptId(undefined);
+   setBlockPopupOpen(false);
     setPopupOpen(false);
   };
 
