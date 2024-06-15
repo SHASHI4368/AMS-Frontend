@@ -139,6 +139,7 @@ const StaffCalendarComponent = () => {
           Color: getColor(item.Apt_status),
           StdReg: item.Student_reg,
           lecMail: item.Lecturer_mail,
+          Reason: item.Reason,
         })),
         fields: {
           subject: { default: "No title is provided" },

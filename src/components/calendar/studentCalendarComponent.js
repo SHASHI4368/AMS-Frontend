@@ -39,7 +39,7 @@ const getColor = (status) => {
       return "#FF6347";
     case "Confirmed":
       return "#32CD32";
-    case "Unable":
+    case "Cancelled":
       return "#87CEFA";
     default:
       return "#FFD700";
@@ -93,11 +93,12 @@ const StudentCalendarComponent = () => {
     setEndTime,
     setPopupOpen,
     setAptId,
-    setBlock,
     setAddAppointmentPopupOpen,
     setEditAppointmentPopupOpen,
+    setCancelAppointmentPopupOpen,
     setSubject,
     setDescription,
+    setReason,
   } = useCalendarContext();
   const theme = useTheme();
   const small = useMediaQuery(theme.breakpoints.down("sm"));
@@ -297,7 +298,7 @@ const StudentCalendarComponent = () => {
   };
   //==============================================================================================
   const onPopupOpen = (e) => {
-   console.log(e.type)
+    console.log(e.type);
     if (e.data.StartTime < new Date()) {
       e.cancel = true;
     } else {
@@ -317,7 +318,6 @@ const StudentCalendarComponent = () => {
           e.data.Id !== undefined &&
           e.data.EventType === "New")
       ) {
-        console.log("he");
         e.cancel = true;
         setSelectedAptId(e.data.Id);
         setAptId(e.data.Id);
@@ -326,6 +326,26 @@ const StudentCalendarComponent = () => {
         setSubject(e.data.Subject);
         setDescription(e.data.Description);
         setEditAppointmentPopupOpen(true);
+        setPopupOpen(true);
+      } else if (e.data.EventType === "Cancelled") {
+        e.cancel = true;
+      } else if (
+        (e.type === "Editor" &&
+          e.data.Id !== undefined &&
+          e.data.EventType === "Confirmed") ||
+        (e.type === "ViewEventInfo" &&
+          e.data.Id !== undefined &&
+          e.data.EventType === "Confirmed")
+      ) {
+        e.cancel = true;
+        setSelectedAptId(e.data.Id);
+        setAptId(e.data.Id);
+        setStartTime(e.data.StartTime);
+        setEndTime(e.data.EndTime);
+        setSubject(e.data.Subject);
+        setDescription(e.data.Description);
+        setReason(e.data.Reason);
+        setCancelAppointmentPopupOpen(true);
         setPopupOpen(true);
       } else if (
         e.type === "QuickInfo" &&

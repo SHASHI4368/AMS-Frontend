@@ -69,6 +69,7 @@ const EditAppointmentPopup = () => {
         StartTime: startTime,
         EndTime: endTime,
         Apt_status: "New",
+        Reason: "",
       };
       const response = await axios.put(url, data);
       sendAppointmentChangeMail();
@@ -271,13 +272,22 @@ const EditAppointmentPopup = () => {
       <DialogActions sx={{ mt: -2 }}>
         <PopupButton
           color="error"
-          sx={{ mr: 10 }}
+          sx={{
+            mr: 30,
+            [theme.breakpoints.down("sm")]: {
+              mr: 10,
+            },
+          }}
           autoFocus
           onClick={() => deleteAppointment()}
         >
           delete
         </PopupButton>
-        <PopupButton sx={{mr: 2}} autoFocus onClick={() => updateAppointment()}>
+        <PopupButton
+          sx={{ mr: 2 }}
+          autoFocus
+          onClick={() => updateAppointment()}
+        >
           change
         </PopupButton>
         <PopupButton onClick={() => handleClose()} autoFocus>

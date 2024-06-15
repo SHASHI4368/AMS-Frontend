@@ -8,10 +8,19 @@ import { useCalendarContext } from "../../../context/calendar";
 import UnblockPopup from "./staff/unblockPopup";
 import AddAppointmentPopup from "./student/addAppointmentPopup";
 import EditAppointmentPopup from "./student/editAppointmentPopup";
+import CancelAppointmentPopup from "./student/cancelAppointmentPopup";
 
 const Popup = () => {
-  const { popupOpen, setPopupOpen, aptId, block, blockPopupOpen, addAppointmentPopupOpen, editAppointmentPopupOpen } =
-    useCalendarContext();
+  const {
+    popupOpen,
+    setPopupOpen,
+    aptId,
+    block,
+    blockPopupOpen,
+    addAppointmentPopupOpen,
+    editAppointmentPopupOpen,
+    cancelAppointmentPopupOpen,
+  } = useCalendarContext();
   return (
     <Dialog fullScreen={false} open={popupOpen}>
       {blockPopupOpen === true && (
@@ -19,6 +28,7 @@ const Popup = () => {
       )}
       {addAppointmentPopupOpen === true && <AddAppointmentPopup />}
       {editAppointmentPopupOpen === true && <EditAppointmentPopup />}
+      {cancelAppointmentPopupOpen === true && <CancelAppointmentPopup />}
     </Dialog>
   );
 };
