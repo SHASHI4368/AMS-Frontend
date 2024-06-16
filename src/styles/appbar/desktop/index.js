@@ -10,21 +10,36 @@ import "@fontsource/montez";
 import "@fontsource/raleway";
 import { lighten } from "polished";
 
+export const AppbarOuterContainer = styled(Box)(({ theme }) => ({
+  padding: "10px",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  background: Colors.appbar,
+  position: "fixed",
+  width: "100%",
+  zIndex: 9999,
+}));
+
 export const AppbarContainer = styled(Box)(({ theme }) => ({
   padding: "10px",
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
   background: Colors.appbar,
+  width: "100%",
 }));
 
 export const ButtonContainer = styled("ul")(() => ({
+  position: "relative",
+  marginLeft: 'auto',
   display: "flex",
   justifyContent: "space-evenly",
   alignItems: "center",
   fontFamily: "Roboto, sans-serif",
   fontSize: "18px",
   fontWeight: 400,
+  zIndex: 3,
 }));
 
 export const DepartmentContainer = styled("ul")(({ open }) => ({
@@ -43,6 +58,7 @@ export const DepartmentContainer = styled("ul")(({ open }) => ({
 }));
 
 export const DepartmentItem = styled("li")(() => ({
+  zIndex: 9999,
   position: "relative",
   listStyle: "none",
   cursor: "pointer",
@@ -108,9 +124,9 @@ export const DepartmentButton = styled("li")(() => ({
 }));
 
 export const AppbarLogo = styled(Box)(({ theme }) => ({
+  position: "relative",
   fontSize: "4rem",
   fontWeight: "bold",
-  flexGrow: 1,
   fontFamily: '"Montez", "cursive"',
   textTransform: "uppercase",
   marginLeft: "30px",
@@ -128,6 +144,8 @@ export const MenuButton = styled(IconButton)(() => ({
 }));
 
 export const LoginButton = styled(Typography)(() => ({
+  position: "relative",
+  marginLeft: "auto",
   textTransform: "capitalize",
   fontFamily: "Raleway",
   fontSize: "16px",
@@ -150,6 +168,7 @@ export const SignUpButton = styled(Button, {
     props.color === "secondary" && styles.secondary,
   ],
 })(({ theme }) => ({
+  position: "relative",
   margin: "10px 20px",
   textTransform: "capitalize",
   fontFamily: "Raleway",

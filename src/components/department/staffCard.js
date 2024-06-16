@@ -11,7 +11,7 @@ import { useUIContext } from "../../context/ui";
 import { useNavigate } from "react-router-dom";
 
 const StaffCard = ({staff}) => {
- const {setSelectedStaffEmail} = useUIContext();
+ const {setSelectedStaffEmail, setStaff} = useUIContext();
 
  const navigate = useNavigate();
  useEffect(() => {
@@ -20,6 +20,7 @@ const StaffCard = ({staff}) => {
 
  const handleClick = () => {
     setSelectedStaffEmail(staff.Email);
+    setStaff(staff);
     navigate("/calendar");
  }
 

@@ -24,13 +24,13 @@ import {
 } from "@mui/material";
 import Loader from "../../../signup/other/loader";
 
-const EditAppointmentPopup = () => {
+const AcceptAppointmentPopup = () => {
   const {
     socket,
     selectedStaffEmail,
-    regNumber,
     progressOpen,
     setProgressOpen,
+    email,
   } = useUIContext();
   const {
     startTime,
@@ -38,7 +38,9 @@ const EditAppointmentPopup = () => {
     setPopupOpen,
     aptId,
     setAptId,
-    setEditAppointmentPopupOpen,
+    reg,
+    setAcceptAppointmentPopupOpen,
+    setChangeTimePopupOpen,
     subject,
     setSubject,
     description,
@@ -59,121 +61,143 @@ const EditAppointmentPopup = () => {
     setFormattedEndTime(format(new Date(endTime), "HH:mm"));
   }, [endTime]);
 
-  const updateAppointment = async () => {
-    setProgressOpen(true);
+  const acceptAppointment = async () => {
+   setProgressOpen(true);
     try {
       const url = `http://localhost:8080/db/appointment`;
-      const data = {
-        Id: setAptId,
+      const response = await axios.put(url, {
+        Id: aptId,
         Subject: subject,
         Description: description,
         StartTime: startTime,
         EndTime: endTime,
-        Apt_status: "New",
+        Apt_status: "Confirmed",
         Reason: "",
-      };
-      const response = await axios.put(url, data);
-      sendAppointmentChangeMail();
+      });
+      sendAppointmentAcceptMail();
     } catch (err) {
       console.log(err);
     }
   };
 
-  const deleteAppointment = async () => {
+  const cancelAppointment = async () => {
    setProgressOpen(true);
     try {
-      const url = `http://localhost:8080/db/appointment/${aptId}`;
-      const response = await axios.delete(url);
-      sendAppointmentDeleteMail();
+      const url = `http://localhost:8080/db/appointment`;
+      const response = await axios.put(url, {
+        Id: aptId,
+        Subject: subject,
+        Description: description,
+        StartTime: startTime,
+        EndTime: endTime,
+        Apt_status: "Cancelled",
+        Reason: "",
+      });
+      sendAppointmentCancelMail();
     } catch (err) {
       console.log(err);
     }
   };
 
-  const sendAppointmentDeleteMail = async () => {
+
+
+  const sendAppointmentAcceptMail = async () => {
+    console.log("confirmed");
+    const msg = {email};
     const getStudentDetails = async () => {
       try {
-        const url = `http://localhost:8080/db/student/details/${regNumber}`;
-        const { data } = await axios.get(url, regNumber);
+        const url = `http://localhost:8080/db/student/details/${reg}`;
+        const { data } = await axios.get(url, reg);
         return data;
       } catch (err) {
         console.log(err);
       }
     };
-    try {
-      const student = await getStudentDetails(regNumber);
-      const url = `http://localhost:8080/mail/student/request/appointment`;
-      const subject = "Student removed the appointment";
-      const content = `
-        <h2>Student Details:</h2>
-        <p>Reg Number: ${regNumber}</p>
-        <p>Name: ${student[0].First_name} ${student[0].Last_name}</p>
-        <p>Department: ${student[0].Department}</p>
-        <p>Email: ${student[0].Email}</p>
-        <p>Batch: ${student[0].Batch}</p>
-        <br>
-        <h2>Appointment Description:</h2>
-        <p>Subject: ${subject}</p>
-        <p>Date: ${date}</p>
-        <p>Time: ${formattedStartTime} - ${formattedEndTime}</p>
-        <p>Description: ${description}</p>
-      `;
-      const { data } = await axios.post(url, {
-        lecMail: selectedStaffEmail,
-        subject,
-        content,
-      });
-      const msg = { selectedStaffEmail };
-      socket.emit("delete appointment", msg);
-      setProgressOpen(false);
-      setPopupOpen(false);
-      setEditAppointmentPopupOpen(false);
-    } catch (err) {
-      console.log(err);
+    const getStaffDetails = async () => {
+      try {
+        const url = `http://localhost:8080/db/staff/details/${email}`;
+        const { data } = await axios.get(url);
+        return data;
+      } catch (err) {
+        console.log(err);
+      }
     }
-  };
-
-  const sendAppointmentChangeMail = async () => {
-
-    const getStudentDetails = async () => {
-      try {
-        const url = `http://localhost:8080/db/student/details/${regNumber}`;
-        const { data } = await axios.get(url, regNumber);
-        return data;
-      } catch (err) {
-        console.log(err);
-      }
-    };
     try {
-      const student = await getStudentDetails(regNumber);
-      const url = `http://localhost:8080/mail/student/request/appointment`;
-      const acceptUrl = `http://localhost:8080/db/appointment/accept/${aptId}`;
-      const subject = "Change of appointment details";
+      const student = await getStudentDetails();
+      const staffDetails = await getStaffDetails();
+      console.log(reg);
+      const stdMail = student[0].Email;
+      const url = `http://localhost:8080/mail/student/update/appointment`;
+      const subject = "Appointment confirmed";
       const content = `
-        <h2>Student Details:</h2>
-        <p>Reg Number: ${regNumber}</p>
-        <p>Name: ${student[0].First_name} ${student[0].Last_name}</p>
-        <p>Department: ${student[0].Department}</p>
-        <p>Email: ${student[0].Email}</p>
-        <p>Batch: ${student[0].Batch}</p>
-        <br>
-        <h2>Appointment Description:</h2>
-        <p>Subject: ${subject}</p>
+        <p>Dear student,</p>
+        <p>Your appointment with ${staffDetails[0].First_name} ${
+        staffDetails[0].Last_name
+      } has been confirmed.</p>
+        <h2>Appointment Details:</h2>
         <p>Date: ${date}</p>
         <p>Time: ${formattedStartTime} - ${formattedEndTime}</p>
-        <p>Description: ${description}</p>
-        <a href="${acceptUrl}" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: white; background-color: green; text-align: center; text-decoration: none; border-radius: 5px;">Accept Appointment</a>
+        <br>
+        <p>${staffDetails[0].First_name} ${staffDetails[0].Last_name}</p>
+        <p>${staffDetails[0].Email}</p>
+        <p>${staffDetails[0].Department}</p>
       `;
-      const { data } = await axios.post(url, {
-        lecMail: selectedStaffEmail,
-        subject,
-        content,
-      });
-      const msg = { selectedStaffEmail };
+      const { data } = await axios.post(url, { stdMail, subject, content });
       socket.emit("change appointment", msg);
       setProgressOpen(false);
       setPopupOpen(false);
-      setEditAppointmentPopupOpen(false);
+      setAcceptAppointmentPopupOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const sendAppointmentCancelMail = async () => {
+    console.log("cancelled");
+    const msg = {email};
+    const getStudentDetails = async () => {
+      try {
+        const url = `http://localhost:8080/db/student/details/${reg}`;
+        const { data } = await axios.get(url, reg);
+        return data;
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    const getStaffDetails = async () => {
+      try {
+        const url = `http://localhost:8080/db/staff/${email}`;
+        const { data } = await axios.get(url);
+        return data;
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    try {
+      const student = await getStudentDetails();
+      const staffDetails = await getStaffDetails();
+      console.log(reg);
+      const stdMail = student[0].Email;
+      const url = `http://localhost:8080/mail/student/update/appointment`;
+      const subject = "Appointment cancelled";
+      const content = `
+        <p>Dear student,</p>
+        <p>Your appointment with ${staffDetails[0].First_name} ${
+        staffDetails[0].Last_name
+      } has been cancelled.</p>
+        <h2>Appointment Details:</h2>
+        <p>Date: ${date}</p>
+        <p>Time: ${formattedStartTime} - ${formattedEndTime}</p>
+        <br>
+        <p>${staffDetails[0].First_name} ${staffDetails[0].Last_name}</p>
+        <p>${staffDetails[0].Email}</p>
+        <p>${staffDetails[0].Department}</p>
+      `;
+      const { data } = await axios.post(url, { stdMail, subject, content });
+      socket.emit("change appointment", msg);
+      setProgressOpen(false);
+      setChangeTimePopupOpen(true);
+      setAcceptAppointmentPopupOpen(false);
     } catch (err) {
       console.log(err);
     }
@@ -182,14 +206,14 @@ const EditAppointmentPopup = () => {
   const handleClose = () => {
     setAptId(undefined);
     setPopupOpen(false);
-    setEditAppointmentPopupOpen(false);
+    setAcceptAppointmentPopupOpen(false);
   };
 
   return (
     <PopupPaper>
       <TitleContainer>
         <PopupTitle id="responsive-dialog-title">
-          {"Change your appointment details"}
+          {"Accept Appointment"}
         </PopupTitle>
       </TitleContainer>
       <DialogContent>
@@ -258,13 +282,15 @@ const EditAppointmentPopup = () => {
             multiline
             rows={2}
             required
+            disabled
             label="Reason"
           />
           <CustomTextField
             label="Description"
             placeholder="Please enter a brief description about the reason"
             multiline
-            rows={6}
+            disabled
+            rows={4}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
@@ -280,19 +306,20 @@ const EditAppointmentPopup = () => {
             },
           }}
           autoFocus
-          onClick={() => deleteAppointment()}
+          onClick={() => cancelAppointment()}
         >
-          delete
+          unable
         </PopupButton>
         <PopupButton
-          sx={{ mr: 2 }}
+          sx={{ mr: 4 }}
           autoFocus
-          onClick={() => updateAppointment()}
+          color="success"
+          onClick={() => acceptAppointment()}
         >
-          change
+          accept
         </PopupButton>
-        <PopupButton onClick={() => handleClose()} autoFocus>
-          Cancel
+        <PopupButton sx={{ mr: 1 }} onClick={() => handleClose()} autoFocus>
+          Close
         </PopupButton>
       </DialogActions>
       <Loader progressOpen={progressOpen} />
@@ -300,4 +327,4 @@ const EditAppointmentPopup = () => {
   );
 };
 
-export default EditAppointmentPopup;
+export default AcceptAppointmentPopup;

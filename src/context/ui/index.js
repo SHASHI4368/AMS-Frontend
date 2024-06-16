@@ -97,10 +97,21 @@ export const UIProvider = ({ children }) => {
   useEffect(() => {
     saveState("department", department);
   }, [department]);
+
   const [selectedStaffEmail, setSelectedStaffEmail] = useState(getInitialState("selectedStaffEmail", ""));
   useEffect(() => {
     saveState("selectedStaffEmail", selectedStaffEmail);
   }, [selectedStaffEmail]);
+
+  const [staff, setStaff] = useState(getInitialState("staff", {}));
+  useEffect(() => {
+    saveState("staff", staff);
+  }, [staff]);
+
+  const [studentAppointments, setStudentAppointments] = useState(getInitialState("studentAppointments", []));
+  useEffect(() => {
+    saveState("studentAppointments", studentAppointments);
+  }, [studentAppointments]);
 
   // refresh management
   useEffect(() => {
@@ -180,6 +191,10 @@ export const UIProvider = ({ children }) => {
     setStaffList,
     selectedStaffEmail,
     setSelectedStaffEmail,
+    staff,
+    setStaff,
+    studentAppointments,
+    setStudentAppointments,
   };
 
   return <UIContext.Provider value={value}>{children}</UIContext.Provider>;

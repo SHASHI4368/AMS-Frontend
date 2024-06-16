@@ -18,10 +18,15 @@ export const CalendarProvider = ({ children }) => {
   const [addAppointmentPopupOpen, setAddAppointmentPopupOpen] = useState(false);
   const [editAppointmentPopupOpen, setEditAppointmentPopupOpen] = useState(false);
   const [cancelAppointmentPopupOpen, setCancelAppointmentPopupOpen] = useState(false);
+  const [acceptAppointmentPopupOpen, setAcceptAppointmentPopupOpen] = useState(false);
+  const [rescheduleAppointmentPopupOpen, setRescheduleAppointmentPopupOpen] = useState(false);
+  const [changeTimePopupOpen, setChangeTimePopupOpen] = useState(false);
+  const [cancelAcceptedAppointmentPopupOpen, setCancelAcceptedAppointmentPopupOpen] = useState(false);
   const [aptId, setAptId] = useState(undefined);
   const [subject, setSubject] = useState("");
   const [description, setDescription] = useState("");
   const [reason, setReason] = useState("");
+  const [reg, setReg] = useState("");
 
   const saveState = (key, value) => {
     sessionStorage.setItem(key, JSON.stringify(value));
@@ -54,12 +59,22 @@ export const CalendarProvider = ({ children }) => {
     setEditAppointmentPopupOpen,
     cancelAppointmentPopupOpen,
     setCancelAppointmentPopupOpen,
+    acceptAppointmentPopupOpen,
+    setAcceptAppointmentPopupOpen,
+    rescheduleAppointmentPopupOpen,
+    setRescheduleAppointmentPopupOpen,
+    cancelAcceptedAppointmentPopupOpen,
+    setCancelAcceptedAppointmentPopupOpen,
+    changeTimePopupOpen,
+    setChangeTimePopupOpen,
     subject,
     setSubject,
     description,
     setDescription,
     reason,
     setReason,
+    reg,
+    setReg,
   };
   return (
     <CalendarContext.Provider value={value}>{children}</CalendarContext.Provider>

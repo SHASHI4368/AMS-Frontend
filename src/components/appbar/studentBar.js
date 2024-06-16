@@ -47,7 +47,7 @@ const StudentBar = () => {
 
   return (
     <ButtonContainer>
-      <ButtonItem>Home</ButtonItem>
+      <ButtonItem onClick={() => navigate('/home')}>Home</ButtonItem>
       <DepartmentButton
         onMouseLeave={(e) => setOpen(false)}
         onMouseEnter={(e) => setOpen(true)}

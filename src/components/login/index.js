@@ -37,7 +37,8 @@ const Login = () => {
     setUserType,
     socket,
     setJwt,
-
+    setStudentAppointments,
+    regNumber,
   } = useUIContext();
 
   const navigate = useNavigate();
@@ -55,7 +56,18 @@ const Login = () => {
     }
   };
 
+  
+
   const handleStdLogin = async (Email, Password) => {
+    const getStudentAppointments = async () => {
+      try {
+        const url = `http://localhost:8080/db/student/appointments/${regNumber}`;
+        const response = await axios.get(url);
+        return response.data;
+      } catch (err) {
+        console.log(err);
+      }
+    };
     try {
       const url = `http://localhost:8080/db/student/login`;
       const response = await axios.post(url, { Email, Password });
@@ -66,6 +78,8 @@ const Login = () => {
         setUserType("Student");
         console.log("Login successful");
         setProgressOpen(true);
+        const appointments = await getStudentAppointments();
+        setStudentAppointments(appointments);
         setTimeout(() => {
           console.log(progressOpen);
           setProgressOpen(false);
@@ -190,7 +204,7 @@ const Login = () => {
   };
 
   return (
-    <LoginContainer>
+    <LoginContainer sx={{paddingTop: '100px'}}>
       <LoginPaper>
         <LoginHeader variant="h5">
           Welcome to the Appointment Management System !

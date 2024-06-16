@@ -2,7 +2,7 @@ import { Box, Icon, IconButton, styled } from "@mui/material";
 import { Colors } from "../../theme";
 
 export const DrawerCloseButton = styled(IconButton)(() => ({
-  position: "absolute",
+  position: "fixed",
   top: 10,
   left: "250px",
   zIndex: 1999,

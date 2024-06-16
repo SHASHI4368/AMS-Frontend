@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { Colors } from "../theme";
 import "@fontsource/raleway";
+import { margin } from "polished";
 
 export const LoginContainer = styled(Box)(({ theme }) => ({
   height: "550px",
@@ -31,11 +32,12 @@ export const LoginPaper = styled(Box)(({ theme }) => ({
   padding: "46px",
   width: "60%",
   textAlign: "center",
-  height: "730px",
+  height: "750px",
   zIndex: 999,
   [theme.breakpoints.down("md")]: {
     width: "80%",
-    height: "650px",
+    height: "600px",
+    marginTop: "-120px",
   },
 }));
 

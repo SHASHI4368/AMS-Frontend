@@ -8,6 +8,7 @@ import {
   PopupPaper,
   PopupTitle,
   TextContainer,
+  TitleContainer,
 } from "../../../../styles/calendar";
 import {
   Button,
@@ -28,7 +29,8 @@ import { DateTimePicker } from "@mui/x-date-pickers";
 
 const BlockPopup = () => {
   const { email, socket } = useUIContext();
-  const { startTime, endTime, setPopupOpen, setAptId, setBlockPopupOpen } = useCalendarContext();
+  const { startTime, endTime, setPopupOpen, setAptId, setBlockPopupOpen } =
+    useCalendarContext();
   const [formattedStartTime, setFormattedStartTime] = useState("");
   const [formattedEndTime, setFormattedEndTime] = useState("");
 
@@ -69,6 +71,7 @@ const BlockPopup = () => {
       const response = await axios.post(url, data);
       console.log(response.data);
       socket.emit("block time slot");
+      setBlockPopupOpen(false);
       setPopupOpen(false);
     } catch (err) {
       console.log(err);
@@ -83,10 +86,11 @@ const BlockPopup = () => {
 
   return (
     <PopupPaper>
-      <PopupTitle id="responsive-dialog-title">
-        {"Do you want to block this time slot?"}
-      </PopupTitle>
-      <PopupDivider />
+      <TitleContainer>
+        <PopupTitle id="responsive-dialog-title">
+          {"Do you want to block this time slot?"}
+        </PopupTitle>
+      </TitleContainer>
       <DialogContent>
         <DialogContentText>
           <Typography>From:</Typography>

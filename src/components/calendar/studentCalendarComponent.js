@@ -34,15 +34,17 @@ L10n.load({
 const getColor = (status) => {
   switch (status) {
     case "New":
-      return "#FFD700";
+      return "#1E90FF"; // Dodger Blue
     case "Blocked":
-      return "#FF6347";
+      return "#FF4500"; // Orange Red
     case "Confirmed":
-      return "#32CD32";
+      return "#32CD32"; // Lime Green
     case "Cancelled":
-      return "#87CEFA";
+      return "#FF6347"; // Tomato
+    case "Completed":
+      return "#8A2BE2"; // Blue Violet
     default:
-      return "#FFD700";
+      return "#1E90FF"; // Dodger Blue
   }
 };
 
@@ -111,8 +113,6 @@ const StudentCalendarComponent = () => {
       subject: { default: "No title is provided" },
     },
   });
-
-  const [selectedAptId, setSelectedAptId] = useState(0);
 
   const getDepName = () => {
     const dep = JSON.parse(sessionStorage.getItem("department"));
@@ -190,136 +190,28 @@ const StudentCalendarComponent = () => {
     });
   }, [socket]);
 
-  const onDragStart = (e) => {
-    e.interval = 10;
-    setSelectedAptId(e.data.Id);
-  };
 
-  const onDragStop = (e) => {
-    updateAppointment(
-      e.data.Subject,
-      e.data.Description,
-      e.data.StartTime,
-      e.data.EndTime,
-      e.data.EventType,
-      selectedAptId
-    );
-  };
-
-  const onResizeStart = (e) => {
-    e.interval = 10;
-    setSelectedAptId(e.data.Id);
-  };
-
-  const onResizeStop = (e) => {
-    updateAppointment(
-      e.data.Subject,
-      e.data.Description,
-      e.data.StartTime,
-      e.data.EndTime,
-      e.data.EventType,
-      selectedAptId
-    );
-  };
-
-  const getLastAppointment = async (Lecturer_mail) => {
-    try {
-      const url = `http://localhost:8080/db/appointment/last`;
-      const response = await axios.get(url);
-      if (response.data.length === 0) {
-        return 1;
-      } else {
-        return response.data[0].Id;
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const updateAppointment = async (
-    Subject,
-    Description,
-    StartTime,
-    EndTime,
-    Apt_status
-  ) => {
-    try {
-      const url = `http://localhost:8080/db/appointment`;
-      const response = await axios.put(url, {
-        Id: selectedAptId,
-        Subject,
-        Description,
-        StartTime,
-        EndTime,
-        Apt_status,
-      });
-      sendAppointmentChangeMail(
-        Description,
-        StartTime,
-        EndTime,
-        selectedStaffEmail
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const onPopupClose = async (e) => {
-    if (e.data != null) {
-      if (e.type === "DeleteAlert") {
-        deleteAppointment(
-          e.data.Description,
-          e.data.StartTime,
-          e.data.EndTime,
-          e.data.EventType
-        );
-      } else if (
-        e.data.Subject !== "No title is provided" &&
-        selectedAptId === undefined
-      ) {
-        const lastId = await getLastAppointment(selectedStaffEmail);
-      } else if (
-        e.data !== null &&
-        selectedAptId !== undefined &&
-        e.type === "Editor"
-      ) {
-        updateAppointment(
-          e.data.Subject,
-          e.data.Description,
-          e.data.StartTime,
-          e.data.EndTime,
-          e.data.EventType,
-          selectedAptId
-        );
-      }
-    } else {
-      console.log(true);
-    }
-  };
   //==============================================================================================
   const onPopupOpen = (e) => {
-    console.log(e.type);
     if (e.data.StartTime < new Date()) {
       e.cancel = true;
     } else {
       if (e.type === "Editor" && e.data.Id === undefined) {
         e.cancel = true;
-        setSelectedAptId(e.data.Id);
         setAptId(e.data.Id);
         setStartTime(e.data.StartTime);
         setEndTime(e.data.EndTime);
         setAddAppointmentPopupOpen(true);
         setPopupOpen(true);
       } else if (
-        (e.type === "Editor" &&
-          e.data.Id !== undefined &&
-          e.data.EventType === "New") ||
-        (e.type === "ViewEventInfo" &&
-          e.data.Id !== undefined &&
-          e.data.EventType === "New")
+          (e.type === "Editor" &&
+            e.data.Id !== undefined &&
+            e.data.EventType === "New") ||
+          (e.type === "ViewEventInfo" &&
+            e.data.Id !== undefined &&
+            e.data.EventType === "New")
       ) {
         e.cancel = true;
-        setSelectedAptId(e.data.Id);
         setAptId(e.data.Id);
         setStartTime(e.data.StartTime);
         setEndTime(e.data.EndTime);
@@ -338,7 +230,6 @@ const StudentCalendarComponent = () => {
           e.data.EventType === "Confirmed")
       ) {
         e.cancel = true;
-        setSelectedAptId(e.data.Id);
         setAptId(e.data.Id);
         setStartTime(e.data.StartTime);
         setEndTime(e.data.EndTime);
@@ -353,35 +244,13 @@ const StudentCalendarComponent = () => {
         e.data.Id === undefined
       ) {
         e.cancel = true;
-        setSelectedAptId(e.data.Id);
         setAptId(e.data.Id);
-      } else if (e.type === "QuickInfo") {
-        console.log("hello");
+      } else {
         e.cancel = true;
       }
     }
   };
 
-  const deleteAppointment = async (
-    Description,
-    StartTime,
-    EndTime,
-    EventType
-  ) => {
-    try {
-      const url = `http://localhost:8080/db/appointment/${selectedAptId}`;
-      const response = await axios.delete(url);
-      sendAppointmentDeleteMail(
-        Description,
-        StartTime,
-        EndTime,
-        selectedStaffEmail,
-        EventType
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   const getStudentDetails = async (Reg_number) => {
     try {
@@ -492,13 +361,8 @@ const StudentCalendarComponent = () => {
             template: eventTemplate,
             enableMaxHeight: true,
           }}
-          dragStart={onDragStart}
-          dragStop={onDragStop}
           allowDragAndDrop={false}
           allowResizing={false}
-          resizeStart={onResizeStart}
-          resizeStop={onResizeStop}
-          popupClose={onPopupClose}
           popupOpen={onPopupOpen}
           allowMultiCellSelection={false}
           cssClass="schedule-cell-dimension"

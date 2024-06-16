@@ -1,9 +1,8 @@
 import { Typography, styled } from "@mui/material";
 import { Colors } from "../theme";
 
-export const ShapeTop = styled("div")(() => ({
-  position: "relative",
-  top: 0,
+export const ShapeTop = styled("div")(({theme}) => ({
+  top: 108,
   left: 0,
   bottom: 0,
   width: "100%",
@@ -22,6 +21,9 @@ export const ShapeTop = styled("div")(() => ({
   "& shape-fill": {
     fill: "#FFFFFF",
   },
+  [theme.breakpoints.down("sm")]: {
+    top: 80,
+  }
 }));
 
 export const ShapeBottom = styled("div")(() => ({

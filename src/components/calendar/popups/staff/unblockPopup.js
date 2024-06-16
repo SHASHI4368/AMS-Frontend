@@ -7,16 +7,29 @@ import {
   PopupLabel,
   PopupPaper,
   PopupTitle,
+  TitleContainer,
 } from "../../../../styles/calendar";
 import { useCalendarContext } from "../../../../context/calendar";
 import { format } from "date-fns";
 import axios from "axios";
 import { useUIContext } from "../../../../context/ui";
-import { DialogActions, DialogContent, DialogContentText, Typography } from "@mui/material";
+import {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  Typography,
+} from "@mui/material";
 
 const UnblockPopup = () => {
   const { socket } = useUIContext();
-  const { startTime, endTime, setPopupOpen, aptId, setAptId, setBlockPopupOpen } = useCalendarContext();
+  const {
+    startTime,
+    endTime,
+    setPopupOpen,
+    aptId,
+    setAptId,
+    setBlockPopupOpen,
+  } = useCalendarContext();
   const [formattedStartTime, setFormattedStartTime] = useState("");
   const [formattedEndTime, setFormattedEndTime] = useState("");
 
@@ -35,6 +48,7 @@ const UnblockPopup = () => {
       const response = await axios.delete(url);
       console.log(response.data);
       socket.emit("delete appointment");
+      setBlockPopupOpen(false);
       setPopupOpen(false);
     } catch (err) {
       console.log(err);
@@ -42,17 +56,18 @@ const UnblockPopup = () => {
   };
 
   const handleClose = () => {
-   setAptId(undefined);
-   setBlockPopupOpen(false);
+    setAptId(undefined);
+    setBlockPopupOpen(false);
     setPopupOpen(false);
   };
 
   return (
-   <PopupPaper>
-      <PopupTitle id="responsive-dialog-title">
-        {"Do you want to unblock this time slot?"}
-      </PopupTitle>
-      <PopupDivider />
+    <PopupPaper>
+      <TitleContainer>
+        <PopupTitle id="responsive-dialog-title">
+          {"Do you want to unblock this time slot?"}
+        </PopupTitle>
+      </TitleContainer>
       <DialogContent>
         <DialogContentText>
           <Typography>From:</Typography>

@@ -11,6 +11,7 @@ export const DepartmentContainer = styled(Box)(({ theme }) => ({
  borderTop: `2px solid ${Colors.dove_gray}`,
  backgroundColor: Colors.appbar,
  paddingBottom: '20px',
+ paddingTop: '120px',
 }));
 
 export const DepartmentHeader = styled(Typography)(({ theme }) => ({

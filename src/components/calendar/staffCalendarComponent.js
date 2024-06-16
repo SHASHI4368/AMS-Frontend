@@ -39,19 +39,20 @@ L10n.load({
 const getColor = (status) => {
   switch (status) {
     case "New":
-      return "#FFD700";
+      return "#1E90FF"; // Dodger Blue
     case "Blocked":
-      return "#FF6347";
+      return "#FF4500"; // Orange Red
     case "Confirmed":
-      return "#32CD32";
-    case "Unable":
-      return "#87CEFA";
-    case "Done":
-      return "#FF4500";
+      return "#32CD32"; // Lime Green
+    case "Cancelled":
+      return "#FF6347"; // Tomato
+    case "Completed":
+      return "#8A2BE2"; // Blue Violet
     default:
-      return "#FFD700";
+      return "#1E90FF"; // Dodger Blue
   }
 };
+
 
 const getTime = (value) => {
   const date = new Date(value);
@@ -101,11 +102,23 @@ const eventTemplate = (e) => {
 };
 
 const StaffCalendarComponent = () => {
-
   //========================================================================
-  const { email, socket } = useUIContext();
-  const { setStartTime, setEndTime, setPopupOpen, setAptId, setBlock, setBlockPopupOpen } =
-    useCalendarContext();
+  const { email, socket, userType } = useUIContext();
+  const {
+    setStartTime,
+    setEndTime,
+    setPopupOpen,
+    setAptId,
+    setReg,
+    setBlock,
+    setReason,
+    setBlockPopupOpen,
+    setSubject,
+    setDescription,
+    setAcceptAppointmentPopupOpen,
+    setRescheduleAppointmentPopupOpen,
+    setCancelAcceptedAppointmentPopupOpen,
+  } = useCalendarContext();
   const [blocked, setBlocked] = useState();
   const theme = useTheme();
   const small = useMediaQuery(theme.breakpoints.down("sm"));
@@ -140,6 +153,7 @@ const StaffCalendarComponent = () => {
           StdReg: item.Student_reg,
           lecMail: item.Lecturer_mail,
           Reason: item.Reason,
+          IsBlock: item.Apt_status === "Completed" ? true : false,
         })),
         fields: {
           subject: { default: "No title is provided" },
@@ -180,10 +194,7 @@ const StaffCalendarComponent = () => {
       fetchData();
     });
     socket.on("add appointment", (msg) => {
-      if (
-        (msg.lecMail = JSON.parse(sessionStorage.getItem("email"))) &&
-        JSON.parse(sessionStorage.getItem("userType")) === "Staff"
-      ) {
+      if ((msg.lecMail = email) && userType === "Staff") {
         fetchData();
       }
     });
@@ -215,20 +226,24 @@ const StaffCalendarComponent = () => {
   }, [blocked]);
 
   const onDragStart = (e) => {
-    e.interval = 10;
+    e.interval = 30;
     setSelectedAptId(e.data.Id);
   };
 
   const onDragStop = (e) => {
-    sessionStorage.setItem("isDragged", JSON.stringify(true));
-    updateAppointment(
-      e.data.Subject,
-      e.data.Description,
-      e.data.StartTime,
-      e.data.EndTime,
-      e.data.EventType,
-      e.data.StdReg
-    );
+    if (e.data.StartTime < new Date()) {
+      e.cancel = true;
+    } else {
+      sessionStorage.setItem("isDragged", JSON.stringify(true));
+      updateAppointment(
+        e.data.Subject,
+        e.data.Description,
+        e.data.StartTime,
+        e.data.EndTime,
+        e.data.EventType === "Blocked" ? "Blocked" : "Confirmed",
+        e.data.StdReg
+      );
+    }
   };
 
   const onResizeStart = (e) => {
@@ -243,146 +258,9 @@ const StaffCalendarComponent = () => {
       e.data.Description,
       e.data.StartTime,
       e.data.EndTime,
-      e.data.EventType,
-      selectedAptId
+      e.data.EventType === "Blocked" ? "Blocked" : "Conformed",
+      e.data.StdReg
     );
-  };
-
-  const selectDropdown = (e) => {
-    switch (e.EventType) {
-      case "New":
-        return ["Unable", "Confirmed"];
-      case "Blocked":
-        return ["Blocked"];
-      case "Unable":
-        return ["Unable", "Confirmed"];
-      case "Confirmed":
-        return ["Confirmed", "Unable", "Done"];
-      default:
-        return ["Blocked"];
-    }
-  };
-
-  const ediitorWindowTemplate = (e) => {
-    return (
-      <table className="custom-event-editor" style={{ width: "100%" }}>
-        <tbody>
-          <tr>
-            <td className="e-textlabel">Summary</td>
-            <td>
-              <input
-                id="Summary"
-                className="e-field e-input"
-                type="text"
-                name="Subject"
-                style={{ width: "100%" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className="e-textlabel">Status</td>
-            <td>
-              <DropDownListComponent
-                id="EventType"
-                placeholder="Choose status"
-                data-name="EventType"
-                className="e-field"
-                // dataSource={["New", "Blocked", "Unable", "Confirmed"]}
-                dataSource={selectDropdown(e)}
-                value="Blocked"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className="e-textlabel">From</td>
-            <td>
-              <DateTimePickerComponent
-                id="StartTime"
-                data-name="StartTime"
-                value={new Date(e.StartTime || e.startTime)}
-                format={"dd/MM/yy hh:mm a"}
-                className="e-field"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className="e-textlabel">To</td>
-            <td>
-              <DateTimePickerComponent
-                id="EndTime"
-                data-name="EndTime"
-                value={new Date(e.EndTime || e.endTime)}
-                format={"dd/MM/yy hh:mm a"}
-                className="e-field"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className="e-textlabel">Reason</td>
-            <td>
-              <textarea
-                id="Description"
-                className="e-field e-input"
-                name="Description"
-                rows={3}
-                cols={50}
-                style={{ width: "100%", height: "60px" }}
-              ></textarea>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    );
-  };
-
-  const addAppointment = async (
-    Id,
-    Lecturer_mail,
-    Student_reg,
-    Subject,
-    Description,
-    StartTime,
-    EndTime,
-    Apt_status
-  ) => {
-    try {
-      const url = `http://localhost:8080/db/appointment/add`;
-      const response = await axios.post(url, {
-        Id,
-        Lecturer_mail,
-        Student_reg,
-        Subject,
-        Description,
-        StartTime,
-        EndTime,
-        Apt_status,
-      });
-      console.log(response.data);
-      socket.emit("block time slot");
-    } catch (err) {
-      if (err.response) {
-        console.log(err.response.data.message);
-        console.log(err.response.status);
-        console.log(err.response.headers);
-      } else {
-        console.log(err.message);
-      }
-    }
-  };
-
-  const getLastAppointment = async () => {
-    try {
-      const url = `http://localhost:8080/db/appointment/last`;
-      const response = await axios.get(url);
-      console.log(response.data);
-      if (response.data.length === 0) {
-        return 1;
-      } else {
-        return response.data[0].Id;
-      }
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   const updateAppointment = async (
@@ -402,6 +280,7 @@ const StaffCalendarComponent = () => {
         StartTime,
         EndTime,
         Apt_status,
+        Reason: "",
       });
       if (StdReg !== null) {
         sendAppointmentChangeMail(StartTime, EndTime, StdReg, Apt_status);
@@ -444,9 +323,19 @@ const StaffCalendarComponent = () => {
 
   const sendAppointmentChangeMail = async (from, to, StdReg, Apt_status) => {
     const msg = { email };
+    const getStaffDetails = async () => {
+      try {
+        const url = `http://localhost:8080/db/staff/details/${email}`;
+        const { data } = await axios.get(url);
+        return data[0];
+      } catch (err) {
+        console.log(err);
+      }
+    };
     if (JSON.parse(sessionStorage.getItem("isDragged")) === true) {
       try {
         const student = await getStudentDetails(StdReg);
+        const staffDetails = await getStaffDetails();
         const stdMail = student[0].Email;
         const url = `http://localhost:8080/mail/student/update/appointment`;
         const subject = "Change of appointment time";
@@ -497,7 +386,6 @@ const StaffCalendarComponent = () => {
         console.log(err);
       }
     } else if (Apt_status === "Unable") {
-      console.log("confirmed");
       try {
         const appointment = await getAppointment(selectedAptId);
         const student = await getStudentDetails(appointment.Student_reg);
@@ -552,140 +440,105 @@ const StaffCalendarComponent = () => {
     }
   };
 
-  const onPopupClose = async (e) => {
-    console.log(e.type);
-    console.log(e.data);
-    if (e.data != null) {
-      if (e.type === "DeleteAlert") {
-        deleteAppointment(selectedAptId, e.data.EventType, e.data.StdReg);
-      } else if (
-        // e.data.Subject !== "No title is provided" &&
-        selectedAptId === undefined &&
-        e.type === "Editor"
-      ) {
-        const lastId = await getLastAppointment();
-        console.log(lastId);
-        addAppointment(
-          lastId + 1,
-          email,
-          JSON.parse(sessionStorage.getItem("regNumber"))
-            ? JSON.parse(sessionStorage.getItem("regNumber"))
-            : null,
-          e.data.Subject === "No title is provided"
-            ? "Blocked"
-            : e.data.Subject,
-          e.data.Description,
-          e.data.StartTime,
-          e.data.EndTime,
-          e.data.EventType
-        );
-        setBlocked(true);
-      } else if (
-        e.data !== null &&
-        selectedAptId !== undefined &&
-        e.type === "Editor"
-      ) {
-        const appointment = await getAppointment(selectedAptId);
-        updateAppointment(
-          e.data.Subject,
-          e.data.Description,
-          e.data.StartTime,
-          e.data.EndTime,
-          e.data.EventType,
-          e.data.StdReg
-        );
-        if (appointment.Student_reg === null) {
-          window.location.reload();
-        }
-      }
-    } else {
-      console.log(true);
-    }
-  };
-
+  // =====================================================================================================
   const onPopupOpen = (e) => {
-    if(e.data.StartTime < new Date()){
+    if (e.data.StartTime < new Date()) {
       e.cancel = true;
-    }else{
-    if (
-      (e.type === "Editor" && e.data.Id === undefined) ||
-      e.data.Subject === "Blocked"
-    ) {
-      e.cancel = true;
-      setSelectedAptId(e.data.Id);
-      setAptId(e.data.Id);
-      if (e.data.Id === undefined) {
-        setBlock(false);
-      } else {
-        setBlock(true);
+    } else {
+      if (
+        (e.type === "Editor" && e.data.Id === undefined) ||
+        e.data.Subject === "Blocked"
+      ) {
+        e.cancel = true;
+        setSelectedAptId(e.data.Id);
+        setAptId(e.data.Id);
+        if (e.data.Id === undefined) {
+          setBlock(false);
+        } else {
+          setBlock(true);
+        }
+        setStartTime(e.data.StartTime);
+        setEndTime(e.data.EndTime);
+        setBlockPopupOpen(true);
+        setPopupOpen(true);
+      } else if (
+        (e.type === "Editor" &&
+          e.data.Id !== undefined &&
+          e.data.EventType === "New") ||
+        (e.type === "ViewEventInfo" &&
+          e.data.Id !== undefined &&
+          e.data.EventType === "New")
+      ) {
+        e.cancel = true;
+        setAptId(e.data.Id);
+        setStartTime(e.data.StartTime);
+        setEndTime(e.data.EndTime);
+        setSubject(e.data.Subject);
+        setReg(e.data.StdReg);
+        setDescription(e.data.Description);
+        setAcceptAppointmentPopupOpen(true);
+        setPopupOpen(true);
+      } else if (
+        (e.type === "Editor" &&
+          e.data.Id !== undefined &&
+          e.data.EventType === "Cancelled") ||
+        (e.type === "ViewEventInfo" &&
+          e.data.Id !== undefined &&
+          e.data.EventType === "Cancelled")
+      ) {
+        e.cancel = true;
+        setAptId(e.data.Id);
+        setStartTime(e.data.StartTime);
+        setEndTime(e.data.EndTime);
+        setSubject(e.data.Subject);
+        setDescription(e.data.Description);
+        setReason(e.data.Reason);
+        setReg(e.data.StdReg);
+        setRescheduleAppointmentPopupOpen(true);
+        setPopupOpen(true);
+      } else if (
+        (e.type === "Editor" &&
+          e.data.Id !== undefined &&
+          e.data.EventType === "Confirmed") ||
+        (e.type === "ViewEventInfo" &&
+          e.data.Id !== undefined &&
+          e.data.EventType === "Confirmed")
+      ) {
+        e.cancel = true;
+        setAptId(e.data.Id);
+        setStartTime(e.data.StartTime);
+        setEndTime(e.data.EndTime);
+        setSubject(e.data.Subject);
+        setDescription(e.data.Description);
+        setReason(e.data.Reason);
+        setReg(e.data.StdReg);
+        setCancelAcceptedAppointmentPopupOpen(true);
+        setPopupOpen(true);
+      } else if (
+        e.type === "QuickInfo" &&
+        e.data.EndTime - e.data.StartTime > 1800000 &&
+        e.data.Id === undefined
+      ) {
+        e.cancel = true;
+        setSelectedAptId(e.data.Id);
+        setAptId(e.data.Id);
+        setBlockPopupOpen(true);
+        if (e.data.Id === undefined) {
+          setBlock(false);
+        } else {
+          setBlock(true);
+        }
+        setStartTime(e.data.StartTime);
+        setEndTime(e.data.EndTime);
+        setPopupOpen(true);
+      } else if (e.type === "QuickInfo") {
+        e.cancel = true;
       }
-      setStartTime(e.data.StartTime);
-      setEndTime(e.data.EndTime);
-      setBlockPopupOpen(true);
-      setPopupOpen(true);
-    } else if (
-      e.type === "QuickInfo" &&
-      e.data.EndTime - e.data.StartTime > 1800000 &&
-      e.data.Id === undefined
-    ) {
-      e.cancel = true;
-      setSelectedAptId(e.data.Id);
-      setAptId(e.data.Id);
-      if (e.data.Id === undefined) {
-        setBlock(false);
-      } else {
-        setBlock(true);
-      }
-      setStartTime(e.data.StartTime);
-      setEndTime(e.data.EndTime);
-      setPopupOpen(true);
-    } else if (e.type === "QuickInfo") {
-      e.cancel = true;
-    }
-  }
-  };
-
-  const deleteAppointment = async (Id, EventType, StdReg) => {
-    console.log(email);
-    try {
-      const url = `http://localhost:8080/db/appointment/${Id}`;
-      const response = await axios.delete(url);
-
-      const msg = { email, EventType };
-      if (EventType === "New") {
-        sendAppointmentDeleteMail(StdReg, EventType);
-      } else {
-        socket.emit("delete appointment", msg);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const sendAppointmentDeleteMail = async (StdReg, EventType) => {
-    console.log("hello");
-    const student = await getStudentDetails(StdReg);
-    const stdMail = student[0].Email;
-    try {
-      const url = `http://localhost:8080/mail/student/update/appointment`;
-      const subject = "Your appointment has been deleted";
-      const content = `
-        <p>Dear student,</p>
-        <p>Your appointment with ${staffDetails.First_name} ${staffDetails.Last_name} has been cancelled.</p>
-      `;
-      const { data } = await axios.post(url, { stdMail, subject, content });
-      const msg = { email, EventType };
-      socket.emit("delete appointment", msg);
-    } catch (err) {
-      console.log(err);
     }
   };
 
   return (
     <Box sx={{ fontFamily: "Raleway" }}>
-      {/* <div>
-        <ColorCode />
-      </div> */}
       <div className="calendar">
         <ScheduleComponent
           currentView="Day"
@@ -699,13 +552,10 @@ const StaffCalendarComponent = () => {
           dragStop={onDragStop}
           resizeStart={onResizeStart}
           resizeStop={onResizeStop}
-          editorTemplate={ediitorWindowTemplate}
-          popupClose={onPopupClose}
           popupOpen={onPopupOpen}
           cssClass="schedule-cell-dimension"
           rowAutoHeight={true}
           quickInfoOnSelectionEnd={true}
-          
         >
           <ViewsDirective>
             <ViewDirective
@@ -714,6 +564,7 @@ const StaffCalendarComponent = () => {
               endHour="16:00"
               interval={dayCount}
               displayName={dayDisplay}
+            
             />
             <ViewDirective option="Week" startHour="08:00" endHour="16:00" />
             <ViewDirective

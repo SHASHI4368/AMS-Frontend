@@ -68,6 +68,7 @@ const theme = createTheme({
     MuiDrawer: {
       styleOverrides: {
         paper: {
+          
           width: 250,
           background: Colors.primary,
           color: Colors.secondary,

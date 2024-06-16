@@ -2,6 +2,7 @@ import React from "react";
 import {
   AppbarContainer,
   AppbarLogo,
+  AppbarOuterContainer,
   MenuButton,
 } from "../../styles/appbar/desktop";
 import { Menu } from "@mui/icons-material";
@@ -12,12 +13,12 @@ const AppbarMobile = () => {
   const { setDrawerOpen, authorized } = useUIContext();
   return (
     <>
-      <AppbarContainer>
+      <AppbarOuterContainer sx={{position: authorized ? "fixed": "relative"}}>
         <AppbarLogo>ams</AppbarLogo>
         <MenuButton onClick={(e) => setDrawerOpen(true)}>
           <Menu />
         </MenuButton>
-      </AppbarContainer>
+      </AppbarOuterContainer>
       {!authorized && (
         <ShapeTop>
           <svg

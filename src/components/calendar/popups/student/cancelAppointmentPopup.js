@@ -22,6 +22,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import Loader from "../../../signup/other/loader";
 
 const CancelAppointmentPopup = () => {
   const {
@@ -37,7 +38,7 @@ const CancelAppointmentPopup = () => {
     setPopupOpen,
     aptId,
     setAptId,
-    setEditAppointmentPopupOpen,
+    setCancelAppointmentPopupOpen,
     subject,
     setSubject,
     description,
@@ -122,7 +123,7 @@ const CancelAppointmentPopup = () => {
       socket.emit("change appointment", msg);
       setProgressOpen(false);
       setPopupOpen(false);
-      setEditAppointmentPopupOpen(false);
+      setCancelAppointmentPopupOpen(false);
     } catch (err) {
       console.log(err);
     }
@@ -131,7 +132,7 @@ const CancelAppointmentPopup = () => {
   const handleClose = () => {
     setAptId(undefined);
     setPopupOpen(false);
-    setEditAppointmentPopupOpen(false);
+    setCancelAppointmentPopupOpen(false);
   };
 
   return (
@@ -241,6 +242,7 @@ const CancelAppointmentPopup = () => {
           Cancel
         </PopupButton>
       </DialogActions>
+      <Loader progressOpen={progressOpen} />
     </PopupPaper>
   );
 };

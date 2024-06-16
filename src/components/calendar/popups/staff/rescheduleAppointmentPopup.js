@@ -18,15 +18,17 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
+  Tooltip,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 import Loader from "../../../signup/other/loader";
 
-const EditAppointmentPopup = () => {
+const RescheduleAppointmentPopup = () => {
   const {
     socket,
+    email,
     selectedStaffEmail,
     regNumber,
     progressOpen,
@@ -37,12 +39,16 @@ const EditAppointmentPopup = () => {
     endTime,
     setPopupOpen,
     aptId,
+    reg,
     setAptId,
-    setEditAppointmentPopupOpen,
+    setRescheduleAppointmentPopupOpen,
+    setChangeTimePopupOpen,
     subject,
     setSubject,
     description,
     setDescription,
+    reason,
+    setReason,
   } = useCalendarContext();
   const [formattedStartTime, setFormattedStartTime] = useState("");
   const [formattedEndTime, setFormattedEndTime] = useState("");
@@ -59,31 +65,13 @@ const EditAppointmentPopup = () => {
     setFormattedEndTime(format(new Date(endTime), "HH:mm"));
   }, [endTime]);
 
-  const updateAppointment = async () => {
+  const deleteAppointment = async (Id, EventType, StdReg) => {
     setProgressOpen(true);
-    try {
-      const url = `http://localhost:8080/db/appointment`;
-      const data = {
-        Id: setAptId,
-        Subject: subject,
-        Description: description,
-        StartTime: startTime,
-        EndTime: endTime,
-        Apt_status: "New",
-        Reason: "",
-      };
-      const response = await axios.put(url, data);
-      sendAppointmentChangeMail();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const deleteAppointment = async () => {
-   setProgressOpen(true);
     try {
       const url = `http://localhost:8080/db/appointment/${aptId}`;
       const response = await axios.delete(url);
+
+      const msg = { email, EventType };
       sendAppointmentDeleteMail();
     } catch (err) {
       console.log(err);
@@ -91,105 +79,64 @@ const EditAppointmentPopup = () => {
   };
 
   const sendAppointmentDeleteMail = async () => {
+    console.log("hello");
     const getStudentDetails = async () => {
       try {
-        const url = `http://localhost:8080/db/student/details/${regNumber}`;
-        const { data } = await axios.get(url, regNumber);
+        const url = `http://localhost:8080/db/student/details/${reg}`;
+        const { data } = await axios.get(url, reg);
         return data;
       } catch (err) {
         console.log(err);
       }
     };
+    const getStaffDetails = async () => {
+      try {
+        const url = `http://localhost:8080/db/staff/details/${email}`;
+        const { data } = await axios.get(url);
+        return data[0];
+      } catch (err) {
+        console.log(err);
+      }
+    };
     try {
-      const student = await getStudentDetails(regNumber);
-      const url = `http://localhost:8080/mail/student/request/appointment`;
-      const subject = "Student removed the appointment";
+      console.log(aptId);
+      const student = await getStudentDetails(reg);
+      const staffDetails = await getStaffDetails();
+      console.log(staffDetails);
+      const stdMail = student[0].Email;
+      const url = `http://localhost:8080/mail/student/update/appointment`;
+      const subject = "Your appointment has been removed";
       const content = `
-        <h2>Student Details:</h2>
-        <p>Reg Number: ${regNumber}</p>
-        <p>Name: ${student[0].First_name} ${student[0].Last_name}</p>
-        <p>Department: ${student[0].Department}</p>
-        <p>Email: ${student[0].Email}</p>
-        <p>Batch: ${student[0].Batch}</p>
-        <br>
-        <h2>Appointment Description:</h2>
-        <p>Subject: ${subject}</p>
-        <p>Date: ${date}</p>
-        <p>Time: ${formattedStartTime} - ${formattedEndTime}</p>
-        <p>Description: ${description}</p>
+        <p>Dear student,</p>
+        <p>Your appointment with ${staffDetails.First_name} ${staffDetails.Last_name} has been removed.</p>
       `;
-      const { data } = await axios.post(url, {
-        lecMail: selectedStaffEmail,
-        subject,
-        content,
-      });
-      const msg = { selectedStaffEmail };
+      const { data } = await axios.post(url, { stdMail, subject, content });
+      const msg = { email, EventType: "Cancelled" };
       socket.emit("delete appointment", msg);
       setProgressOpen(false);
       setPopupOpen(false);
-      setEditAppointmentPopupOpen(false);
+      setRescheduleAppointmentPopupOpen(false);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const sendAppointmentChangeMail = async () => {
-
-    const getStudentDetails = async () => {
-      try {
-        const url = `http://localhost:8080/db/student/details/${regNumber}`;
-        const { data } = await axios.get(url, regNumber);
-        return data;
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    try {
-      const student = await getStudentDetails(regNumber);
-      const url = `http://localhost:8080/mail/student/request/appointment`;
-      const acceptUrl = `http://localhost:8080/db/appointment/accept/${aptId}`;
-      const subject = "Change of appointment details";
-      const content = `
-        <h2>Student Details:</h2>
-        <p>Reg Number: ${regNumber}</p>
-        <p>Name: ${student[0].First_name} ${student[0].Last_name}</p>
-        <p>Department: ${student[0].Department}</p>
-        <p>Email: ${student[0].Email}</p>
-        <p>Batch: ${student[0].Batch}</p>
-        <br>
-        <h2>Appointment Description:</h2>
-        <p>Subject: ${subject}</p>
-        <p>Date: ${date}</p>
-        <p>Time: ${formattedStartTime} - ${formattedEndTime}</p>
-        <p>Description: ${description}</p>
-        <a href="${acceptUrl}" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: white; background-color: green; text-align: center; text-decoration: none; border-radius: 5px;">Accept Appointment</a>
-      `;
-      const { data } = await axios.post(url, {
-        lecMail: selectedStaffEmail,
-        subject,
-        content,
-      });
-      const msg = { selectedStaffEmail };
-      socket.emit("change appointment", msg);
-      setProgressOpen(false);
-      setPopupOpen(false);
-      setEditAppointmentPopupOpen(false);
-    } catch (err) {
-      console.log(err);
-    }
+  const handleChangeTime = () => {
+    setChangeTimePopupOpen(true);
+    setRescheduleAppointmentPopupOpen(false);
   };
 
   const handleClose = () => {
     setAptId(undefined);
     setPopupOpen(false);
-    setEditAppointmentPopupOpen(false);
+    setRescheduleAppointmentPopupOpen(false);
   };
 
   return (
     <PopupPaper>
       <TitleContainer>
         <PopupTitle id="responsive-dialog-title">
-          {"Change your appointment details"}
+          {"Reschedule Appointment"}
         </PopupTitle>
       </TitleContainer>
       <DialogContent>
@@ -252,22 +199,39 @@ const EditAppointmentPopup = () => {
           </>
         )}
         <TextFieldContainer>
-          <CustomTextField
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
-            multiline
-            rows={2}
-            required
-            label="Reason"
-          />
-          <CustomTextField
-            label="Description"
-            placeholder="Please enter a brief description about the reason"
-            multiline
-            rows={6}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
+          <Tooltip title="For students">
+            <CustomTextField
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              multiline
+              rows={1}
+              required
+              disabled
+              label="Reason"
+            />
+          </Tooltip>
+          <Tooltip title="For students">
+            <CustomTextField
+              label="Description"
+              placeholder="Please enter a brief description about the reason"
+              multiline
+              rows={3}
+              disabled
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </Tooltip>
+          <Tooltip title="For students">
+            <CustomTextField
+              label="Reason for unavailability"
+              placeholder="Please enter a brief description about the reason and any alternative times you are available for the appointment"
+              multiline
+              disabled
+              rows={3}
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+            />
+          </Tooltip>
         </TextFieldContainer>
       </DialogContent>
       <DialogActions sx={{ mt: -2 }}>
@@ -285,11 +249,16 @@ const EditAppointmentPopup = () => {
           delete
         </PopupButton>
         <PopupButton
-          sx={{ mr: 2 }}
+          sx={{
+            mr: 2,
+            [theme.breakpoints.down("sm")]: {
+              mr: 4,
+            },
+          }}
           autoFocus
-          onClick={() => updateAppointment()}
+          onClick={() => handleChangeTime()}
         >
-          change
+          reschedule
         </PopupButton>
         <PopupButton onClick={() => handleClose()} autoFocus>
           Cancel
@@ -300,4 +269,4 @@ const EditAppointmentPopup = () => {
   );
 };
 
-export default EditAppointmentPopup;
+export default RescheduleAppointmentPopup;

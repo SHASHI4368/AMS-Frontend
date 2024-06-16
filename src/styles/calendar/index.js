@@ -2,13 +2,15 @@ import { Box, Button, DialogContent, DialogTitle, Divider, Paper, TextField, Typ
 import "@fontsource/raleway";
 import "@fontsource/poppins";
 import { Colors } from "../theme";
-import { lighten, padding } from "polished";
+import { lighten, margin, padding } from "polished";
 
 export const CalendarContainer = styled(Box)(({ theme }) => ({
   minHeight: "600px",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  backgroundColor: Colors.appbar,
+  
 }));
 
 export const PopupPaper = styled(DialogContent)(({ theme }) => ({
@@ -25,6 +27,7 @@ export const TitleContainer = styled(Box)(({ theme }) => ({
   justifyContent: "center",
   width: "120%",
   marginLeft: "-50px",
+  padding: '10px',
   backgroundColor: Colors.primary,
   height: "80px",
   marginTop: "-20px",
@@ -35,23 +38,26 @@ export const TitleContainer = styled(Box)(({ theme }) => ({
 
 export const PopupTitle = styled(DialogTitle)(({ theme }) => ({
   marginTop: "0px",
+  width: "100%",
   fontFamily: "Poppins",
   color: Colors.white,
   fontWeight: 500,
-  fontSize: '28px',
+  fontSize: "25px",
   textAlign: "center",
   [theme.breakpoints.down("sm")]: {
-    fontSize: '21px',
+    fontSize: "21px",
     marginLeft: "10px",
     width: "100%",
   },
 }));
 
 export const PopupDivider = styled(Divider)(({ theme }) => ({
-  width: "95%",
+  width: "50%",
   height: "2px",
-  marginTop: '-10px',
   background: Colors.dove_gray,
+  [theme.breakpoints.down("sm")]: {
+    width: "100%",
+  },
 }));
 
 export const PopupLabel = styled(Typography)(({ theme }) => ({
@@ -136,4 +142,71 @@ export const TextFieldContainer = styled(Box)(({ theme }) => ({
 export const CustomTextField = styled(TextField)(({ theme }) => ({
   width: "100%",
   margin: "10px",
+}));
+
+export const CalendarHeader = styled(Box)(({ theme }) => ({
+  paddingTop: "120px",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "space-between",
+  width: "100%",
+  backgroundColor: Colors.appbar,
+  borderTop: `2px solid ${Colors.dove_gray}`,
+}));
+
+export const CalendarHeaderItem = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  [theme.breakpoints.down("md")]: {
+    width: "100%",
+  }
+}));
+
+export const CurrentTimeDisplay = styled(Typography)(({ theme }) => ({
+  fontFamily: "Poppins",
+  fontWeight: 400,
+  fontSize: "45px",
+  color: Colors.dim_grey,
+  marginLeft: "20px",
+}));
+
+export const StaffCardContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "10px",
+  [theme.breakpoints.down("md")]: {
+    width: "100%",
+    flexDirection: "column",
+    backgroundColor: Colors.dove_gray,
+    marginBottom: "20px",
+  },
+}));
+
+export const StaffCardImage = styled("img")(({ theme }) => ({
+  width: "180px",
+  borderRadius: "50%",
+  height: "180px",
+  objectFit: "cover",
+  [theme.breakpoints.down("sm")]: {
+    width: "180px",
+    height: "180px",
+  },
+}));
+
+export const StaffCardDetails = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "left",
+  justifyContent: "center",
+  marginLeft: "20px",
+  [theme.breakpoints.down("md")]: {
+    marginLeft: "0px",
+    alignItems: "center",
+    marginTop: "20px",
+  },
 }));

@@ -9,6 +9,10 @@ import UnblockPopup from "./staff/unblockPopup";
 import AddAppointmentPopup from "./student/addAppointmentPopup";
 import EditAppointmentPopup from "./student/editAppointmentPopup";
 import CancelAppointmentPopup from "./student/cancelAppointmentPopup";
+import AcceptAppointmentPopup from "./staff/acceptAppointmentPopup";
+import RescheduleAppointmentPopup from "./staff/rescheduleAppointmentPopup";
+import ChangeTimePopup from "./staff/changeTimePopup";
+import CancelAcceptedAppointmentPopup from "./staff/cancelAcceptedAppointmentPopup";
 
 const Popup = () => {
   const {
@@ -20,15 +24,23 @@ const Popup = () => {
     addAppointmentPopupOpen,
     editAppointmentPopupOpen,
     cancelAppointmentPopupOpen,
+    acceptAppointmentPopupOpen,
+    rescheduleAppointmentPopupOpen,
+    cancelAcceptedAppointmentPopupOpen,
+    changeTimePopupOpen,
   } = useCalendarContext();
   return (
-    <Dialog fullScreen={false} open={popupOpen}>
+    <Dialog sx={{overflow: 'visible'}} fullScreen={false} open={popupOpen}>
       {blockPopupOpen === true && (
         <>{block ? <UnblockPopup /> : <BlockPopup />}</>
       )}
       {addAppointmentPopupOpen === true && <AddAppointmentPopup />}
       {editAppointmentPopupOpen === true && <EditAppointmentPopup />}
       {cancelAppointmentPopupOpen === true && <CancelAppointmentPopup />}
+      {acceptAppointmentPopupOpen === true && <AcceptAppointmentPopup />}
+      {rescheduleAppointmentPopupOpen === true && <RescheduleAppointmentPopup/>}
+      {changeTimePopupOpen === true && <ChangeTimePopup/>}
+      {cancelAcceptedAppointmentPopupOpen === true && <CancelAcceptedAppointmentPopup/>}
     </Dialog>
   );
 };

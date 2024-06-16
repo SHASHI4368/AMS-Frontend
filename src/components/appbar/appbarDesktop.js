@@ -2,6 +2,7 @@ import React from "react";
 import {
   AppbarContainer,
   AppbarLogo,
+  AppbarOuterContainer,
   LoginButton,
   SignUpButton,
 } from "../../styles/appbar/desktop";
@@ -10,13 +11,16 @@ import { ShapeTop } from "../../styles/footer";
 import { useNavigate } from "react-router-dom";
 import { useUIContext } from "../../context/ui";
 import StaffBar from "./staffBar";
+import { useTheme } from "@mui/material";
 
 const AppbarDesktop = () => {
   const navigate = useNavigate();
   const { authorized, userType } = useUIContext();
   return (
     <>
-      <AppbarContainer>
+      <AppbarOuterContainer
+        sx={{ position: authorized ? "fixed" : "relative", borderBottom : authorized ? "2px solid #e0e0e0" : "none"}}
+      >
         <AppbarLogo>ams</AppbarLogo>
         <AppbarContainer>
           {authorized && userType === "Student" && <StudentBar />}
@@ -25,7 +29,12 @@ const AppbarDesktop = () => {
             <>
               <LoginButton
                 variant="button"
-                sx={{ textTransform: "capitalize", fontSize: "18px" }}
+                sx={{
+                  textTransform: "capitalize",
+                  fontSize: "18px",
+                  mr: "20px",
+                  position: "relative",
+                }}
                 onClick={(e) => navigate("/")}
               >
                 Login
@@ -39,7 +48,7 @@ const AppbarDesktop = () => {
             </>
           )}
         </AppbarContainer>
-      </AppbarContainer>
+      </AppbarOuterContainer>
       {!authorized && (
         <ShapeTop>
           <svg

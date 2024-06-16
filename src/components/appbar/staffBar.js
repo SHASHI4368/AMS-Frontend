@@ -20,8 +20,8 @@ const StaffBar = () => {
   
   return (
     <ButtonContainer>
-      <ButtonItem>Home</ButtonItem>
-      <ButtonItem onClick={(e) => navigate('/calendar')} >Calendar</ButtonItem>
+      <ButtonItem onClick={() => navigate("/home")}>Home</ButtonItem>
+      <ButtonItem onClick={(e) => navigate("/calendar")}>Calendar</ButtonItem>
       <ButtonItem>My Appointments</ButtonItem>
       <Avatar />
     </ButtonContainer>
