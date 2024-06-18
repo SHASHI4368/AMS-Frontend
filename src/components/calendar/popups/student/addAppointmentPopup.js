@@ -124,7 +124,7 @@ const AddAppointmentPopup = () => {
         content,
       });
       console.log(regNumber);
-      const msg = { selectedStaffEmail, regNumber };
+      const msg = { lecMail: selectedStaffEmail, regNumber };
       socket.emit("add appointment", msg);
       setProgressOpen(false);
       setPopupOpen(false);

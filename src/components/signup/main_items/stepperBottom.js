@@ -19,6 +19,7 @@ const StepperBottom = () => {
     setAlertOpen,
     setAlertMessage,
     setProgressOpen,
+    googleAuth,
   } = useUIContext();
   const {
     staff,
@@ -47,6 +48,7 @@ const StepperBottom = () => {
     password,
     setPassword,
     setEmail,
+    
   } = useSignupContext();
 
   const navigate = useNavigate();
@@ -84,6 +86,7 @@ const StepperBottom = () => {
   };
 
   const sendVerificationMail = async (email, code) => {
+    console.log("Hello")
     try {
       const url = `http://localhost:8080/mail/student/verify`;
       const { data } = await axios.post(url, { email, code });
@@ -165,6 +168,7 @@ const StepperBottom = () => {
             sendVerificationMail(email, code);
           } else if (tempUser.length && !tempUser.Verified) {
             updateVerificationCode(email, code);
+            sendVerificationMail(email, code);
           }
           setMessage("");
           activateLoader(newActiveStep);
@@ -184,6 +188,7 @@ const StepperBottom = () => {
             sendVerificationMail(email, code);
           } else if (tempUser.length && !tempUser.Verified) {
             updateVerificationCode(email, code);
+            sendVerificationMail(email, code);
           }
           setMessage("");
           activateLoader(newActiveStep);
@@ -268,9 +273,6 @@ const StepperBottom = () => {
     Title
   ) => {
     try {
-      if (Picture_URL === "") {
-        Picture_URL = "https://www.w3schools.com/howto/img_avatar.png";
-      }
       const url = `http://localhost:8080/db/staff`;
       const response = await axios.post(url, {
         First_name,
@@ -345,7 +347,10 @@ const StepperBottom = () => {
       } else if (password === "") {
         setMessage("Password is required");
       } else {
-        const picture = staff ? staff.picture : "";
+        const picture = googleAuth
+          ? staff.picture
+          : "https://www.w3schools.com/howto/img_avatar.png";
+        console.log(picture);
         deleteTempUser(email);
         addStaff(
           firstName,

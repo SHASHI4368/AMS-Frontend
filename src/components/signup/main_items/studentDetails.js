@@ -26,7 +26,7 @@ const StudentDetails = () => {
     setTempRegNo,
     batch,
     setBatch,
-    stdEmail,
+    email,
     message,
     setMessage,
   } = useSignupContext();
@@ -115,7 +115,7 @@ const StudentDetails = () => {
               margin: small ? "5px 10px" : "0px 10px",
               width: "97.5%",
             }}
-            value={stdEmail}
+            value={email}
             disabled
           />
         </HorizontalContainer>
@@ -124,7 +124,7 @@ const StudentDetails = () => {
         </HorizontalContainer>
       </FieldContainer>
       <ErrorMessageContainer sx={{ mt: -3 }}>
-        <ErrorMessage>{message}</ErrorMessage>
+        {message && <ErrorMessage severity="error">{message}</ErrorMessage>}
       </ErrorMessageContainer>
     </FieldContainer>
   );

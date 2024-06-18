@@ -15,6 +15,8 @@ import Department from "./components/department";
 import axios from "axios";
 import { useEffect } from "react";
 import Home from "./components/home";
+import ForgotPassword from "./components/forgot_password";
+import Profile from "./components/profile";
 
 function App() {
 
@@ -31,6 +33,8 @@ function App() {
               <Route path="/home" element={<Home />} />
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/department" element={<Department />} />
+              <Route path="/password" element={<ForgotPassword />} />
+              <Route path="/profile" element={<Profile/>}/>
             </Routes>
             <Footer />
           </BrowserRouter>

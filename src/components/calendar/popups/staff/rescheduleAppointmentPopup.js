@@ -100,7 +100,7 @@ const RescheduleAppointmentPopup = () => {
     };
     try {
       console.log(aptId);
-      const student = await getStudentDetails(reg);
+      const student = await getStudentDetails();
       const staffDetails = await getStaffDetails();
       console.log(staffDetails);
       const stdMail = student[0].Email;

@@ -24,7 +24,7 @@ const BatchSelector = () => {
         [theme.breakpoints.down("sm")]: { width: "40%", mt: "0px" },
       }}
     >
-      <FormControl fullWidth>
+      <FormControl  fullWidth>
         <InputLabel id="demo-simple-select-label">Batch</InputLabel>
         <Select
           labelId="demo-simple-select-label"

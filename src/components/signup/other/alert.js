@@ -27,6 +27,7 @@ export default function MyAlert() {
         open={alertOpen}
         autoHideDuration={5000}
         onClose={handleClose}
+        sx={{zIndex: 9999999}}
       >
         <Alert
           onClose={handleClose}

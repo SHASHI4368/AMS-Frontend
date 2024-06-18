@@ -143,7 +143,7 @@ const ChangeTimePopup = () => {
   }, [datepickerStartTime]);
 
   return (
-    <PopupPaper sx={{}}>
+    <PopupPaper>
       <TitleContainer>
         <PopupTitle id="responsive-dialog-title">
           {"Do you want to reschedule appointment ?"}
@@ -178,7 +178,7 @@ const ChangeTimePopup = () => {
             </DateTimeContainer>
             <Typography sx={{ mb: 1 }}>From</Typography>
             <MobileDateTimePicker
-              sx={{ width: "100%" }}
+              sx={{ width: "100%", zIndex: 9999999 }}
               value={datepickerEndTime}
               onChange={(e) => setStartTime(e.$d)}
               ampm={false}
@@ -187,7 +187,7 @@ const ChangeTimePopup = () => {
             />
             <Typography sx={{ mb: 1, mt: 2 }}>To</Typography>
             <MobileDateTimePicker
-              sx={{ width: "100%" }}
+              sx={{ width: "100%", zIndex: 9999999 }}
               value={datepickerEndTime}
               onChange={(e) => setEndTime(e.$d)}
               ampm={false}
@@ -235,6 +235,7 @@ const ChangeTimePopup = () => {
                     disablePast
                     minutesStep={30}
                     orientation="landscape"
+                    sx={{ zIndex: 99999 }}
                   />
                 </DialogContentText>
               </DateTimeSection>
@@ -247,6 +248,7 @@ const ChangeTimePopup = () => {
                     ampm={false}
                     disablePast
                     minutesStep={30}
+                    sx={{ zIndex: 999999 }}
                   />
                 </DialogContentText>
               </DateTimeSection>

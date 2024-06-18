@@ -16,8 +16,6 @@ export const CalendarContainer = styled(Box)(({ theme }) => ({
 export const PopupPaper = styled(DialogContent)(({ theme }) => ({
   backgroundColor: Colors.appbar,
   overflow: "hidden",
-  [theme.breakpoints.down("sm")]: {
-  },
 }));
 
 export const TitleContainer = styled(Box)(({ theme }) => ({
@@ -27,7 +25,7 @@ export const TitleContainer = styled(Box)(({ theme }) => ({
   justifyContent: "center",
   width: "120%",
   marginLeft: "-50px",
-  padding: '10px',
+  padding: "10px",
   backgroundColor: Colors.primary,
   height: "80px",
   marginTop: "-20px",
@@ -170,7 +168,9 @@ export const CurrentTimeDisplay = styled(Typography)(({ theme }) => ({
   fontWeight: 400,
   fontSize: "45px",
   color: Colors.dim_grey,
-  marginLeft: "20px",
+  [theme.breakpoints.down("lg")]: {
+    fontSize: "35px",
+  },
 }));
 
 export const StaffCardContainer = styled(Box)(({ theme }) => ({

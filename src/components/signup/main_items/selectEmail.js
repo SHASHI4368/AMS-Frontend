@@ -16,11 +16,17 @@ import { useUIContext } from "../../../context/ui";
 import axios from "axios";
 
 const SelectEmail = () => {
-  const { email, setEmail, message, setStaff } = useSignupContext();
+  const {setGoogleAuth} = useUIContext();
+  const { email, setEmail, message, setStaff } =
+    useSignupContext();
 
   const handleGoogleAuth = (e, action) => {
     e.preventDefault();
-    window.open(`http://localhost:8080/auth/google?action=${action}`, "_self");
+    setGoogleAuth(true);
+      window.open(
+        `http://localhost:8080/auth/google?action=${action}`,
+        "_self"
+      );
   };
 
     useEffect(() => {

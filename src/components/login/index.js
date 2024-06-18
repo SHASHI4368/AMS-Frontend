@@ -27,6 +27,7 @@ const Login = () => {
   const [tempEmail, setTempEmail] = useState("");
   const [trueLogin, setTrueLogin] = useState(false);
   const {
+    authorized,
     setAuthorized,
     setRegNumber,
     setEmail,
@@ -38,7 +39,10 @@ const Login = () => {
     socket,
     setJwt,
     setStudentAppointments,
+    setStaffAppointments,
     regNumber,
+    setAlertOpen,
+    setAlertMessage,
   } = useUIContext();
 
   const navigate = useNavigate();
@@ -97,6 +101,15 @@ const Login = () => {
   };
 
   const handleStaffLogin = async (Email, Original_password) => {
+    const getStaffAppointments = async () => {
+      try {
+        const url = `http://localhost:8080/db/appointments/${Email}`;
+        const response = await axios.get(url);
+        return response.data;
+      } catch (err) {
+        console.log(err);
+      }
+    };
     try {
       const url = `http://localhost:8080/db/staff/login`;
       const body = { Email, Original_password };
@@ -106,6 +119,8 @@ const Login = () => {
         setAuthorized(true);
         console.log("Login successful");
         setProgressOpen(true);
+        const appointments = await getStaffAppointments();
+        setStaffAppointments(appointments);
         setTempEmail("");
         setUserType("Staff");
         setAuthorized(true);
@@ -171,6 +186,7 @@ const Login = () => {
   };
 
   useEffect(() => {
+    if(!authorized){
     const getStaff = async () => {
       try {
         const url = `http://localhost:8080/auth/login/success`;
@@ -186,7 +202,12 @@ const Login = () => {
         console.log(err);
       }
     };
-    getStaff();
+    getStaff();}
+    else{
+      setAlertOpen(true);
+      setAlertMessage("Please log out first");
+      navigate("/home");
+    }
   }, []);
 
   useEffect(() => {
@@ -228,7 +249,7 @@ const Login = () => {
             {message && <ErrorMessage severity="error">{message}</ErrorMessage>}
           </ErrorMessageContainer>
           <MyLink
-            href="#"
+            onClick={() => navigate("/password")}
             color={Colors.dim_grey}
             underline="hover"
             sx={{ mt: 3 }}

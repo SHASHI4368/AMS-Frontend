@@ -103,7 +103,6 @@ const AcceptAppointmentPopup = () => {
 
   const sendAppointmentAcceptMail = async () => {
     console.log("confirmed");
-    const msg = {email};
     const getStudentDetails = async () => {
       try {
         const url = `http://localhost:8080/db/student/details/${reg}`;
@@ -143,6 +142,7 @@ const AcceptAppointmentPopup = () => {
         <p>${staffDetails[0].Department}</p>
       `;
       const { data } = await axios.post(url, { stdMail, subject, content });
+      const msg = { stdReg: reg };
       socket.emit("change appointment", msg);
       setProgressOpen(false);
       setPopupOpen(false);
@@ -152,9 +152,7 @@ const AcceptAppointmentPopup = () => {
     }
   };
 
-  const sendAppointmentCancelMail = async () => {
-    console.log("cancelled");
-    const msg = {email};
+  const sendAppointmentCancelMail = async () => { 
     const getStudentDetails = async () => {
       try {
         const url = `http://localhost:8080/db/student/details/${reg}`;
@@ -194,6 +192,7 @@ const AcceptAppointmentPopup = () => {
         <p>${staffDetails[0].Department}</p>
       `;
       const { data } = await axios.post(url, { stdMail, subject, content });
+      const msg = { stdReg: reg };
       socket.emit("change appointment", msg);
       setProgressOpen(false);
       setChangeTimePopupOpen(true);

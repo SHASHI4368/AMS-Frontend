@@ -21,6 +21,59 @@ export const UIProvider = ({ children }) => {
     sessionStorage.setItem(key, JSON.stringify(value));
   };
 
+  const notify = (msg) => {
+    if ("Notification" in window) {
+      if (Notification.permission === "granted") {
+        new Notification(msg);
+      } else {
+        Notification.requestPermission().then((res) => {
+          if (res === "granted") {
+            new Notification(msg);
+          } else if (res === "denied") {
+            console.log("Access denied");
+          } else if (res === "default") {
+            console.log("Notification permission not given");
+          }
+        });
+      }
+    } else {
+      console.log("Notifications not supported");
+    }
+  };
+
+  useEffect(() => {
+    socket.on("add appointment", (msg) => {
+      if (
+        (msg.lecMail === email) &&
+        userType === "Staff"
+      ) {
+        setAlertMessage("New appointment added!");
+        setAlertOpen(true);
+        notify("New appointment added!");
+      }
+    });
+
+    socket.on("delete appointment", (msg) => {
+      if (
+        (msg.lecMail === email) &&
+        userType === "Staff" &&
+        msg.EventType !== "Blocked"
+      ) {
+        setAlertMessage("Appointment deleted!");
+        setAlertOpen(true);
+        notify("Appointment deleted!");
+      }
+    });
+
+    socket.on("change appointment", (msg) => {
+      if(userType === "Staff" && msg.lecMail === email) {
+        setAlertMessage("Appointment changed!");
+        setAlertOpen(true);
+        notify("Appointment changed!");
+      }
+    });
+  }, [socket]);
+
   // Common States
   const [alertOpen, setAlertOpen] = useState(false);
   const [token, setToken] = useState("");
@@ -112,6 +165,12 @@ export const UIProvider = ({ children }) => {
   useEffect(() => {
     saveState("studentAppointments", studentAppointments);
   }, [studentAppointments]);
+  const [staffAppointments, setStaffAppointments] = useState(getInitialState("staffAppointments", []));
+  useEffect(() => {
+    saveState("staffAppointments", staffAppointments);
+  }, [staffAppointments]);
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   // refresh management
   useEffect(() => {
@@ -158,6 +217,14 @@ export const UIProvider = ({ children }) => {
     }
   }, [token]);
 
+  // profile page states
+  const [profileBatch, setProfileBatch] = useState("");
+  const [profileDepartment, setProfileDepartment] = useState("");
+  const [profilePassword, setProfilePassword] = useState("");
+  const [profilePosition, setProfilePosition] = useState("");
+  const [profileTitle, setProfileTitle] = useState("");
+
+
   const value = {
     socket,
     email,
@@ -195,6 +262,22 @@ export const UIProvider = ({ children }) => {
     setStaff,
     studentAppointments,
     setStudentAppointments,
+    staffAppointments,
+    setStaffAppointments,
+    selectedDate,
+    setSelectedDate,
+
+    //profile
+    profileBatch,
+    setProfileBatch,
+    profileDepartment,
+    setProfileDepartment,
+    profilePassword,
+    setProfilePassword,
+    profilePosition,
+    setProfilePosition,
+    profileTitle,
+    setProfileTitle,
   };
 
   return <UIContext.Provider value={value}>{children}</UIContext.Provider>;

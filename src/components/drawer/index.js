@@ -148,6 +148,11 @@ const AppDrawer = () => {
     setDrawerOpen(false);
   }
 
+  const handleProfile = () => {
+    navigate("/profile");
+    setDrawerOpen(false);
+  }
+
   return (
     <>
       {drawerOpen && (
@@ -229,6 +234,11 @@ const AppDrawer = () => {
                 <MiddeDivider />
                 {/* <DrawerListItem>My Appointments</DrawerListItem>
                 <MiddeDivider /> */}
+                <DrawerListItem onClick={(e) => handleProfile()}>
+                  Profile
+                </DrawerListItem>
+                <MiddeDivider />
+
                 <DrawerListItem onClick={(e) => handleLogout()}>
                   Log out
                 </DrawerListItem>
@@ -243,6 +253,10 @@ const AppDrawer = () => {
                 <MiddeDivider />
                 <DrawerListItem onClick={(e) => handleCalendar()}>
                   Calendar
+                </DrawerListItem>
+                <MiddeDivider />
+                <DrawerListItem onClick={(e) => handleProfile()}>
+                  Profile
                 </DrawerListItem>
                 <MiddeDivider />
                 <DrawerListItem onClick={(e) => handleLogout()}>

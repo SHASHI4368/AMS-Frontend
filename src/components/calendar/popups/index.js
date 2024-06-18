@@ -30,7 +30,11 @@ const Popup = () => {
     changeTimePopupOpen,
   } = useCalendarContext();
   return (
-    <Dialog sx={{overflow: 'visible'}} fullScreen={false} open={popupOpen}>
+    <Dialog
+      sx={{ overflow: "visible", zIndex: 999 }}
+      fullScreen={false}
+      open={popupOpen}
+    >
       {blockPopupOpen === true && (
         <>{block ? <UnblockPopup /> : <BlockPopup />}</>
       )}
@@ -38,9 +42,13 @@ const Popup = () => {
       {editAppointmentPopupOpen === true && <EditAppointmentPopup />}
       {cancelAppointmentPopupOpen === true && <CancelAppointmentPopup />}
       {acceptAppointmentPopupOpen === true && <AcceptAppointmentPopup />}
-      {rescheduleAppointmentPopupOpen === true && <RescheduleAppointmentPopup/>}
-      {changeTimePopupOpen === true && <ChangeTimePopup/>}
-      {cancelAcceptedAppointmentPopupOpen === true && <CancelAcceptedAppointmentPopup/>}
+      {rescheduleAppointmentPopupOpen === true && (
+        <RescheduleAppointmentPopup />
+      )}
+      {changeTimePopupOpen === true && <ChangeTimePopup />}
+      {cancelAcceptedAppointmentPopupOpen === true && (
+        <CancelAcceptedAppointmentPopup />
+      )}
     </Dialog>
   );
 };

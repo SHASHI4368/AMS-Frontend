@@ -15,6 +15,7 @@ import CurrentTime from "../calendar/other/currentTime";
 import { PopupDivider } from "../../styles/calendar";
 import { Colors } from "../../styles/theme";
 import StudentHome from "./student/studentHome";
+import StaffHome from "./staff/staffHome";
 
 const Home = () => {
   const { authorized, setAlertOpen, setAlertMessage, userType } =
@@ -30,6 +31,9 @@ const Home = () => {
     <>
     {userType === "Student" && (
       <StudentHome/>
+    )}
+    {userType === "Staff" && (
+      <StaffHome/>
     )}
     </>
   );

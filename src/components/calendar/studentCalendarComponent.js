@@ -89,7 +89,7 @@ const eventTemplate = (e) => {
 
 const StudentCalendarComponent = () => {
   //=========================================================================================
-  const { regNumber, socket, selectedStaffEmail, userType } = useUIContext();
+  const { regNumber, socket, selectedStaffEmail, userType, selectedDate } = useUIContext();
   const {
     setStartTime,
     setEndTime,
@@ -367,6 +367,7 @@ const StudentCalendarComponent = () => {
           allowMultiCellSelection={false}
           cssClass="schedule-cell-dimension"
           allowMultiRowSelection={false}
+          selectedDate={selectedDate}
         >
           <ViewsDirective>
             <ViewDirective

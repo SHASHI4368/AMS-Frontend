@@ -13,7 +13,13 @@ const AppbarMobile = () => {
   const { setDrawerOpen, authorized } = useUIContext();
   return (
     <>
-      <AppbarOuterContainer sx={{position: authorized ? "fixed": "relative"}}>
+      <AppbarOuterContainer
+        sx={{
+          position: authorized ? "fixed" : "relative",
+          borderBottom: authorized ? "2px solid #e0e0e0" : "none",
+          zIndex: authorized ? 99 : 0,
+        }}
+      >
         <AppbarLogo>ams</AppbarLogo>
         <MenuButton onClick={(e) => setDrawerOpen(true)}>
           <Menu />

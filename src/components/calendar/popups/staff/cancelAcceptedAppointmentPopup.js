@@ -107,30 +107,29 @@ const CancelAcceptedAppointmentPopup = () => {
     };
     const getStaffDetails = async () => {
       try {
-        const url = `http://localhost:8080/db/staff/${email}`;
+        const url = `http://localhost:8080/db/staff/details/${email}`;
         const { data } = await axios.get(url);
-        return data;
+        return data[0];
       } catch (err) {
         console.log(err);
       }
     };
+    const staffDetails = await getStaffDetails();
     try {
       const student = await getStudentDetails();
-      const staffDetails = await getStaffDetails();
-      console.log(reg);
       const stdMail = student[0].Email;
       const url = `http://localhost:8080/mail/student/update/appointment`;
       const subject = "Appointment completed";
       const content = `
         <p>Dear student,</p>
-        <p>Your appointment with ${staffDetails[0].First_name} ${staffDetails[0].Last_name} has been successfully completed.</p>
+        <p>Your appointment with ${staffDetails.First_name} ${staffDetails.Last_name} has been successfully completed.</p>
         <h2>Appointment Details:</h2>
         <p>Date: ${date}</p>
         <p>Time: ${formattedStartTime} - ${formattedEndTime}</p>
         <br>
-        <p>${staffDetails[0].First_name} ${staffDetails[0].Last_name}</p>
-        <p>${staffDetails[0].Email}</p>
-        <p>${staffDetails[0].Department}</p>
+        <p>${staffDetails.First_name} ${staffDetails.Last_name}</p>
+        <p>${staffDetails.Email}</p>
+        <p>${staffDetails.Department}</p>
       `;
       const { data } = await axios.post(url, { stdMail, subject, content });
       socket.emit("change appointment", msg);
@@ -155,7 +154,7 @@ const CancelAcceptedAppointmentPopup = () => {
     };
     const getStaffDetails = async () => {
       try {
-        const url = `http://localhost:8080/db/staff/${email}`;
+        const url = `http://localhost:8080/db/staff/details/${email}`;
         const { data } = await axios.get(url);
         return data;
       } catch (err) {

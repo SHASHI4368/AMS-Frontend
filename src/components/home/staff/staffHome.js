@@ -1,9 +1,190 @@
-import React from 'react'
+import { Box, Button, Typography, useMediaQuery, useTheme } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useUIContext } from "../../../context/ui";
+import { useNavigate } from "react-router-dom";
+import {
+  AppointmentContainer,
+  HomeContainer,
+  HomeDivider,
+  HomeDividerMain,
+  MainButton,
+  NoAptText,
+  NoAptTextMain,
+  PendingAppointmentContainer,
+  SliderContainer,
+  SmallAppointmentContainer,
+  Subtitle,
+  Subtitle2,
+  TodayAppointmentContainer,
+} from "../../../styles/home";
+import CurrentTime from "../../calendar/other/currentTime";
+import { PopupDivider } from "../../../styles/calendar";
+import { Colors } from "../../../styles/theme";
+import axios from "axios";
+import { format, set } from "date-fns";
+import AppointmentCard from "./appointmentCard";
+import Slider from "react-slick";
+import { Circle } from "@mui/icons-material";
+import SmallAppointmentCard from "./smallAppointmentCard";
+import { NoStaffText, StaffScrollContainer } from "../../../styles/department";
+import RightArrow from "../other/rightArrow";
+import LeftArrow from "../other/leftArrow";
 
 const StaffHome = () => {
-  return (
-    <div>StaffHome</div>
-  )
-}
+  const { staffAppointments, setStaffAppointments, email } = useUIContext();
+  const [todayAppointments, setTodayAppointments] = useState([]);
+  const [pendingAppointments, setPendingAppointments] = useState([]);
+  const [requestedAppointments, setRequestedAppointments] = useState([]);
+  const [pendingAptCount, setPendingAptCount] = useState(0);
 
-export default StaffHome
+  useEffect(() => {
+    const getStaffAppointments = async () => {
+      try {
+        const url = `http://localhost:8080/db/appointments/${email}`;
+        const response = await axios.get(url);
+        setStaffAppointments(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getStaffAppointments();
+  }, []);
+
+  useEffect(() => {
+    if (staffAppointments) {
+      const today = new Date();
+      const appointments = staffAppointments.filter(
+        (appointment) =>
+          format(appointment.StartTime, "yyyy-MM-dd") ===
+            format(today, "yyyy-MM-dd") &&
+          appointment.Apt_status === "Confirmed"
+      );
+      setTodayAppointments(appointments);
+
+      const pending = staffAppointments.filter(
+        (appointment) => appointment.Apt_status === "Confirmed"
+      );
+      setPendingAptCount(pending.length);
+      setPendingAppointments(pending);
+
+      const requested = staffAppointments.filter(
+        (appointment) => appointment.Apt_status === "New"
+      );
+      setRequestedAppointments(requested);
+    }
+  }, [staffAppointments]);
+
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow: <RightArrow />,
+    prevArrow: <LeftArrow />,
+  };
+
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const medium = useMediaQuery(theme.breakpoints.down("md"));
+  return (
+    <HomeContainer>
+      {!medium && (
+        <AppointmentContainer>
+          <TodayAppointmentContainer>
+            <CurrentTime />
+            <Subtitle>Today's Appointments</Subtitle>
+            <HomeDividerMain />
+            {todayAppointments.length === 0 && (
+              <>
+                <NoAptTextMain>No Appointments Today</NoAptTextMain>
+                <MainButton onClick={() => navigate('/calendar')}>calendar</MainButton>
+              </>
+            )}
+            {todayAppointments.map((appointment) => {
+              return <AppointmentCard appointment={appointment} />;
+            })}
+          </TodayAppointmentContainer>
+          <PendingAppointmentContainer>
+            <Subtitle2>Pending Appointments</Subtitle2>
+            <HomeDivider />
+            {pendingAppointments.length === 0 && (
+              <NoAptText>No Appointments Found</NoAptText>
+            )}
+            <SliderContainer>
+              <Slider {...settings}>
+                {pendingAppointments.map((appointment) => (
+                  <SmallAppointmentContainer key={appointment.Id}>
+                    <SmallAppointmentCard appointment={appointment} />
+                  </SmallAppointmentContainer>
+                ))}
+              </Slider>
+            </SliderContainer>
+            <Subtitle2>New Appointments</Subtitle2>
+            <HomeDivider />
+            {requestedAppointments.length === 0 && (
+              <NoAptText>No Appointments Found</NoAptText>
+            )}
+            <SliderContainer>
+              <Slider   {...settings}>
+                {requestedAppointments.map((appointment) => (
+                  <SmallAppointmentContainer key={appointment.Id}>
+                    <SmallAppointmentCard appointment={appointment} />
+                  </SmallAppointmentContainer>
+                ))}
+              </Slider>
+            </SliderContainer>
+          </PendingAppointmentContainer>
+        </AppointmentContainer>
+      )}
+      {medium && (
+        <PendingAppointmentContainer>
+          <Subtitle2 sx={{ mt: 15 }}>Today's Appointments</Subtitle2>
+          <HomeDivider />
+          {todayAppointments.length === 0 && (
+            <NoAptText>No Appointments Found</NoAptText>
+          )}
+          <SliderContainer>
+            <Slider variableWidth {...settings}>
+              {todayAppointments.map((appointment) => (
+                <SmallAppointmentContainer key={appointment.Id}>
+                  <SmallAppointmentCard appointment={appointment} />
+                </SmallAppointmentContainer>
+              ))}
+            </Slider>
+          </SliderContainer>
+          <Subtitle2>Pending Appointments</Subtitle2>
+          <HomeDivider />
+          {pendingAppointments.length === 0 && (
+            <NoAptText>No Appointments Found</NoAptText>
+          )}
+          <SliderContainer>
+            <Slider variableWidth {...settings}>
+              {pendingAppointments.map((appointment) => (
+                <SmallAppointmentContainer key={appointment.Id}>
+                  <SmallAppointmentCard appointment={appointment} />
+                </SmallAppointmentContainer>
+              ))}
+            </Slider>
+          </SliderContainer>
+          <Subtitle2>New Appointments</Subtitle2>
+          <HomeDivider />
+          {requestedAppointments.length === 0 && (
+            <NoAptText>No Appointments Found</NoAptText>
+          )}
+          <SliderContainer>
+            <Slider variableWidth {...settings}>
+              {requestedAppointments.map((appointment) => (
+                <SmallAppointmentContainer key={appointment.Id}>
+                  <SmallAppointmentCard appointment={appointment} />
+                </SmallAppointmentContainer>
+              ))}
+            </Slider>
+          </SliderContainer>
+        </PendingAppointmentContainer>
+      )}
+    </HomeContainer>
+  );
+};
+
+export default StaffHome;

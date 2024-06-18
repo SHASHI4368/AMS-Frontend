@@ -123,7 +123,7 @@ const EditAppointmentPopup = () => {
         subject,
         content,
       });
-      const msg = { selectedStaffEmail };
+      const msg = { lecMail: selectedStaffEmail };
       socket.emit("delete appointment", msg);
       setProgressOpen(false);
       setPopupOpen(false);
@@ -169,7 +169,7 @@ const EditAppointmentPopup = () => {
         subject,
         content,
       });
-      const msg = { selectedStaffEmail };
+      const msg = { lecMail:selectedStaffEmail };
       socket.emit("change appointment", msg);
       setProgressOpen(false);
       setPopupOpen(false);

@@ -11,7 +11,7 @@ const RightArrow = (props) => {
         position: "absolute",
         top: "50%",
         right: 0,
-        marginRight: "20px",
+        marginRight: "0px",
         [theme.breakpoints.down("sm")]: {
           mr: "10px",
         },

@@ -15,6 +15,9 @@ export const Colors = {
   inverse: "#2F3D4A",
   shaft: "#333",
   appbar: "#F0F2F8",
+  card: "#FBF7FF",
+  sidebar: "#F7F8FC",
+  homebtn: "#FF9D28",
   // Grays
   dim_grey: "#696969",
   dove_gray: "#d5d5d5",

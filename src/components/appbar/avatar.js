@@ -13,7 +13,21 @@ import axios from "axios";
 
 const Avatar = () => {
   const [open, setOpen] = useState(false);
-  const { setAuthorized, socket, jwt, setJwt, userType, setEmail } = useUIContext();
+  const {
+    setAuthorized,
+    socket,
+    jwt,
+    setJwt,
+    userType,
+    setEmail,
+    setRegNumber,
+    setDepartment,
+    setStaffList,
+    setSelectedStaffEmail,
+    setStaff,
+    setStudentAppointments,
+    setStaffAppointments,
+  } = useUIContext();
   const navigate = useNavigate();
 
   const handleStdLogout = async () => {
@@ -25,6 +39,12 @@ const Avatar = () => {
       const response = await axios.get(url, config);
       setEmail("");
       setJwt("");
+      setRegNumber("");
+      setDepartment("");
+      setStaffList([]);
+      setSelectedStaffEmail("");
+      setStaff({});
+      setStudentAppointments({});
       socket.disconnect();
       const accessToken = response.data.accessToken;
       return accessToken;
@@ -42,6 +62,7 @@ const Avatar = () => {
       const response = await axios.get(url, config);
       setEmail("");
       setJwt("");
+      setStaffAppointments({});
       socket.disconnect();
       const accessToken = response.data.accessToken;
       return accessToken;
@@ -83,7 +104,7 @@ const Avatar = () => {
           border: `1px solid ${Colors.dove_gray}`,
         }}
       >
-        <DepartmentItem sx={{ mt: "10px", width: "100px" }}>
+        <DepartmentItem onClick={() => navigate('/profile')} sx={{ mt: "10px", width: "100px" }}>
           Profile
         </DepartmentItem>
         <DepartmentItem onClick={handleLogout} sx={{ width: "100px" }}>

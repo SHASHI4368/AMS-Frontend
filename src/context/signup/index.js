@@ -25,6 +25,8 @@ export const SignupProvider = ({ children }) => {
   const [batch, setBatch] = useState("");
   const [department, setDepartment] = useState("");
   const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
   const saveState = (key, value) => {
     sessionStorage.setItem(key, JSON.stringify(value));
@@ -51,7 +53,9 @@ export const SignupProvider = ({ children }) => {
     password, setPassword,
     position, setPosition,
     title, setTitle,
-    staff, setStaff
+    staff, setStaff,
+    newPassword, setNewPassword,
+    confirmNewPassword, setConfirmNewPassword
   };
   return <SignupContext.Provider value={value}>{children}</SignupContext.Provider>;
 };

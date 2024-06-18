@@ -6,7 +6,7 @@ import { Colors } from "../../../styles/theme";
 
 const Loader = ({ progressOpen }) => {
   return (
-    <Dialog open={progressOpen}>
+    <Dialog sx={{zIndex: 9999999999}} open={progressOpen}>
       <CircularProgress sx={{margin: 'auto', mt: 2}} />
       <DialogTitle sx={{fontSize: '16px'}}>Please wait...</DialogTitle>
     </Dialog>
