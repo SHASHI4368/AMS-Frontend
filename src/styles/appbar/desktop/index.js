@@ -123,15 +123,13 @@ export const DepartmentButton = styled("li")(() => ({
   fontFamily: "Raleway",
 }));
 
-export const AppbarLogo = styled(Box)(({ theme }) => ({
+export const AppbarLogo = styled('img')(({ theme }) => ({
   position: "relative",
-  fontSize: "4rem",
-  fontWeight: "bold",
-  fontFamily: '"Montez", "cursive"',
-  textTransform: "uppercase",
-  marginLeft: "30px",
+  height: '85px',
+  marginLeft: "20px",
+  cursor: 'pointer',
   [theme.breakpoints.down("md")]: {
-    fontSize: "3rem",
+    height: '60px',
     marginLeft: "10px",
   },
 }));

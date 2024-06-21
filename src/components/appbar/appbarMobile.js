@@ -8,8 +8,11 @@ import {
 import { Menu } from "@mui/icons-material";
 import { useUIContext } from "../../context/ui";
 import { ShapeTop } from "../../styles/footer";
+import Logo from "../../images/Logo.png"
+import { useNavigate } from "react-router-dom";
 
 const AppbarMobile = () => {
+  const navigate = useNavigate();
   const { setDrawerOpen, authorized } = useUIContext();
   return (
     <>
@@ -20,7 +23,7 @@ const AppbarMobile = () => {
           zIndex: authorized ? 99 : 0,
         }}
       >
-        <AppbarLogo>ams</AppbarLogo>
+        <AppbarLogo src={Logo} onClick={()=> navigate('/home')} />
         <MenuButton onClick={(e) => setDrawerOpen(true)}>
           <Menu />
         </MenuButton>

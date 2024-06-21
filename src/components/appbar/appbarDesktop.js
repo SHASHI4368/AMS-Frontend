@@ -6,11 +6,13 @@ import {
   LoginButton,
   SignUpButton,
 } from "../../styles/appbar/desktop";
+import "../../images/Logo.png"
 import StudentBar from "./studentBar";
 import { ShapeTop } from "../../styles/footer";
 import { useNavigate } from "react-router-dom";
 import { useUIContext } from "../../context/ui";
 import StaffBar from "./staffBar";
+import Logo from "../../images/Logo.png"
 import { useTheme } from "@mui/material";
 
 const AppbarDesktop = () => {
@@ -25,7 +27,7 @@ const AppbarDesktop = () => {
           zIndex: authorized ? 99 : 0,
         }}
       >
-        <AppbarLogo>ams</AppbarLogo>
+        <AppbarLogo onClick={() => navigate('/home')} src={Logo}/>
         <AppbarContainer>
           {authorized && userType === "Student" && <StudentBar />}
           {authorized && userType === "Staff" && <StaffBar />}
