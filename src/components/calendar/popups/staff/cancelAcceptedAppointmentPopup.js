@@ -288,7 +288,7 @@ const CancelAcceptedAppointmentPopup = () => {
           sx={{
             mr: 30,
             [theme.breakpoints.down("sm")]: {
-              mr: 10,
+              mr: 5,
             },
           }}
           autoFocus
@@ -298,13 +298,23 @@ const CancelAcceptedAppointmentPopup = () => {
         </PopupButton>
         <PopupButton
           color="primary"
-          sx={{ mr: 4 }}
+          sx={{
+            mr: 4,
+            [theme.breakpoints.down("sm")]: {
+              mr: 0,
+            },
+          }}
           autoFocus
           onClick={() => cancelAppointment()}
         >
           unable
         </PopupButton>
-        <PopupButton color="inherit"  sx={{ mr: 1 }} onClick={() => handleClose()} autoFocus>
+        <PopupButton
+          color="inherit"
+          sx={{ mr: 1 }}
+          onClick={() => handleClose()}
+          autoFocus
+        >
           Close
         </PopupButton>
       </DialogActions>

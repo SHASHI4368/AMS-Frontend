@@ -78,7 +78,6 @@ const StudentBar = () => {
           </DepartmentItem>
         </DepartmentContainer>
       </DepartmentButton>
-      <ButtonItem>My Appointments</ButtonItem>
       <Avatar />
       <Loader progressOpen={progressOpen} />
     </ButtonContainer>

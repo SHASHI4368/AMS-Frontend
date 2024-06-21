@@ -196,7 +196,10 @@ const StudentCalendarComponent = () => {
     if (e.data.StartTime < new Date()) {
       e.cancel = true;
     } else {
-      if (e.type === "Editor" && e.data.Id === undefined) {
+      if (
+        (e.type === "Editor" || e.type === "ViewEventInfo") &&
+        e.data.Id === undefined
+      ) {
         e.cancel = true;
         setAptId(e.data.Id);
         setStartTime(e.data.StartTime);
@@ -204,12 +207,12 @@ const StudentCalendarComponent = () => {
         setAddAppointmentPopupOpen(true);
         setPopupOpen(true);
       } else if (
-          (e.type === "Editor" &&
-            e.data.Id !== undefined &&
-            e.data.EventType === "New") ||
-          (e.type === "ViewEventInfo" &&
-            e.data.Id !== undefined &&
-            e.data.EventType === "New")
+        (e.type === "Editor" &&
+          e.data.Id !== undefined &&
+          e.data.EventType === "New") ||
+        (e.type === "ViewEventInfo" &&
+          e.data.Id !== undefined &&
+          e.data.EventType === "New")
       ) {
         e.cancel = true;
         setAptId(e.data.Id);

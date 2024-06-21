@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 
 const UnblockPopup = () => {
-  const { socket } = useUIContext();
+  const { socket, email } = useUIContext();
   const {
     startTime,
     endTime,
@@ -47,7 +47,8 @@ const UnblockPopup = () => {
       const url = `http://localhost:8080/db/appointment/${aptId}`;
       const response = await axios.delete(url);
       console.log(response.data);
-      socket.emit("delete appointment");
+      const msg = {email}
+      socket.emit("delete appointment", msg);
       setBlockPopupOpen(false);
       setPopupOpen(false);
     } catch (err) {

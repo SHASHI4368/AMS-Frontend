@@ -43,19 +43,18 @@ export const UIProvider = ({ children }) => {
 
   useEffect(() => {
     socket.on("add appointment", (msg) => {
-      if (
-        (msg.lecMail === email) &&
-        userType === "Staff"
-      ) {
-        setAlertMessage("New appointment added!");
-        setAlertOpen(true);
-        notify("New appointment added!");
+      if (msg.lecMail !== null) {
+        if (msg.lecMail === email && userType === "Staff") {
+          setAlertMessage("New appointment added!");
+          setAlertOpen(true);
+          notify("New appointment added!");
+        }
       }
     });
 
     socket.on("delete appointment", (msg) => {
       if (
-        (msg.lecMail === email) &&
+        msg.lecMail === email &&
         userType === "Staff" &&
         msg.EventType !== "Blocked"
       ) {
@@ -66,7 +65,7 @@ export const UIProvider = ({ children }) => {
     });
 
     socket.on("change appointment", (msg) => {
-      if(userType === "Staff" && msg.lecMail === email) {
+      if (userType === "Staff" && msg.lecMail === email) {
         setAlertMessage("Appointment changed!");
         setAlertOpen(true);
         notify("Appointment changed!");
@@ -147,11 +146,15 @@ export const UIProvider = ({ children }) => {
   const [department, setDepartment] = useState(
     getInitialState("department", "")
   );
+
   useEffect(() => {
     saveState("department", department);
   }, [department]);
 
-  const [selectedStaffEmail, setSelectedStaffEmail] = useState(getInitialState("selectedStaffEmail", ""));
+  const [selectedStaffEmail, setSelectedStaffEmail] = useState(
+    getInitialState("selectedStaffEmail", "")
+  );
+
   useEffect(() => {
     saveState("selectedStaffEmail", selectedStaffEmail);
   }, [selectedStaffEmail]);
@@ -161,11 +164,18 @@ export const UIProvider = ({ children }) => {
     saveState("staff", staff);
   }, [staff]);
 
-  const [studentAppointments, setStudentAppointments] = useState(getInitialState("studentAppointments", []));
+  const [studentAppointments, setStudentAppointments] = useState(
+    getInitialState("studentAppointments", [])
+  );
+
   useEffect(() => {
     saveState("studentAppointments", studentAppointments);
   }, [studentAppointments]);
-  const [staffAppointments, setStaffAppointments] = useState(getInitialState("staffAppointments", []));
+
+  const [staffAppointments, setStaffAppointments] = useState(
+    getInitialState("staffAppointments", [])
+  );
+
   useEffect(() => {
     saveState("staffAppointments", staffAppointments);
   }, [staffAppointments]);
@@ -223,7 +233,6 @@ export const UIProvider = ({ children }) => {
   const [profilePassword, setProfilePassword] = useState("");
   const [profilePosition, setProfilePosition] = useState("");
   const [profileTitle, setProfileTitle] = useState("");
-
 
   const value = {
     socket,

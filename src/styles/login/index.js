@@ -36,7 +36,7 @@ export const LoginPaper = styled(Box)(({ theme }) => ({
   zIndex: 999,
   [theme.breakpoints.down("md")]: {
     width: "80%",
-    height: "600px",
+    height: "630px",
     marginTop: "-120px",
   },
 }));

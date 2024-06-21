@@ -31,58 +31,94 @@ import RightArrow from "../other/rightArrow";
 import LeftArrow from "../other/leftArrow";
 
 const StudentHome = () => {
-
- const {
-   regNumber,
-   studentAppointments,
-   setStudentAppointments,
- } = useUIContext();
- const [todayAppointments, setTodayAppointments] = useState([]);
- const [pendingAppointments, setPendingAppointments] = useState([]);
+  const {
+    regNumber,
+    studentAppointments,
+    setStudentAppointments,
+    userType,
+    socket,
+  } = useUIContext();
+  const [todayAppointments, setTodayAppointments] = useState([]);
+  const [pendingAppointments, setPendingAppointments] = useState([]);
   const [requestedAppointments, setRequestedAppointments] = useState([]);
 
- useEffect(() => {
-  const getStudentAppointments = async () => {
-    try {
-      const url = `http://localhost:8080/db/student/appointments/${regNumber}`;
-      const response = await axios.get(url);
-      setStudentAppointments(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  getStudentAppointments();
- }, []);
+  useEffect(() => {
+    const getStudentAppointments = async () => {
+      try {
+        const url = `http://localhost:8080/db/student/appointments/${regNumber}`;
+        const response = await axios.get(url);
+        setStudentAppointments(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getStudentAppointments();
+  }, []);
 
- useEffect(() => {
-   if (studentAppointments) {
-     const today = new Date();
-     const appointments = studentAppointments.filter((appointment) => (format(appointment.StartTime , "yyyy-MM-dd") === format(today, "yyyy-MM-dd")) && appointment.Apt_status === "Confirmed");
-     setTodayAppointments(appointments);
+  useEffect(() => {
+    const getStudentAppointments = async () => {
+      try {
+        const url = `http://localhost:8080/db/student/appointments/${regNumber}`;
+        const response = await axios.get(url);
+        setStudentAppointments(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-      const pending = studentAppointments.filter((appointment) => (appointment.Apt_status === "Confirmed") );
+    socket.on("block time slot", () => {
+      getStudentAppointments();
+    });
+    socket.on("add appointment", (msg) => {
+      if ((msg.reg = regNumber) && userType === "Student") {
+        getStudentAppointments();
+      }
+    });
+    socket.on("delete appointment", () => {
+      getStudentAppointments();
+    });
+
+    socket.on("change appointment", (msg) => {
+      getStudentAppointments();
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    if (studentAppointments) {
+      const today = new Date();
+      const appointments = studentAppointments.filter(
+        (appointment) =>
+          format(appointment.StartTime, "yyyy-MM-dd") ===
+            format(today, "yyyy-MM-dd") &&
+          appointment.Apt_status === "Confirmed"
+      );
+      setTodayAppointments(appointments);
+
+      const pending = studentAppointments.filter(
+        (appointment) => appointment.Apt_status === "Confirmed"
+      );
       setPendingAppointments(pending);
 
-      const requested = studentAppointments.filter((appointment) => appointment.Apt_status === "New");
+      const requested = studentAppointments.filter(
+        (appointment) => appointment.Apt_status === "New"
+      );
       setRequestedAppointments(requested);
-   }
+    }
+  }, [studentAppointments]);
 
- }, [studentAppointments]);
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow: <RightArrow />,
+    prevArrow: <LeftArrow />,
+  };
 
- const settings = {
-   dots: true,
-   infinite: false,
-   speed: 500,
-   slidesToShow: 1,
-   slidesToScroll: 1,
-   nextArrow: <RightArrow />,
-   prevArrow: <LeftArrow />,
-
- };
-
- const navigate = useNavigate();
- const theme = useTheme();
- const medium = useMediaQuery(theme.breakpoints.down("md"));
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const medium = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <HomeContainer>
       {!medium && (

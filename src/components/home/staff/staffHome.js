@@ -1,4 +1,10 @@
-import { Box, Button, Typography, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useUIContext } from "../../../context/ui";
 import { useNavigate } from "react-router-dom";
@@ -31,11 +37,11 @@ import RightArrow from "../other/rightArrow";
 import LeftArrow from "../other/leftArrow";
 
 const StaffHome = () => {
-  const { staffAppointments, setStaffAppointments, email } = useUIContext();
+  const { staffAppointments, setStaffAppointments, email, socket, userType } =
+    useUIContext();
   const [todayAppointments, setTodayAppointments] = useState([]);
   const [pendingAppointments, setPendingAppointments] = useState([]);
   const [requestedAppointments, setRequestedAppointments] = useState([]);
-  const [pendingAptCount, setPendingAptCount] = useState(0);
 
   useEffect(() => {
     const getStaffAppointments = async () => {
@@ -51,6 +57,33 @@ const StaffHome = () => {
   }, []);
 
   useEffect(() => {
+    const getStaffAppointments = async () => {
+      try {
+        const url = `http://localhost:8080/db/appointments/${email}`;
+        const response = await axios.get(url);
+        setStaffAppointments(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    socket.on("block time slot", () => {
+      getStaffAppointments();
+    });
+    socket.on("add appointment", (msg) => {
+      if ((msg.lecMail = email) && userType === "Staff") {
+        getStaffAppointments();
+      }
+    });
+    socket.on("delete appointment", () => {
+      getStaffAppointments();
+    });
+    socket.on("change appointment", (msg) => {
+      getStaffAppointments();
+    });
+  }, [socket]);
+
+  useEffect(() => {
     if (staffAppointments) {
       const today = new Date();
       const appointments = staffAppointments.filter(
@@ -64,7 +97,6 @@ const StaffHome = () => {
       const pending = staffAppointments.filter(
         (appointment) => appointment.Apt_status === "Confirmed"
       );
-      setPendingAptCount(pending.length);
       setPendingAppointments(pending);
 
       const requested = staffAppointments.filter(
@@ -98,7 +130,9 @@ const StaffHome = () => {
             {todayAppointments.length === 0 && (
               <>
                 <NoAptTextMain>No Appointments Today</NoAptTextMain>
-                <MainButton onClick={() => navigate('/calendar')}>calendar</MainButton>
+                <MainButton onClick={() => navigate("/calendar")}>
+                  calendar
+                </MainButton>
               </>
             )}
             {todayAppointments.map((appointment) => {
@@ -126,7 +160,7 @@ const StaffHome = () => {
               <NoAptText>No Appointments Found</NoAptText>
             )}
             <SliderContainer>
-              <Slider   {...settings}>
+              <Slider {...settings}>
                 {requestedAppointments.map((appointment) => (
                   <SmallAppointmentContainer key={appointment.Id}>
                     <SmallAppointmentCard appointment={appointment} />
