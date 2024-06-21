@@ -23,6 +23,7 @@ import { DateTimePickerComponent } from "@syncfusion/ej2-react-calendars";
 import { L10n } from "@syncfusion/ej2-base";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { useCalendarContext } from "../../context/calendar";
+import Loader from "../signup/other/loader";
 // import ColorCode from "./helpers/ColorCode";
 
 L10n.load({
@@ -103,7 +104,8 @@ const eventTemplate = (e) => {
 
 const StaffCalendarComponent = () => {
   //========================================================================
-  const { email, socket, userType } = useUIContext();
+  const { email, socket, userType, setProgressOpen, progressOpen } =
+    useUIContext();
   const {
     setStartTime,
     setEndTime,
@@ -272,6 +274,7 @@ const StaffCalendarComponent = () => {
     StdReg
   ) => {
     try {
+      setProgressOpen(true);
       const url = `http://localhost:8080/db/appointment`;
       const response = await axios.put(url, {
         Id: selectedAptId,
@@ -287,6 +290,7 @@ const StaffCalendarComponent = () => {
       }
       sessionStorage.setItem("isDragged", JSON.stringify(false));
       setIsResized(false);
+      
     } catch (err) {
       console.log(err);
     }
@@ -354,6 +358,7 @@ const StaffCalendarComponent = () => {
       `;
         const { data } = await axios.post(url, { stdMail, subject, content });
         const msg = { email };
+        setProgressOpen(false);
         socket.emit("change appointment", msg);
       } catch (err) {
         console.log(err);
@@ -381,6 +386,7 @@ const StaffCalendarComponent = () => {
         <p>${staffDetails.Department}</p>
       `;
         const { data } = await axios.post(url, { stdMail, subject, content });
+        setProgressOpen(false);
         socket.emit("change appointment", msg);
       } catch (err) {
         console.log(err);
@@ -564,7 +570,6 @@ const StaffCalendarComponent = () => {
               endHour="16:00"
               interval={dayCount}
               displayName={dayDisplay}
-            
             />
             <ViewDirective option="Week" startHour="08:00" endHour="16:00" />
             <ViewDirective
@@ -589,6 +594,7 @@ const StaffCalendarComponent = () => {
           />
         </ScheduleComponent>
       </div>
+      <Loader progressOpen={progressOpen} />
     </Box>
   );
 };
