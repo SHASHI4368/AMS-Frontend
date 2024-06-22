@@ -62,7 +62,7 @@ const EditAppointmentPopup = () => {
   const updateAppointment = async () => {
     setProgressOpen(true);
     try {
-      const url = `${process.env.REACT_APP_BACKEND_URL}/db/appointment`;
+      const url = `https://ams-backend-duoh.onrender.com/db/appointment`;
       const data = {
         Id: setAptId,
         Subject: subject,
@@ -82,7 +82,7 @@ const EditAppointmentPopup = () => {
   const deleteAppointment = async () => {
    setProgressOpen(true);
     try {
-      const url = `${process.env.REACT_APP_BACKEND_URL}/db/appointment/${aptId}`;
+      const url = `https://ams-backend-duoh.onrender.com/db/appointment/${aptId}`;
       const response = await axios.delete(url);
       sendAppointmentDeleteMail();
     } catch (err) {
@@ -93,7 +93,7 @@ const EditAppointmentPopup = () => {
   const sendAppointmentDeleteMail = async () => {
     const getStudentDetails = async () => {
       try {
-        const url = `${process.env.REACT_APP_BACKEND_URL}/db/student/details/${regNumber}`;
+        const url = `https://ams-backend-duoh.onrender.com/db/student/details/${regNumber}`;
         const { data } = await axios.get(url, regNumber);
         return data;
       } catch (err) {
@@ -102,7 +102,7 @@ const EditAppointmentPopup = () => {
     };
     try {
       const student = await getStudentDetails(regNumber);
-      const url = `${process.env.REACT_APP_BACKEND_URL}/mail/student/request/appointment`;
+      const url = `https://ams-backend-duoh.onrender.com/mail/student/request/appointment`;
       const subject = "Student removed the appointment";
       const content = `
         <h2>Student Details:</h2>
@@ -137,7 +137,7 @@ const EditAppointmentPopup = () => {
 
     const getStudentDetails = async () => {
       try {
-        const url = `${process.env.REACT_APP_BACKEND_URL}/db/student/details/${regNumber}`;
+        const url = `https://ams-backend-duoh.onrender.com/db/student/details/${regNumber}`;
         const { data } = await axios.get(url, regNumber);
         return data;
       } catch (err) {
@@ -146,8 +146,8 @@ const EditAppointmentPopup = () => {
     };
     try {
       const student = await getStudentDetails(regNumber);
-      const url = `${process.env.REACT_APP_BACKEND_URL}/mail/student/request/appointment`;
-      const acceptUrl = `${process.env.REACT_APP_BACKEND_URL}/db/appointment/accept/${aptId}`;
+      const url = `https://ams-backend-duoh.onrender.com/mail/student/request/appointment`;
+      const acceptUrl = `https://ams-backend-duoh.onrender.com/db/appointment/accept/${aptId}`;
       const subject = "Change of appointment details";
       const content = `
         <h2>Student Details:</h2>

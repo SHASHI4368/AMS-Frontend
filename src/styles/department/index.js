@@ -63,6 +63,11 @@ export const StaffCardContainer = styled(Card)(({ theme }) => ({
   margin: "60px 60px",
   maxWidth: 345,
   height: 500,
+  [theme.breakpoints.down('sm')]: {
+    width: 250,
+    marginLeft: 56,
+  }
+
 }));
 
 export const StaffCardMedia = styled(CardMedia)(({ theme }) => ({
@@ -79,6 +84,9 @@ export const StaffCardSubtitle = styled(Typography)(({ theme }) => ({
  fontFamily: 'Poppins',
  fontSize: '18px',
  fontWeight: 300,
+ [theme.breakpoints.down('sm')]: {
+  fontSize: '16px',
+ }
 }));
 
 export const StaffContainer = styled(Box)(({ theme }) => ({

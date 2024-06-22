@@ -185,6 +185,11 @@ export const ErrorMessageContainer = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   width: "100%",
   height: "30px",
+  [theme.breakpoints.down('sm')]: {
+    width: "120%",
+    height: "25px",
+    marginBottom: '10px',
+  }
 }));
 
 export const ErrorMessage = styled(Alert)(({ theme }) => ({

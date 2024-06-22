@@ -93,7 +93,15 @@ const StaffDetails = () => {
         <HorizontalContainer>
           <SignupPassword />
         </HorizontalContainer>
-        <ErrorMessageContainer sx={{ mt: -1, mb: -1 }}>
+        <ErrorMessageContainer
+          sx={{
+            mt: -1,
+            mb: -1,
+            [theme.breakpoints.down("sm")]: {
+              mt: 2,
+            },
+          }}
+        >
           {message && <ErrorMessage severity="error">{message}</ErrorMessage>}
         </ErrorMessageContainer>
       </FieldContainer>

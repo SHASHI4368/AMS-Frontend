@@ -45,12 +45,39 @@ const StaffDetails = () => {
         <HorizontalContainer sx={{ width: "70%", mb: 0, mt: 2 }}>
           <NewPassword />
         </HorizontalContainer>
-        <HorizontalContainer sx={{ width: "70%" }}>
+        <HorizontalContainer
+          sx={{
+            width: "70%",
+            [theme.breakpoints.down("sm")]: {
+              mt: 3,
+              mb: -10,
+            },
+          }}
+        >
           <ConfirmNewPassword />
         </HorizontalContainer>
       </FieldContainer>
-      <ErrorMessageContainer sx={{ mt: -3 }}>
-        {message && <ErrorMessage severity="error">{message}</ErrorMessage>}
+      <ErrorMessageContainer
+        sx={{
+          mt: -3,
+          [theme.breakpoints.down("sm")]: {
+            mt: -5,
+            flexGrow: 1,
+          },
+        }}
+      >
+        {message && (
+          <ErrorMessage
+            sx={{
+              [theme.breakpoints.down("sm")]: {
+                fontSize: "12px",
+              },
+            }}
+            severity="error"
+          >
+            {message}
+          </ErrorMessage>
+        )}
       </ErrorMessageContainer>
     </FieldContainer>
   );

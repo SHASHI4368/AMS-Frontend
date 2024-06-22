@@ -57,7 +57,7 @@ const AppDrawer = () => {
   const getDepartmentStaff = async (Department) => {
     console.log(Department);
     try {
-      const url = `${process.env.REACT_APP_BACKEND_URL}/db/department/${Department}`;
+      const url = `https://ams-backend-duoh.onrender.com/db/department/${Department}`;
       const response = await axios.get(url);
       console.log(response.data);
       setStaffList(response.data);
@@ -103,7 +103,7 @@ const AppDrawer = () => {
       const config = {
         headers: { Authorization: jwt },
       };
-      const url = `${process.env.REACT_APP_BACKEND_URL}/db/student/logout`;
+      const url = `https://ams-backend-duoh.onrender.com/db/student/logout`;
       const response = await axios.get(url, config);
       setEmail("");
       setJwt("");
@@ -120,7 +120,7 @@ const AppDrawer = () => {
       const config = {
         headers: { Authorization: jwt },
       };
-      const url = `${process.env.REACT_APP_BACKEND_URL}/db/staff/logout`;
+      const url = `https://ams-backend-duoh.onrender.com/db/staff/logout`;
       const response = await axios.get(url, config);
       setEmail("");
       setJwt("");

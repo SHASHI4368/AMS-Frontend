@@ -56,7 +56,13 @@ const StudentDetails = () => {
   return (
     <FieldContainer>
       <DescriptionText>Please enter all the details</DescriptionText>
-      <FieldContainer>
+      <FieldContainer
+        sx={{
+          [theme.breakpoints.down("sm")]: {
+            mt: 7,
+          },
+        }}
+      >
         <HorizontalContainer>
           <HorizontalTextInput
             variant="outlined"
@@ -123,7 +129,16 @@ const StudentDetails = () => {
           <SignupPassword />
         </HorizontalContainer>
       </FieldContainer>
-      <ErrorMessageContainer sx={{ mt: -3 }}>
+      <ErrorMessageContainer
+        sx={{
+          mt: -3,
+          [theme.breakpoints.down("sm")]: {
+            mt: 3,
+            mb: 0.5,
+            height: 5,
+          },
+        }}
+      >
         {message && <ErrorMessage severity="error">{message}</ErrorMessage>}
       </ErrorMessageContainer>
     </FieldContainer>
