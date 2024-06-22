@@ -64,7 +64,7 @@ const CancelAppointmentPopup = () => {
   const updateAppointment = async () => {
     setProgressOpen(true);
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/appointment`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/db/appointment`;
       const data = {
         Id: aptId,
         Subject: subject,
@@ -84,7 +84,7 @@ const CancelAppointmentPopup = () => {
   const sendAppointmentChangeMail = async () => {
     const getStudentDetails = async () => {
       try {
-        const url = `https://ams-backend-duoh.onrender.com/db/student/details/${regNumber}`;
+        const url = `${process.env.REACT_APP_BACKEND_URL}/db/student/details/${regNumber}`;
         const { data } = await axios.get(url, regNumber);
         return data;
       } catch (err) {
@@ -93,8 +93,8 @@ const CancelAppointmentPopup = () => {
     };
     try {
       const student = await getStudentDetails(regNumber);
-      const url = `https://ams-backend-duoh.onrender.com/mail/student/request/appointment`;
-      const deleteURL = `https://ams-backend-duoh.onrender.com/db/appointment/delete/${aptId}`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/mail/student/request/appointment`;
+      const deleteURL = `${process.env.REACT_APP_BACKEND_URL}/db/appointment/delete/${aptId}`;
       const subject = "Notifying of Appointment Cancellation";
       const content = `
         <h2>Student Details:</h2>

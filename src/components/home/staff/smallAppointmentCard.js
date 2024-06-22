@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { useUIContext } from "../../../context/ui";
 
 const Heading = styled(Typography)(({ theme }) => ({
-  fontSize: 30,
+  fontSize: 25,
   marginBottom: 10,
   fontWeight: 300,
   color: Colors.dim_grey,
@@ -26,7 +26,7 @@ const Heading = styled(Typography)(({ theme }) => ({
 }));
 
 const SubHeading = styled(Typography)(({ theme }) => ({
-  fontSize: 20,
+  fontSize: 18,
   marginBottom: 10,
   fontWeight: 300,
   color: Colors.dim_grey,
@@ -43,7 +43,7 @@ const SubHeading2 = styled(Typography)(({ theme }) => ({
 }));
 
 const Subject = styled(Typography)(({ theme }) => ({
-  fontSize: 25,
+  fontSize: 20,
   marginBottom: "5 px",
   color: Colors.dim_grey,
   fontFamily: "Poppins",
@@ -81,7 +81,7 @@ const Paper = styled(Card)(({ theme }) => ({
     marginLeft: "30px",
   },
   [theme.breakpoints.down("sm")]: {
-    width: "90%",
+    width: "85%",
     marginLeft: "33px",
   },
 }));
@@ -102,7 +102,7 @@ const SmallAppointmentCard = ({ appointment }) => {
   const [student, setStudent] = useState({});
   useEffect(() => {
     const getStudent = async () => {
-      const url = `https://ams-backend-duoh.onrender.com/db/student/details/${appointment.Student_reg}`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/db/student/details/${appointment.Student_reg}`;
       const response = await axios.get(url);
       setStudent(response.data[0]);
     };

@@ -44,7 +44,7 @@ const UnblockPopup = () => {
   const deleteBlockTimeSlot = async () => {
     console.log(aptId);
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/appointment/${aptId}`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/db/appointment/${aptId}`;
       const response = await axios.delete(url);
       console.log(response.data);
       const msg = {email}

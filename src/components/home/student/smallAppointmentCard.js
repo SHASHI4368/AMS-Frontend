@@ -17,16 +17,17 @@ import { useNavigate } from "react-router-dom";
 import { useUIContext } from "../../../context/ui";
 
 const Heading = styled(Typography)(({ theme }) => ({
-  fontSize: 30,
+  fontSize: 25,
   marginBottom: 10,
   fontWeight: 300,
   color: Colors.dim_grey,
   fontFamily: "Poppins",
   textAlign: "right",
+
 }));
 
 const SubHeading = styled(Typography)(({ theme }) => ({
-  fontSize: 20,
+  fontSize: 18,
   marginBottom: 10,
   fontWeight: 300,
   color: Colors.dim_grey,
@@ -35,7 +36,7 @@ const SubHeading = styled(Typography)(({ theme }) => ({
 }));
 
 const Subject = styled(Typography)(({ theme }) => ({
-  fontSize: 25,
+  fontSize: 20,
   marginBottom: "5 px",
   color: Colors.dim_grey,
   fontFamily: "Poppins",
@@ -73,7 +74,7 @@ const Paper = styled(Card)(({ theme }) => ({
     marginLeft: "30px",
   },
   [theme.breakpoints.down("sm")]: {
-    width: "90%",
+    width: "85%",
     marginLeft: "33px",
   },
 }));
@@ -82,7 +83,7 @@ const PaperButton = styled(Button)(({ theme }) => ({
   backgroundColor: Colors.homebtn,
   color: Colors.white,
   fontFamily: "Poppins",
-  fontSize: 18,
+  fontSize: 16,
   fontWeight: 500,
   borderRadius: "5px",
   "&:hover": {
@@ -96,7 +97,7 @@ const SmallAppointmentCard = ({ appointment }) => {
   const navigate = useNavigate();
   useEffect(() => {
     const getStaff = async () => {
-      const url = `https://ams-backend-duoh.onrender.com/db/staff/details/${appointment.Lecturer_mail}`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/db/staff/details/${appointment.Lecturer_mail}`;
       const response = await axios.get(url);
       setThisStaff(response.data[0]);
     };

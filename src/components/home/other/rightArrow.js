@@ -9,11 +9,11 @@ const RightArrow = (props) => {
     <IconButton
       sx={{
         position: "absolute",
-        top: "48%",
+        top: "46%",
         right: 0,
         marginRight: "-50px",
         [theme.breakpoints.down("sm")]: {
-          mr: "-25px",
+          mr: "-30px",
         },
       }}
       onClick={onClick}

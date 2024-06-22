@@ -45,7 +45,7 @@ const StudentHome = () => {
   useEffect(() => {
     const getStudentAppointments = async () => {
       try {
-        const url = `https://ams-backend-duoh.onrender.com/db/student/appointments/${regNumber}`;
+        const url = `${process.env.REACT_APP_BACKEND_URL}/db/student/appointments/${regNumber}`;
         const response = await axios.get(url);
         setStudentAppointments(response.data);
       } catch (err) {
@@ -58,7 +58,7 @@ const StudentHome = () => {
   useEffect(() => {
     const getStudentAppointments = async () => {
       try {
-        const url = `https://ams-backend-duoh.onrender.com/db/student/appointments/${regNumber}`;
+        const url = `${process.env.REACT_APP_BACKEND_URL}/db/student/appointments/${regNumber}`;
         const response = await axios.get(url);
         setStudentAppointments(response.data);
       } catch (err) {

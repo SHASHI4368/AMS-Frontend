@@ -22,6 +22,11 @@ const DepartmentSelector = () => {
         flexGrow: 1,
         width: "30%",
         margin: "0px 10px 0 10px",
+        [theme.breakpoints.down("sm")]: {
+          width: "50%",
+          mt: "0px",
+          mr: "-15px",
+        },
       }}
     >
       <FormControl fullWidth>

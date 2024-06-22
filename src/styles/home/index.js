@@ -123,6 +123,9 @@ export const NoAptTextMain = styled(Typography)(({ theme }) => ({
   fontSize: "80px",
   fontWeight: 400,
   color: Colors.dove_gray,
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "60px",
+  }
 }));
 
 export const NoAptText = styled(Typography)(({ theme }) => ({
@@ -132,6 +135,9 @@ export const NoAptText = styled(Typography)(({ theme }) => ({
   fontSize: "40px",
   fontWeight: 400,
   color: Colors.dove_gray,
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "30px",
+  }
 }));
 
 export const MainButton = styled(Button)(({ theme }) => ({

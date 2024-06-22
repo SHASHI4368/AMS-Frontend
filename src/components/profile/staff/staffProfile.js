@@ -33,7 +33,7 @@ const Header = styled(Typography)(({ theme }) => ({
   fontFamily: "Raleway",
   marginTop: "-60px",
   [theme.breakpoints.down("sm")]: {
-    fontSize: "2rem",
+    fontSize: "1.5rem",
     marginTop: "-80px",
   },
 }));
@@ -63,7 +63,7 @@ const StaffProfile = () => {
 
   useEffect(() => {
     const getStaff = async () => {
-      const url = `https://ams-backend-duoh.onrender.com/db/staff/details/${email}`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/db/staff/details/${email}`;
       const response = await axios.get(url);
       setFirstName(response.data[0].First_name);
       setLastName(response.data[0].Last_name);
@@ -76,7 +76,7 @@ const StaffProfile = () => {
 
     const updateStaffPassword = async () => {
       try {
-        const url = `https://ams-backend-duoh.onrender.com/db/staff/password`;
+        const url = `${process.env.REACT_APP_BACKEND_URL}/db/staff/password`;
         const response = await axios.put(url, {
           Email: email,
           Password: profilePassword,
@@ -97,7 +97,7 @@ const StaffProfile = () => {
 
   const updateStaff = async () => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/staff`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/db/staff`;
       const data = {
         First_name: firstName,
         Last_name: lastName,

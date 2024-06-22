@@ -6,6 +6,9 @@ export const SignupContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  [theme.breakpoints.down("sm")]: {
+    height: '600px'
+  }
 }));
 
 export const FieldContainer = styled(Box)(({ theme }) => ({

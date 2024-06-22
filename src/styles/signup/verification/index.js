@@ -1,10 +1,14 @@
 import { Box, TextField, styled } from "@mui/material";
+import { margin } from "polished";
 
 export const CodeContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
   justifyContent: "center",
+  [theme.breakpoints.down("sm")]: {
+    width: "140%",
+  },
 }));
 
 export const CodeInput = styled(TextField)(({ theme }) => ({
@@ -19,7 +23,8 @@ export const CodeInput = styled(TextField)(({ theme }) => ({
     width: "80px",
   },
   [theme.breakpoints.down("sm")]: {
-    width: "60px",
+    width: "100px",
     marginBottom: "20px",
+    margin: "0px 10px",
   },
 }));

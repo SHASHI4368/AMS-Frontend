@@ -46,7 +46,7 @@ const StaffHome = () => {
   useEffect(() => {
     const getStaffAppointments = async () => {
       try {
-        const url = `https://ams-backend-duoh.onrender.com/db/appointments/${email}`;
+        const url = `${process.env.REACT_APP_BACKEND_URL}/db/appointments/${email}`;
         const response = await axios.get(url);
         setStaffAppointments(response.data);
       } catch (err) {
@@ -59,7 +59,7 @@ const StaffHome = () => {
   useEffect(() => {
     const getStaffAppointments = async () => {
       try {
-        const url = `https://ams-backend-duoh.onrender.com/db/appointments/${email}`;
+        const url = `${process.env.REACT_APP_BACKEND_URL}/db/appointments/${email}`;
         const response = await axios.get(url);
         setStaffAppointments(response.data);
       } catch (err) {

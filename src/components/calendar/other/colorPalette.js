@@ -51,9 +51,11 @@ const ColorPalette = () => {
       flexDirection="row"
       justifyContent="center"
       alignItems="center"
-      sx={{[theme.breakpoints.down("sm")]: {
-        width: "100%",
-      }}}
+      sx={{
+        [theme.breakpoints.down("sm")]: {
+          width: "100%",
+        },
+      }}
     >
       {colors.map((color) => (
         <Box
@@ -63,10 +65,20 @@ const ColorPalette = () => {
           justifyContent="center"
           alignItems="center"
           margin="10px"
-          width={100}
+          width="45px"
         >
           <Avatar sx={{ bgcolor: color.color }}> </Avatar>
-          <Typography sx={{fontFamily: "Raleway", fontSize: '15px'}} >{color.status}</Typography>
+          <Typography
+            sx={{
+              fontFamily: "Raleway",
+              fontSize: "15px",
+              [theme.breakpoints.down("sm")]: {
+                fontSize: "12px",
+              },
+            }}
+          >
+            {color.status}
+          </Typography>
         </Box>
       ))}
     </Box>

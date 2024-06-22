@@ -21,7 +21,7 @@ const BatchSelector = () => {
         width: "20%",
         marginRight: "10px",
         marginLeft: "11px",
-        [theme.breakpoints.down("sm")]: { width: "40%", mt: "0px" },
+        [theme.breakpoints.down("sm")]: { width: "50%", mt: "0px", ml: "-18px", mr: "0px"},
       }}
     >
       <FormControl  fullWidth>

@@ -36,13 +36,15 @@ const StaffInfoCard = () => {
           variant="h3"
           sx={{ fontFamily: "Raleway", fontSize: "40px" }}
         >{`${staff.Title}. ${staff.First_name} ${staff.Last_name}`}</Typography>
-        <Typography sx={{ fontFamily: "Raleway", fontSize: "20px", margin: "10px 0 0 0" }}>
+        <Typography
+          sx={{ fontFamily: "Raleway", fontSize: "20px", margin: "10px 0 0 0" }}
+        >
           {staff.Position}
         </Typography>
-        <Typography sx={{ fontFamily: "Raleway", fontSize: "20px" }}>
+        <Typography sx={{ fontFamily: "Raleway", fontSize: "1.1rem" }}>
           {getDepartmentName(staff.Department)}
         </Typography>
-        <Typography sx={{ fontFamily: "Raleway", fontSize: "20px" }}>
+        <Typography sx={{ fontFamily: "Raleway", fontSize: "1.1rem" }}>
           {staff.Email}
         </Typography>
       </StaffCardDetails>

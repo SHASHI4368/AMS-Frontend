@@ -9,7 +9,7 @@ export const HorizontalContainer = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     flexDirection: "column",
     alignItems: 'center',
-    width: "80%",
+    width: "100%",
   },
 }));
 

@@ -20,7 +20,7 @@ const TitleSelector = () => {
     <Box
       sx={{
         width: "33.33%",
-        [theme.breakpoints.down("sm")]: { width: "40%", mt: "0px", ml: "11px" },
+        [theme.breakpoints.down("sm")]: { width: "50%", mt: "0px", ml: "-17px" },
       }}
     >
       <FormControl fullWidth>

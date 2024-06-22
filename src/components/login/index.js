@@ -1,4 +1,4 @@
-import { Alert, Box, Tooltip } from "@mui/material";
+import { Alert, Box, Tooltip, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Colors } from "../../styles/theme";
 import {
@@ -46,12 +46,12 @@ const Login = () => {
   } = useUIContext();
 
   const navigate = useNavigate();
-
+  const theme = useTheme();
   axios.defaults.withCredentials = true;
 
   const getRegNumber = async (Email) => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/student/regnumber/${Email}`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/db/student/regnumber/${Email}`;
       const response = await axios.get(url);
       console.log(response.data[0].Reg_number);
       setRegNumber(response.data[0].Reg_number);
@@ -65,7 +65,7 @@ const Login = () => {
   const handleStdLogin = async (Email, Password) => {
     const getStudentAppointments = async () => {
       try {
-        const url = `https://ams-backend-duoh.onrender.com/db/student/appointments/${regNumber}`;
+        const url = `${process.env.REACT_APP_BACKEND_URL}/db/student/appointments/${regNumber}`;
         const response = await axios.get(url);
         return response.data;
       } catch (err) {
@@ -73,7 +73,7 @@ const Login = () => {
       }
     };
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/student/login`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/db/student/login`;
       const response = await axios.post(url, { Email, Password });
       if (response.data.Status === "Success") {
         setJwt(response.data.RefreshToken);
@@ -103,7 +103,7 @@ const Login = () => {
   const handleStaffLogin = async (Email, Original_password) => {
     const getStaffAppointments = async () => {
       try {
-        const url = `https://ams-backend-duoh.onrender.com/db/appointments/${Email}`;
+        const url = `${process.env.REACT_APP_BACKEND_URL}/db/appointments/${Email}`;
         const response = await axios.get(url);
         return response.data;
       } catch (err) {
@@ -111,7 +111,7 @@ const Login = () => {
       }
     };
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/staff/login`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/db/staff/login`;
       const body = { Email, Original_password };
       const response = await axios.post(url, body, { withCredentials: true });
       if (response.data.Status === "Success") {
@@ -159,7 +159,7 @@ const Login = () => {
 
   const getStaffPassword = async (Email) => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/staff/password/${Email}`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/db/staff/password/${Email}`;
       const response = await axios.get(url);
       return response.data[0].Original_password;
     } catch (err) {
@@ -168,7 +168,7 @@ const Login = () => {
   };
   const checkStaffIsThere = async () => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/staff/${tempEmail}`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/db/staff/${tempEmail}`;
       const response = await axios.get(url);
       if (response.data[0] !== undefined) {
         const password = await getStaffPassword(tempEmail);
@@ -189,7 +189,7 @@ const Login = () => {
     if(!authorized){
     const getStaff = async () => {
       try {
-        const url = `https://ams-backend-duoh.onrender.com/auth/login/success`;
+        const url = `${process.env.REACT_APP_BACKEND_URL}/auth/login/success`;
         const { data } = await axios.get(url, { withCredentials: true });
         if (data.error === false && googleAuth) {
           console.log(data.user._json.email);
@@ -221,11 +221,11 @@ const Login = () => {
   const handleGoogleAuth = (e, action) => {
     e.preventDefault();
     setGoogleAuth(true);
-    window.open(`https://ams-backend-duoh.onrender.com/auth/google?action=${action}`, "_self");
+    window.open(`${process.env.REACT_APP_BACKEND_URL}/auth/google?action=${action}`, "_self");
   };
 
   return (
-    <LoginContainer sx={{paddingTop: '100px'}}>
+    <LoginContainer sx={{ paddingTop: "100px" }}>
       <LoginPaper>
         <LoginHeader variant="h5">
           Welcome to the Appointment Management System !
@@ -287,7 +287,12 @@ const Login = () => {
             onClick={() => navigate("/signup")}
             color={Colors.dim_grey}
             underline="hover"
-            sx={{ mt: 5 }}
+            sx={{
+              mt: 5,
+              [theme.breakpoints.down("sm")]: {
+                fontSize: "12px",
+              },
+            }}
           >
             Don't have an account ? Sign up
           </MyLink>

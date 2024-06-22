@@ -24,7 +24,7 @@ const SelectEmail = () => {
     e.preventDefault();
     setGoogleAuth(true);
       window.open(
-        `https://ams-backend-duoh.onrender.com/auth/google?action=${action}`,
+        `${process.env.REACT_APP_BACKEND_URL}/auth/google?action=${action}`,
         "_self"
       );
   };
@@ -32,7 +32,7 @@ const SelectEmail = () => {
     useEffect(() => {
       const getStaff = async () => {
         try {
-          const url = `https://ams-backend-duoh.onrender.com/auth/login/success`;
+          const url = `${process.env.REACT_APP_BACKEND_URL}/auth/login/success`;
           const { data } = await axios.get(url, { withCredentials: true });
           if (data.error === false) {
             setStaff(data.user._json);

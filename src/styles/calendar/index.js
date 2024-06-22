@@ -31,6 +31,7 @@ export const TitleContainer = styled(Box)(({ theme }) => ({
   marginTop: "-20px",
   [theme.breakpoints.down("sm")]: {
     marginLeft: "-40px",
+    width: "130%",
   },
 }));
 
@@ -72,6 +73,10 @@ export const PopupDate = styled(Typography)(({ theme }) => ({
   fontSize: "1.5rem",
   color: Colors.dim_grey,
   marginTop: "10px",
+  [theme.breakpoints.down("sm")]: {
+    marginTop: "0px",
+    fontSize: "1.2rem",
+  }
 }));
 
 export const TextContainer = styled(Box)(({ theme }) => ({
@@ -134,12 +139,17 @@ export const TextFieldContainer = styled(Box)(({ theme }) => ({
   padding: "20px",
   [theme.breakpoints.down("sm")]: {
     padding: "0px",
+    width: "100%",
+    marginTop: "-20px",
   },
 }));
 
 export const CustomTextField = styled(TextField)(({ theme }) => ({
   width: "100%",
   margin: "10px",
+  [theme.breakpoints.down("sm")]: {
+    margin: "10px 0px",
+  },
 }));
 
 export const CalendarHeader = styled(Box)(({ theme }) => ({
@@ -170,6 +180,11 @@ export const CurrentTimeDisplay = styled(Typography)(({ theme }) => ({
   color: Colors.dim_grey,
   [theme.breakpoints.down("lg")]: {
     fontSize: "35px",
+  },
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "25px",
+    marginTop: "-10px",
+    marginBottom: "10px",
   },
 }));
 

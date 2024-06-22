@@ -31,7 +31,7 @@ const Header = styled(Typography)(({ theme }) => ({
   fontFamily: "Raleway",
   marginTop: "-60px",
   [theme.breakpoints.down("sm")]: {
-    fontSize: "2rem",
+    fontSize: "1.5rem",
     marginTop: "-80px",
   },
 }));
@@ -61,7 +61,7 @@ const StudentProfile = () => {
 
   useEffect(() => {
     const getStudent = async () => {
-      const url = `https://ams-backend-duoh.onrender.com/db/student/details/${regNumber}`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/db/student/details/${regNumber}`;
       const response = await axios.get(url);
       setFirstName(response.data[0].First_name);
       setLastName(response.data[0].Last_name);
@@ -73,7 +73,7 @@ const StudentProfile = () => {
 
   const updateStudentPassword = async () => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/student/password`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/db/student/password`;
       const response = await axios.put(url, {
         Email: email,
         Password: profilePassword,
@@ -94,7 +94,7 @@ const StudentProfile = () => {
 
   const updateStudent = async () => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/student`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/db/student`;
       const data = {
         First_name: firstName,
         Last_name: lastName,

@@ -17,6 +17,9 @@ export const LoginContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  [theme.breakpoints.down("sm")]: { 
+    height: '600px',
+  },
 }));
 
 export const LoginPaper = styled(Box)(({ theme }) => ({
@@ -39,6 +42,10 @@ export const LoginPaper = styled(Box)(({ theme }) => ({
     height: "630px",
     marginTop: "-120px",
   },
+  [theme.breakpoints.down("sm")]: { 
+    marginTop: '-100px',
+    height: '700px',
+  },
 }));
 
 export const LoginHeader = styled(Typography)(({ theme }) => ({
@@ -54,7 +61,7 @@ export const LoginHeader = styled(Typography)(({ theme }) => ({
     marginBottom: "40px",
   },
   [theme.breakpoints.down("sm")]: {
-    fontSize: "19px",
+    fontSize: "18px",
     marginTop: "-20px",
     marginBottom: "40px",
   },
