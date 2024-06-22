@@ -185,30 +185,42 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    if(!authorized){
+useEffect(() => {
+  if (!authorized) {
     const getStaff = async () => {
       try {
         const url = `${process.env.REACT_APP_BACKEND_URL}/auth/login/success`;
         const { data } = await axios.get(url, { withCredentials: true });
         if (data.error === false && googleAuth) {
-          console.log(data.user._json.email);
+          console.log("User data fetched successfully:", data.user);
           setTempEmail(data.user._json.email);
           setTrueLogin(true);
           setGoogleAuth(false);
           checkStaffIsThere();
+        } else {
+          console.log("User not authorized or Google Auth flag is false");
         }
       } catch (err) {
-        console.log(err);
+        console.log("Error fetching user data:", err);
       }
     };
-    getStaff();}
-    else{
-      setAlertOpen(true);
-      setAlertMessage("Please log out first");
-      navigate("/home");
-    }
-  }, []);
+    getStaff();
+  } else {
+    setAlertOpen(true);
+    setAlertMessage("Please log out first");
+    navigate("/home");
+  }
+}, [authorized, googleAuth]);
+
+useEffect(() => {
+  if (trueLogin) {
+    console.log("trueLogin is set, proceeding with staff check and submit");
+    setTrueLogin(false);
+    checkStaffIsThere();
+    handleSubmit();
+  }
+}, [trueLogin]);
+
 
   useEffect(() => {
     if (trueLogin) {

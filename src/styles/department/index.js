@@ -53,6 +53,10 @@ export const NoStaffText = styled(Typography)(({ theme }) => ({
  fontSize: '100px',
  fontWeight: 400,
  color: Colors.dove_gray,
+ [theme.breakpoints.down('sm')]: {
+  fontSize: '50px',
+  textAlign: 'center',
+ }
 }));
 
 export const StaffCardContainer = styled(Card)(({ theme }) => ({
