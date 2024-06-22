@@ -173,6 +173,8 @@ const StepperBottom = () => {
           setMessage("");
           activateLoader(newActiveStep);
         } else {
+          console.log(student);
+          console.log(tempUser);
           setMessage("Email already exists");
         }
       } else {
