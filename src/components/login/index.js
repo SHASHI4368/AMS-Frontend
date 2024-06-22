@@ -51,7 +51,7 @@ const Login = () => {
 
   const getRegNumber = async (Email) => {
     try {
-      const url = `${process.env.REACT_APP_BACKEND_URL}/db/student/regnumber/${Email}`;
+      const url = `https://ams-backend-duoh.onrender.com/db/student/regnumber/${Email}`;
       const response = await axios.get(url);
       console.log(response.data[0].Reg_number);
       setRegNumber(response.data[0].Reg_number);
@@ -65,7 +65,7 @@ const Login = () => {
   const handleStdLogin = async (Email, Password) => {
     const getStudentAppointments = async () => {
       try {
-        const url = `${process.env.REACT_APP_BACKEND_URL}/db/student/appointments/${regNumber}`;
+        const url = `https://ams-backend-duoh.onrender.com/db/student/appointments/${regNumber}`;
         const response = await axios.get(url);
         return response.data;
       } catch (err) {
@@ -73,7 +73,7 @@ const Login = () => {
       }
     };
     try {
-      const url = `${process.env.REACT_APP_BACKEND_URL}/db/student/login`;
+      const url = `https://ams-backend-duoh.onrender.com/db/student/login`;
       const response = await axios.post(url, { Email, Password });
       if (response.data.Status === "Success") {
         setJwt(response.data.RefreshToken);
@@ -103,7 +103,7 @@ const Login = () => {
   const handleStaffLogin = async (Email, Original_password) => {
     const getStaffAppointments = async () => {
       try {
-        const url = `${process.env.REACT_APP_BACKEND_URL}/db/appointments/${Email}`;
+        const url = `https://ams-backend-duoh.onrender.com/db/appointments/${Email}`;
         const response = await axios.get(url);
         return response.data;
       } catch (err) {
@@ -111,7 +111,7 @@ const Login = () => {
       }
     };
     try {
-      const url = `${process.env.REACT_APP_BACKEND_URL}/db/staff/login`;
+      const url = `https://ams-backend-duoh.onrender.com/db/staff/login`;
       const body = { Email, Original_password };
       const response = await axios.post(url, body, { withCredentials: true });
       if (response.data.Status === "Success") {
@@ -159,7 +159,7 @@ const Login = () => {
 
   const getStaffPassword = async (Email) => {
     try {
-      const url = `${process.env.REACT_APP_BACKEND_URL}/db/staff/password/${Email}`;
+      const url = `https://ams-backend-duoh.onrender.com/db/staff/password/${Email}`;
       const response = await axios.get(url);
       return response.data[0].Original_password;
     } catch (err) {
@@ -168,7 +168,7 @@ const Login = () => {
   };
   const checkStaffIsThere = async () => {
     try {
-      const url = `${process.env.REACT_APP_BACKEND_URL}/db/staff/${tempEmail}`;
+      const url = `https://ams-backend-duoh.onrender.com/db/staff/${tempEmail}`;
       const response = await axios.get(url);
       if (response.data[0] !== undefined) {
         const password = await getStaffPassword(tempEmail);
@@ -185,42 +185,30 @@ const Login = () => {
     }
   };
 
-useEffect(() => {
-  if (!authorized) {
+  useEffect(() => {
+    if(!authorized){
     const getStaff = async () => {
       try {
-        const url = `${process.env.REACT_APP_BACKEND_URL}/auth/login/success`;
+        const url = `https://ams-backend-duoh.onrender.com/auth/login/success`;
         const { data } = await axios.get(url, { withCredentials: true });
         if (data.error === false && googleAuth) {
-          console.log("User data fetched successfully:", data.user);
+          console.log(data.user._json.email);
           setTempEmail(data.user._json.email);
           setTrueLogin(true);
           setGoogleAuth(false);
           checkStaffIsThere();
-        } else {
-          console.log("User not authorized or Google Auth flag is false");
         }
       } catch (err) {
-        console.log("Error fetching user data:", err);
+        console.log(err);
       }
     };
-    getStaff();
-  } else {
-    setAlertOpen(true);
-    setAlertMessage("Please log out first");
-    navigate("/home");
-  }
-}, [authorized, googleAuth]);
-
-useEffect(() => {
-  if (trueLogin) {
-    console.log("trueLogin is set, proceeding with staff check and submit");
-    setTrueLogin(false);
-    checkStaffIsThere();
-    handleSubmit();
-  }
-}, [trueLogin]);
-
+    getStaff();}
+    else{
+      setAlertOpen(true);
+      setAlertMessage("Please log out first");
+      navigate("/home");
+    }
+  }, []);
 
   useEffect(() => {
     if (trueLogin) {
@@ -233,7 +221,10 @@ useEffect(() => {
   const handleGoogleAuth = (e, action) => {
     e.preventDefault();
     setGoogleAuth(true);
-    window.open(`${process.env.REACT_APP_BACKEND_URL}/auth/google?action=${action}`, "_self");
+    window.open(
+      `https://ams-backend-duoh.onrender.com/auth/google?action=${action}`,
+      "_self"
+    );
   };
 
   return (
@@ -302,7 +293,7 @@ useEffect(() => {
             sx={{
               mt: 5,
               [theme.breakpoints.down("sm")]: {
-                fontSize: "12px",
+                fontSize: "14px",
               },
             }}
           >
