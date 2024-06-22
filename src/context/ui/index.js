@@ -2,7 +2,7 @@ import axios from "axios";
 import { createContext, useContext, useState, useEffect } from "react";
 import { io } from "socket.io-client";
 
-const URL = "http://localhost:8080";
+const URL = "https://ams-backend-duoh.onrender.com";
 const socket = io(URL, {
   autoConnect: false,
 });
@@ -189,7 +189,7 @@ export const UIProvider = ({ children }) => {
         const config = {
           headers: { Authorization: `Bearer ${jwt}` },
         };
-        const url = `http://localhost:8080/db/student/refresh`;
+        const url = `https://ams-backend-duoh.onrender.com/db/student/refresh`;
         const response = await axios.post(url, null, config); // 'null' for the data parameter
         const accessToken = response.data.accessToken;
         setToken(accessToken);
@@ -204,7 +204,7 @@ export const UIProvider = ({ children }) => {
         const config = {
           headers: { Authorization: jwt },
         };
-        const url = `http://localhost:8080/db/staff/refresh`;
+        const url = `https://ams-backend-duoh.onrender.com/db/staff/refresh`;
         const response = await axios.get(url, config);
         const accessToken = response.data.accessToken;
         setToken(accessToken);

@@ -101,7 +101,7 @@ const AppointmentCard = ({appointment}) => {
  const navigate = useNavigate();
  useEffect(() => {
    const getStaff = async () => {
-     const url = `http://localhost:8080/db/staff/details/${appointment.Lecturer_mail}`;
+     const url = `https://ams-backend-duoh.onrender.com/db/staff/details/${appointment.Lecturer_mail}`;
      const response = await axios.get(url);
      setThisStaff(response.data[0]);
    };
