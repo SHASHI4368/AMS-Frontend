@@ -60,7 +60,7 @@ const AddAppointmentPopup = () => {
     setProgressOpen(true);
     try {
       const id = (await getLastAppointment()) + 1;
-      const url = `https://ams-backend-duoh.onrender.com/db/appointment/add`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/appointment/add`;
       const data = {
         Id: id,
         Lecturer_mail: selectedStaffEmail,
@@ -89,7 +89,7 @@ const AddAppointmentPopup = () => {
 
     const getStudentDetails = async () => {
       try {
-        const url = `https://ams-backend-duoh.onrender.com/db/student/details/${regNumber}`;
+        const url = `https://ams-backend-hvfj.onrender.com/db/student/details/${regNumber}`;
         const { data } = await axios.get(url, regNumber);
         return data;
       } catch (err) {
@@ -98,10 +98,10 @@ const AddAppointmentPopup = () => {
     };
 
     try {
-      const id = (await getLastAppointment());
+      const id = await getLastAppointment();
       const student = await getStudentDetails();
-      const url = `https://ams-backend-duoh.onrender.com/mail/student/request/appointment`;
-      const acceptUrl = `https://ams-backend-duoh.onrender.com/db/appointment/accept/${id}`;
+      const url = `https://ams-backend-hvfj.onrender.com/mail/student/request/appointment`;
+      const acceptUrl = `https://ams-backend-hvfj.onrender.com/db/appointment/accept/${id}`;
       const subject = "Request for an appointment";
       const content = `
         <h1>${subject}</h1>
@@ -136,7 +136,7 @@ const AddAppointmentPopup = () => {
 
   const getLastAppointment = async () => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/appointment/last`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/appointment/last`;
       const response = await axios.get(url);
       console.log(response.data);
       if (response.data.length === 0) {

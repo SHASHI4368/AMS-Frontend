@@ -54,7 +54,6 @@ const getColor = (status) => {
   }
 };
 
-
 const getTime = (value) => {
   const date = new Date(value);
   const hours = date.getHours();
@@ -168,7 +167,7 @@ const StaffCalendarComponent = () => {
 
   const getAllAppointments = async (Lecturer_mail) => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/appointments/${Lecturer_mail}`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/appointments/${Lecturer_mail}`;
       const response = await axios.get(url);
       return response.data;
     } catch (err) {
@@ -180,7 +179,7 @@ const StaffCalendarComponent = () => {
     sessionStorage.setItem("isDragged", JSON.stringify(false));
     const getStaffDetails = async () => {
       try {
-        const url = `https://ams-backend-duoh.onrender.com/db//staff/${email}`;
+        const url = `https://ams-backend-hvfj.onrender.com/db//staff/${email}`;
         const response = await axios.get(url);
         setStaffDetails(response.data[0]);
       } catch (err) {
@@ -212,7 +211,7 @@ const StaffCalendarComponent = () => {
     sessionStorage.setItem("isDragged", JSON.stringify(false));
     const getStaffDetails = async () => {
       try {
-        const url = `https://ams-backend-duoh.onrender.com/db//staff/${email}`;
+        const url = `https://ams-backend-hvfj.onrender.com/db//staff/${email}`;
         const response = await axios.get(url);
         setStaffDetails(response.data[0]);
       } catch (err) {
@@ -275,7 +274,7 @@ const StaffCalendarComponent = () => {
   ) => {
     try {
       setProgressOpen(true);
-      const url = `https://ams-backend-duoh.onrender.com/db/appointment`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/appointment`;
       const response = await axios.put(url, {
         Id: selectedAptId,
         Subject,
@@ -290,7 +289,6 @@ const StaffCalendarComponent = () => {
       }
       sessionStorage.setItem("isDragged", JSON.stringify(false));
       setIsResized(false);
-      
     } catch (err) {
       console.log(err);
     }
@@ -298,7 +296,7 @@ const StaffCalendarComponent = () => {
 
   const getStudentDetails = async (Reg_number) => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/student/details/${Reg_number}`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/student/details/${Reg_number}`;
       const { data } = await axios.get(url);
       return data;
     } catch (err) {
@@ -317,7 +315,7 @@ const StaffCalendarComponent = () => {
 
   const getAppointment = async (Id) => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/appointment/${Id}`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/appointment/${Id}`;
       const response = await axios.get(url);
       return response.data[0];
     } catch (err) {
@@ -329,7 +327,7 @@ const StaffCalendarComponent = () => {
     const msg = { email };
     const getStaffDetails = async () => {
       try {
-        const url = `https://ams-backend-duoh.onrender.com/db/staff/details/${email}`;
+        const url = `https://ams-backend-hvfj.onrender.com/db/staff/details/${email}`;
         const { data } = await axios.get(url);
         return data[0];
       } catch (err) {
@@ -341,7 +339,7 @@ const StaffCalendarComponent = () => {
         const student = await getStudentDetails(StdReg);
         const staffDetails = await getStaffDetails();
         const stdMail = student[0].Email;
-        const url = `https://ams-backend-duoh.onrender.com/mail/student/update/appointment`;
+        const url = `https://ams-backend-hvfj.onrender.com/mail/student/update/appointment`;
         const subject = "Change of appointment time";
         const content = `
         <p>Dear student,</p>
@@ -370,7 +368,7 @@ const StaffCalendarComponent = () => {
         const student = await getStudentDetails(appointment.Student_reg);
         console.log(appointment.Student_reg);
         const stdMail = student[0].Email;
-        const url = `https://ams-backend-duoh.onrender.com/mail/student/update/appointment`;
+        const url = `https://ams-backend-hvfj.onrender.com/mail/student/update/appointment`;
         const subject = "Appointment confirmed";
         const content = `
         <p>Dear student,</p>
@@ -397,7 +395,7 @@ const StaffCalendarComponent = () => {
         const student = await getStudentDetails(appointment.Student_reg);
         console.log(appointment.Student_reg);
         const stdMail = student[0].Email;
-        const url = `https://ams-backend-duoh.onrender.com/mail/student/update/appointment`;
+        const url = `https://ams-backend-hvfj.onrender.com/mail/student/update/appointment`;
         const subject = "Appointment cancelled";
         const content = `
         <p>Dear student,</p>
@@ -423,7 +421,7 @@ const StaffCalendarComponent = () => {
         const student = await getStudentDetails(appointment.Student_reg);
         console.log(appointment.Student_reg);
         const stdMail = student[0].Email;
-        const url = `https://ams-backend-duoh.onrender.com/mail/student/update/appointment`;
+        const url = `https://ams-backend-hvfj.onrender.com/mail/student/update/appointment`;
         const subject = "Appointment Done";
         const content = `
         <p>Dear student,</p>

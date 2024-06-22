@@ -63,7 +63,7 @@ const StaffProfile = () => {
 
   useEffect(() => {
     const getStaff = async () => {
-      const url = `https://ams-backend-duoh.onrender.com/db/staff/details/${email}`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/staff/details/${email}`;
       const response = await axios.get(url);
       setFirstName(response.data[0].First_name);
       setLastName(response.data[0].Last_name);
@@ -74,30 +74,30 @@ const StaffProfile = () => {
     getStaff();
   }, []);
 
-    const updateStaffPassword = async () => {
-      try {
-        const url = `https://ams-backend-duoh.onrender.com/db/staff/password`;
-        const response = await axios.put(url, {
-          Email: email,
-          Password: profilePassword,
-        });
-        setAlertOpen(true);
-        setAlertMessage("Profile updated successfully");
-        navigate("/home");
-      } catch (err) {
-        if (err.response) {
-          console.log(err.response.data.message);
-          console.log(err.response.status);
-          console.log(err.response.headers);
-        } else {
-          console.log(err.message);
-        }
+  const updateStaffPassword = async () => {
+    try {
+      const url = `https://ams-backend-hvfj.onrender.com/db/staff/password`;
+      const response = await axios.put(url, {
+        Email: email,
+        Password: profilePassword,
+      });
+      setAlertOpen(true);
+      setAlertMessage("Profile updated successfully");
+      navigate("/home");
+    } catch (err) {
+      if (err.response) {
+        console.log(err.response.data.message);
+        console.log(err.response.status);
+        console.log(err.response.headers);
+      } else {
+        console.log(err.message);
       }
-    };
+    }
+  };
 
   const updateStaff = async () => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/staff`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/staff`;
       const data = {
         First_name: firstName,
         Last_name: lastName,
@@ -209,7 +209,12 @@ const StaffProfile = () => {
         >
           Update
         </Button>
-        <Button onClick={() => navigate('/home')} size="large" variant="text" sx={{ mt: "20px", ml: 2 }}>
+        <Button
+          onClick={() => navigate("/home")}
+          size="large"
+          variant="text"
+          sx={{ mt: "20px", ml: 2 }}
+        >
           cancel
         </Button>
       </HorizontalContainer>

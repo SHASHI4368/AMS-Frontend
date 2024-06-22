@@ -89,7 +89,8 @@ const eventTemplate = (e) => {
 
 const StudentCalendarComponent = () => {
   //=========================================================================================
-  const { regNumber, socket, selectedStaffEmail, userType, selectedDate } = useUIContext();
+  const { regNumber, socket, selectedStaffEmail, userType, selectedDate } =
+    useUIContext();
   const {
     setStartTime,
     setEndTime,
@@ -132,7 +133,7 @@ const StudentCalendarComponent = () => {
 
   const getAllAppointments = async (Lecturer_mail) => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/appointments/${Lecturer_mail}`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/appointments/${Lecturer_mail}`;
       const response = await axios.get(url);
       return response.data;
     } catch (err) {
@@ -189,7 +190,6 @@ const StudentCalendarComponent = () => {
       fetchData();
     });
   }, [socket]);
-
 
   //==============================================================================================
   const onPopupOpen = (e) => {
@@ -254,10 +254,9 @@ const StudentCalendarComponent = () => {
     }
   };
 
-
   const getStudentDetails = async (Reg_number) => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/student/details/${Reg_number}`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/student/details/${Reg_number}`;
       const { data } = await axios.get(url, Reg_number);
       return data;
     } catch (err) {
@@ -278,7 +277,7 @@ const StudentCalendarComponent = () => {
     console.log("Sending email");
     const student = await getStudentDetails(regNumber);
     try {
-      const url = `https://ams-backend-duoh.onrender.com/mail/student/request/appointment`;
+      const url = `https://ams-backend-hvfj.onrender.com/mail/student/request/appointment`;
       const subject = "Unable to attend the appointment";
       const content = `
         <h2>Student Details:</h2>
@@ -312,7 +311,7 @@ const StudentCalendarComponent = () => {
   ) => {
     const student = await getStudentDetails(regNumber);
     try {
-      const url = `https://ams-backend-duoh.onrender.com/mail/student/request/appointment`;
+      const url = `https://ams-backend-hvfj.onrender.com/mail/student/request/appointment`;
       const subject = "Student removed the appointment";
       const content = `
         <h2>Student Details:</h2>

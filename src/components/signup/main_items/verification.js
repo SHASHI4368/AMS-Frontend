@@ -27,11 +27,9 @@ const Verification = () => {
     setFour,
     progressOpen,
     activateLoader,
-    
-
   } = useSignupContext();
 
-  const {setUserType} = useUIContext();
+  const { setUserType } = useUIContext();
 
   const handleInputChange = (event) => {
     const value = event.target.value;
@@ -43,7 +41,7 @@ const Verification = () => {
 
   const sendVerificationMail = async (email, code) => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/mail/student/verify`;
+      const url = `https://ams-backend-hvfj.onrender.com/mail/student/verify`;
       const { data } = await axios.post(url, { email, code });
       console.log(data);
     } catch (err) {
@@ -53,7 +51,7 @@ const Verification = () => {
 
   const updateVerificationCode = async (Email, Verification_Code) => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/tempUser`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/tempUser`;
       const { data } = await axios.put(url, { Email, Verification_Code });
       console.log(data);
     } catch (err) {
@@ -63,7 +61,7 @@ const Verification = () => {
 
   const addTempUser = async (Email, Verification_Code) => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/tempUser`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/tempUser`;
       const { data } = await axios.post(url, { Email, Verification_Code });
       console.log(data);
     } catch (err) {
@@ -73,7 +71,7 @@ const Verification = () => {
 
   const getTempUser = async (Email) => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/tempUser/${Email}`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/tempUser/${Email}`;
       const { data } = await axios.get(url);
       return data;
     } catch (err) {
@@ -83,7 +81,7 @@ const Verification = () => {
 
   const getStudent = async (Email) => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/student/${Email}`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/student/${Email}`;
       const { data } = await axios.get(url);
       return data;
     } catch (err) {
@@ -93,7 +91,7 @@ const Verification = () => {
 
   const getStaff = async (Email) => {
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/staff/${Email}`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/staff/${Email}`;
       const { data } = await axios.get(url);
       return data;
     } catch (err) {

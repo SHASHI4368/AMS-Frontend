@@ -44,10 +44,10 @@ const UnblockPopup = () => {
   const deleteBlockTimeSlot = async () => {
     console.log(aptId);
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/appointment/${aptId}`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/appointment/${aptId}`;
       const response = await axios.delete(url);
       console.log(response.data);
-      const msg = {email}
+      const msg = { email };
       socket.emit("delete appointment", msg);
       setBlockPopupOpen(false);
       setPopupOpen(false);

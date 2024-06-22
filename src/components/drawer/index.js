@@ -57,7 +57,7 @@ const AppDrawer = () => {
   const getDepartmentStaff = async (Department) => {
     console.log(Department);
     try {
-      const url = `https://ams-backend-duoh.onrender.com/db/department/${Department}`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/department/${Department}`;
       const response = await axios.get(url);
       console.log(response.data);
       setStaffList(response.data);
@@ -86,24 +86,24 @@ const AppDrawer = () => {
   const handleLogin = () => {
     navigate("/");
     setDrawerOpen(false);
-  }
+  };
 
   const handleSignup = () => {
     navigate("/signup");
     setDrawerOpen(false);
-  }
+  };
 
   const handleHome = () => {
     navigate("/home");
     setDrawerOpen(false);
-  }
+  };
 
   const handleStdLogout = async () => {
     try {
       const config = {
         headers: { Authorization: jwt },
       };
-      const url = `https://ams-backend-duoh.onrender.com/db/student/logout`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/student/logout`;
       const response = await axios.get(url, config);
       setEmail("");
       setJwt("");
@@ -120,7 +120,7 @@ const AppDrawer = () => {
       const config = {
         headers: { Authorization: jwt },
       };
-      const url = `https://ams-backend-duoh.onrender.com/db/staff/logout`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/staff/logout`;
       const response = await axios.get(url, config);
       setEmail("");
       setJwt("");
@@ -146,12 +146,12 @@ const AppDrawer = () => {
   const handleCalendar = () => {
     navigate("/calendar");
     setDrawerOpen(false);
-  }
+  };
 
   const handleProfile = () => {
     navigate("/profile");
     setDrawerOpen(false);
-  }
+  };
 
   return (
     <>
