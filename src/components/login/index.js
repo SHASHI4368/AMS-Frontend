@@ -141,16 +141,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     if (tempEmail === "" || password === "") {
       setMessage("Please fill all the fields");
-    } else if (
-      !tempEmail.includes("engug.ruh.ac.lk") &&
-      !tempEmail.includes("eng.ruh.ac.lk")
-    ) {
+    } else if (!tempEmail.includes("ruh.ac.lk")) {
       setMessage("Invalid email");
     } else {
-      if (tempEmail.includes("eng.ruh.ac.lk")) {
-        handleStaffLogin(tempEmail, password);
-      } else {
+      if (tempEmail.includes("engug.ruh.ac.lk")) {
         handleStdLogin(tempEmail, password);
+      } else {
+        handleStaffLogin(tempEmail, password);
       }
     }
   };

@@ -149,8 +149,7 @@ const StepperBottom = () => {
     if (email === "") {
       setMessage("Email is required");
     } else if (
-      !email.includes("engug.ruh.ac.lk") &&
-      !email.includes("eng.ruh.ac.lk")
+      !email.includes("ruh.ac.lk")
     ) {
       setMessage("Please enter a valid email");
     } else {
