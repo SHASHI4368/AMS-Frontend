@@ -64,7 +64,7 @@ const ChangeTimePopup = () => {
   const acceptAppointment = async () => {
     setProgressOpen(true);
     try {
-      const url = `https://ams-backend-hvfj.onrender.com/db/appointment`;
+      const url = `http://localhost:8080/db/appointment`;
       const response = await axios.put(url, {
         Id: aptId,
         Subject: subject,
@@ -85,7 +85,7 @@ const ChangeTimePopup = () => {
     const msg = { email };
     const getStudentDetails = async () => {
       try {
-        const url = `https://ams-backend-hvfj.onrender.com/db/student/details/${reg}`;
+        const url = `http://localhost:8080/db/student/details/${reg}`;
         const { data } = await axios.get(url, reg);
         return data;
       } catch (err) {
@@ -94,7 +94,7 @@ const ChangeTimePopup = () => {
     };
     const getStaffDetails = async () => {
       try {
-        const url = `https://ams-backend-hvfj.onrender.com/db/staff/details/${email}`;
+        const url = `http://localhost:8080/db/staff/details/${email}`;
         const { data } = await axios.get(url);
         return data;
       } catch (err) {
@@ -106,7 +106,7 @@ const ChangeTimePopup = () => {
       const staffDetails = await getStaffDetails();
       console.log(reg);
       const stdMail = student[0].Email;
-      const url = `https://ams-backend-hvfj.onrender.com/mail/student/update/appointment`;
+      const url = `http://localhost:8080/mail/student/update/appointment`;
       const subject = "Appointment rescheduled";
       const content = `
         <p>Dear student,</p>
