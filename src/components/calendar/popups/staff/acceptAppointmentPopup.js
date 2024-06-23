@@ -25,13 +25,8 @@ import {
 import Loader from "../../../signup/other/loader";
 
 const AcceptAppointmentPopup = () => {
-  const {
-    socket,
-    selectedStaffEmail,
-    progressOpen,
-    setProgressOpen,
-    email,
-  } = useUIContext();
+  const { socket, selectedStaffEmail, progressOpen, setProgressOpen, email } =
+    useUIContext();
   const {
     startTime,
     endTime,
@@ -62,7 +57,7 @@ const AcceptAppointmentPopup = () => {
   }, [endTime]);
 
   const acceptAppointment = async () => {
-   setProgressOpen(true);
+    setProgressOpen(true);
     try {
       const url = `https://ams-backend-hvfj.onrender.com/db/appointment`;
       const response = await axios.put(url, {
@@ -81,7 +76,7 @@ const AcceptAppointmentPopup = () => {
   };
 
   const cancelAppointment = async () => {
-   setProgressOpen(true);
+    setProgressOpen(true);
     try {
       const url = `https://ams-backend-hvfj.onrender.com/db/appointment`;
       const response = await axios.put(url, {
@@ -98,8 +93,6 @@ const AcceptAppointmentPopup = () => {
       console.log(err);
     }
   };
-
-
 
   const sendAppointmentAcceptMail = async () => {
     console.log("confirmed");
@@ -120,7 +113,7 @@ const AcceptAppointmentPopup = () => {
       } catch (err) {
         console.log(err);
       }
-    }
+    };
     try {
       const student = await getStudentDetails();
       const staffDetails = await getStaffDetails();
@@ -130,9 +123,7 @@ const AcceptAppointmentPopup = () => {
       const subject = "Appointment confirmed";
       const content = `
         <p>Dear student,</p>
-        <p>Your appointment with ${staffDetails[0].First_name} ${
-        staffDetails[0].Last_name
-      } has been confirmed.</p>
+        <p>Your appointment with ${staffDetails[0].First_name} ${staffDetails[0].Last_name} has been confirmed.</p>
         <h2>Appointment Details:</h2>
         <p>Date: ${date}</p>
         <p>Time: ${formattedStartTime} - ${formattedEndTime}</p>
@@ -152,7 +143,7 @@ const AcceptAppointmentPopup = () => {
     }
   };
 
-  const sendAppointmentCancelMail = async () => { 
+  const sendAppointmentCancelMail = async () => {
     const getStudentDetails = async () => {
       try {
         const url = `https://ams-backend-hvfj.onrender.com/db/student/details/${reg}`;
@@ -170,7 +161,7 @@ const AcceptAppointmentPopup = () => {
       } catch (err) {
         console.log(err);
       }
-    }
+    };
     try {
       const student = await getStudentDetails();
       const staffDetails = await getStaffDetails();
@@ -180,9 +171,7 @@ const AcceptAppointmentPopup = () => {
       const subject = "Appointment cancelled";
       const content = `
         <p>Dear student,</p>
-        <p>Your appointment with ${staffDetails[0].First_name} ${
-        staffDetails[0].Last_name
-      } has been cancelled.</p>
+        <p>Your appointment with ${staffDetails[0].First_name} ${staffDetails[0].Last_name} has been cancelled.</p>
         <h2>Appointment Details:</h2>
         <p>Date: ${date}</p>
         <p>Time: ${formattedStartTime} - ${formattedEndTime}</p>

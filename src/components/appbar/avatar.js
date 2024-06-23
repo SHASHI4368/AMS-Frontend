@@ -104,7 +104,10 @@ const Avatar = () => {
           border: `1px solid ${Colors.dove_gray}`,
         }}
       >
-        <DepartmentItem onClick={() => navigate('/profile')} sx={{ mt: "10px", width: "100px" }}>
+        <DepartmentItem
+          onClick={() => navigate("/profile")}
+          sx={{ mt: "10px", width: "100px" }}
+        >
           Profile
         </DepartmentItem>
         <DepartmentItem onClick={handleLogout} sx={{ width: "100px" }}>

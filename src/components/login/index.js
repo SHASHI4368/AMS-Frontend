@@ -187,7 +187,7 @@ const Login = () => {
     if (!authorized) {
       const getStaff = async () => {
         try {
-          const url = `https://ams-backend-hvfj.onrender.com/auth/login/success`;
+          const url = `http://ams-backend-hvfj.onrender.com/auth/login/success`;
           const { data } = await axios.get(url, { withCredentials: true });
           if (data.error === false && googleAuth) {
             console.log(data.user._json.email);
@@ -220,7 +220,7 @@ const Login = () => {
     e.preventDefault();
     setGoogleAuth(true);
     window.open(
-      `https://ams-backend-hvfj.onrender.com/auth/google?action=${action}`,
+      `http://ams-backend-hvfj.onrender.com/auth/google?action=${action}`,
       "_self"
     );
   };

@@ -14,7 +14,13 @@ import { useNavigate } from "react-router-dom";
 
 const StudentBar = () => {
   const [open, setOpen] = useState(false);
-  const {staffList, setStaffList, setProgressOpen, progressOpen, setDepartment} = useUIContext();
+  const {
+    staffList,
+    setStaffList,
+    setProgressOpen,
+    progressOpen,
+    setDepartment,
+  } = useUIContext();
   const navigate = useNavigate();
 
   const getDepartmentStaff = async (Department) => {
@@ -37,17 +43,17 @@ const StudentBar = () => {
         console.log(err.message);
       }
     }
-  }
+  };
 
   const handleClick = async (Department) => {
     setProgressOpen(true);
     setDepartment(Department);
     await getDepartmentStaff(Department);
-  }
+  };
 
   return (
     <ButtonContainer>
-      <ButtonItem onClick={() => navigate('/home')}>Home</ButtonItem>
+      <ButtonItem onClick={() => navigate("/home")}>Home</ButtonItem>
       <DepartmentButton
         onMouseLeave={(e) => setOpen(false)}
         onMouseEnter={(e) => setOpen(true)}
