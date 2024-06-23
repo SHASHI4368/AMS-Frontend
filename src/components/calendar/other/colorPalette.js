@@ -1,5 +1,5 @@
-import { Avatar, Box, Typography, useTheme } from '@mui/material';
-import React from 'react'
+import { Avatar, Box, Typography, useTheme } from "@mui/material";
+import React from "react";
 import "@fontsource/raleway";
 
 const getColor = (status) => {
@@ -40,11 +40,10 @@ const colors = [
     status: "Completed",
     color: getColor("Completed"),
   },
-]
+];
 
 const ColorPalette = () => {
-
- const theme = useTheme();
+  const theme = useTheme();
   return (
     <Box
       display="flex"
@@ -52,8 +51,11 @@ const ColorPalette = () => {
       justifyContent="center"
       alignItems="center"
       sx={{
+        mr: "15px",
         [theme.breakpoints.down("sm")]: {
-          width: "100%",
+          width: "90%",
+          ml: "-15px",
+          mr: "0px",
         },
       }}
     >
@@ -64,15 +66,18 @@ const ColorPalette = () => {
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
-          margin="10px"
           width="45px"
-          sx={{[theme.breakpoints.up('small')]:{ margin: "10px 20px"} }}
+          sx={{
+            margin: "10px 20px",
+            [theme.breakpoints.down("sm")]: { margin: "10px" },
+          }}
         >
           <Avatar sx={{ bgcolor: color.color }}> </Avatar>
           <Typography
             sx={{
               fontFamily: "Raleway",
               fontSize: "15px",
+
               [theme.breakpoints.down("sm")]: {
                 fontSize: "12px",
               },
@@ -84,6 +89,6 @@ const ColorPalette = () => {
       ))}
     </Box>
   );
-}
+};
 
-export default ColorPalette
+export default ColorPalette;

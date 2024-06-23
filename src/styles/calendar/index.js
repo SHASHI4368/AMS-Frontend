@@ -176,7 +176,7 @@ export const CalendarHeaderItem = styled(Box)(({ theme }) => ({
 export const CurrentTimeDisplay = styled(Typography)(({ theme }) => ({
   fontFamily: "Poppins",
   fontWeight: 400,
-  fontSize: "45px",
+  fontSize: "30px",
   color: Colors.dim_grey,
   [theme.breakpoints.down("lg")]: {
     fontSize: "35px",
