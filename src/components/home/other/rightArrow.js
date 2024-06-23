@@ -13,7 +13,7 @@ const RightArrow = (props) => {
         right: 0,
         marginRight: "-50px",
         [theme.breakpoints.down("sm")]: {
-          mr: "-30px",
+          mr: "10px",
         },
       }}
       onClick={onClick}

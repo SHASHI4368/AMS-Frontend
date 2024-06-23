@@ -103,7 +103,7 @@ export const SmallAppointmentContainer = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("lg")]: {
     marginLeft: "10px",
     width: "100%",
-  }
+  },
 }));
 
 export const SliderContainer = styled(Box)(({ theme }) => ({
@@ -112,8 +112,13 @@ export const SliderContainer = styled(Box)(({ theme }) => ({
   minHeight: "250px",
   marginBottom: "20px",
   marginLeft: "-40px",
+  overflow: 'hidden',
   [theme.breakpoints.down("lg")]: {
     padding: "10px",
+  },
+  [theme.breakpoints.down("sm")]: {
+    width: "100%",
+    marginLeft: '30px'
   },
 }));
 

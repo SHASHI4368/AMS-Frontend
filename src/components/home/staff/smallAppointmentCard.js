@@ -77,12 +77,12 @@ const Paper = styled(Card)(({ theme }) => ({
     marginLeft: "20px",
   },
   [theme.breakpoints.down("md")]: {
-    width: "200%",
+    width: "100%",
     marginLeft: "30px",
   },
   [theme.breakpoints.down("sm")]: {
-    width: "85%",
-    marginLeft: "33px",
+    width: "90%",
+    marginLeft: "20px",
   },
 }));
 

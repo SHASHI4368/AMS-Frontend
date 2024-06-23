@@ -14,7 +14,7 @@ const LeftArrow = (props) => {
         marginLeft: "-20px",
         zIndex: 1,
         [theme.breakpoints.down("sm")]: {
-          ml: "10px",
+          ml: "-10px",
         },
       }}
       onClick={onClick}
