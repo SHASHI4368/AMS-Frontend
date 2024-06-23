@@ -215,7 +215,7 @@ const RescheduleAppointmentPopup = () => {
               label="Description"
               placeholder="Please enter a brief description about the reason"
               multiline
-              rows={3}
+              rows={small ? 2 : 3}
               disabled
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -227,20 +227,28 @@ const RescheduleAppointmentPopup = () => {
               placeholder="Please enter a brief description about the reason and any alternative times you are available for the appointment"
               multiline
               disabled
-              rows={3}
+              rows={small ? 2 : 3}
               value={reason}
               onChange={(e) => setReason(e.target.value)}
             />
           </Tooltip>
         </TextFieldContainer>
       </DialogContent>
-      <DialogActions sx={{ mt: -2 }}>
+      <DialogActions
+        sx={{
+          mt: -2,
+          [theme.breakpoints.down("sm")]: {
+            width: "100%",
+          },
+        }}
+      >
         <PopupButton
           color="error"
           sx={{
             mr: 30,
             [theme.breakpoints.down("sm")]: {
-              mr: 10,
+              mr: 0,
+              fontSize: "14px",
             },
           }}
           autoFocus
@@ -252,7 +260,8 @@ const RescheduleAppointmentPopup = () => {
           sx={{
             mr: 2,
             [theme.breakpoints.down("sm")]: {
-              mr: 4,
+              mr: 1,
+              fontSize: "14px",
             },
           }}
           autoFocus
@@ -260,7 +269,16 @@ const RescheduleAppointmentPopup = () => {
         >
           reschedule
         </PopupButton>
-        <PopupButton onClick={() => handleClose()} autoFocus>
+        <PopupButton
+          sx={{
+            [theme.breakpoints.down("sm")]: {
+              mr: -1,
+              fontSize: "14px",
+            },
+          }}
+          onClick={() => handleClose()}
+          autoFocus
+        >
           Cancel
         </PopupButton>
       </DialogActions>

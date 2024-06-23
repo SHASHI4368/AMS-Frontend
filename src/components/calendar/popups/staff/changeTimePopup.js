@@ -145,7 +145,14 @@ const ChangeTimePopup = () => {
   return (
     <PopupPaper>
       <TitleContainer>
-        <PopupTitle id="responsive-dialog-title">
+        <PopupTitle
+          sx={{
+            [theme.breakpoints.down("sm")]: {
+              fontSize: "18px",
+            },
+          }}
+          id="responsive-dialog-title"
+        >
           {"Do you want to reschedule appointment ?"}
         </PopupTitle>
       </TitleContainer>
@@ -258,7 +265,12 @@ const ChangeTimePopup = () => {
       </DialogContent>
       <DialogActions sx={{ mt: 0 }}>
         <PopupButton
-          sx={{ mr: 4 }}
+          sx={{
+            mr: 4,
+            [theme.breakpoints.down("sm")]: {
+              mr: 8,
+            },
+          }}
           autoFocus
           color="success"
           onClick={() => acceptAppointment()}

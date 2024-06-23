@@ -66,7 +66,7 @@ const ColorPalette = () => {
           alignItems="center"
           margin="10px"
           width="45px"
-          sx={{ margin: "10px 20px" }}
+          sx={{[theme.breakpoints.up('small')]:{ margin: "10px 20px"} }}
         >
           <Avatar sx={{ bgcolor: color.color }}> </Avatar>
           <Typography

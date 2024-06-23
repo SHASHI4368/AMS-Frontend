@@ -290,7 +290,7 @@ const AcceptAppointmentPopup = () => {
           sx={{
             mr: 30,
             [theme.breakpoints.down("sm")]: {
-              mr: 10,
+              mr: 4,
             },
           }}
           autoFocus
@@ -299,14 +299,28 @@ const AcceptAppointmentPopup = () => {
           unable
         </PopupButton>
         <PopupButton
-          sx={{ mr: 4 }}
+          sx={{
+            mr: 3,
+            [theme.breakpoints.down("sm")]: {
+              mr: 1,
+            },
+          }}
           autoFocus
           color="success"
           onClick={() => acceptAppointment()}
         >
           accept
         </PopupButton>
-        <PopupButton sx={{ mr: 1 }} onClick={() => handleClose()} autoFocus>
+        <PopupButton
+          sx={{
+            mr: 1,
+            [theme.breakpoints.down("sm")]: {
+              mr: -1,
+            },
+          }}
+          onClick={() => handleClose()}
+          autoFocus
+        >
           Close
         </PopupButton>
       </DialogActions>
