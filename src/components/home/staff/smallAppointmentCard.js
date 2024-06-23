@@ -70,7 +70,7 @@ const Paper = styled(Card)(({ theme }) => ({
   padding: "10px",
   width: "90%",
   margin: "10px",
-  marginLeft: "20px",
+  marginLeft: "10px",
   textAlign: "center",
   [theme.breakpoints.down("lg")]: {
     width: "100%",

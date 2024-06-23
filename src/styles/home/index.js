@@ -108,7 +108,7 @@ export const SmallAppointmentContainer = styled(Box)(({ theme }) => ({
 
 export const SliderContainer = styled(Box)(({ theme }) => ({
   width: "90%",
-  padding: "10px",
+  padding: "20px",
   minHeight: "250px",
   marginBottom: "20px",
   marginLeft: "-40px",
