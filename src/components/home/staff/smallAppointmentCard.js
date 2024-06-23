@@ -102,7 +102,7 @@ const SmallAppointmentCard = ({ appointment }) => {
   const [student, setStudent] = useState({});
   useEffect(() => {
     const getStudent = async () => {
-      const url = `${process.env.REACT_APP_BACKEND_URL}/db/student/details/${appointment.Student_reg}`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/student/details/${appointment.Student_reg}`;
       const response = await axios.get(url);
       setStudent(response.data[0]);
     };
@@ -116,12 +116,12 @@ const SmallAppointmentCard = ({ appointment }) => {
     }
     return text;
   };
-  const {setSelectedDate} = useUIContext();
+  const { setSelectedDate } = useUIContext();
   const navigate = useNavigate();
   const handleNavigate = () => {
-   setSelectedDate(new Date(appointment.StartTime));
+    setSelectedDate(new Date(appointment.StartTime));
     navigate("/calendar");
-  }
+  };
 
   return (
     <Paper>

@@ -23,7 +23,6 @@ const Heading = styled(Typography)(({ theme }) => ({
   color: Colors.dim_grey,
   fontFamily: "Poppins",
   textAlign: "right",
-
 }));
 
 const SubHeading = styled(Typography)(({ theme }) => ({
@@ -92,12 +91,13 @@ const PaperButton = styled(Button)(({ theme }) => ({
 }));
 
 const SmallAppointmentCard = ({ appointment }) => {
-  const { setSelectedDate, setStaff, setDepartment, setSelectedStaffEmail } = useUIContext();
+  const { setSelectedDate, setStaff, setDepartment, setSelectedStaffEmail } =
+    useUIContext();
   const [thisStaff, setThisStaff] = useState({});
   const navigate = useNavigate();
   useEffect(() => {
     const getStaff = async () => {
-      const url = `${process.env.REACT_APP_BACKEND_URL}/db/staff/details/${appointment.Lecturer_mail}`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/staff/details/${appointment.Lecturer_mail}`;
       const response = await axios.get(url);
       setThisStaff(response.data[0]);
     };

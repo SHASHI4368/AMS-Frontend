@@ -1,25 +1,31 @@
-import { Button, Card, CardActions, CardContent, Typography, styled } from '@mui/material';
-import React, { useEffect, useState } from 'react'
-import { Colors } from '../../../styles/theme';
-import { format } from 'date-fns';
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Typography,
+  styled,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Colors } from "../../../styles/theme";
+import { format } from "date-fns";
 import "@fontsource/raleway";
 import "@fontsource/poppins";
-import { lighten, padding } from 'polished';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { useUIContext } from '../../../context/ui';
-
+import { lighten, padding } from "polished";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useUIContext } from "../../../context/ui";
 
 const Heading = styled(Typography)(({ theme }) => ({
   fontSize: 50,
   marginBottom: 10,
   fontWeight: 300,
   color: Colors.dim_grey,
-  fontFamily: "Poppins",  
-  textAlign: 'right',
+  fontFamily: "Poppins",
+  textAlign: "right",
   [theme.breakpoints.down("lg")]: {
     fontSize: 40,
-  }
+  },
 }));
 
 const SubHeading = styled(Typography)(({ theme }) => ({
@@ -27,31 +33,31 @@ const SubHeading = styled(Typography)(({ theme }) => ({
   marginBottom: 10,
   fontWeight: 300,
   color: Colors.dim_grey,
-  fontFamily: "Poppins",  
-  textAlign: 'left',
+  fontFamily: "Poppins",
+  textAlign: "left",
   [theme.breakpoints.down("lg")]: {
     fontSize: 25,
-  }
+  },
 }));
 
 const Subject = styled(Typography)(({ theme }) => ({
   fontSize: 30,
   color: Colors.dim_grey,
-  fontFamily: "Poppins",  
-  textAlign: 'left',
+  fontFamily: "Poppins",
+  textAlign: "left",
   [theme.breakpoints.down("lg")]: {
     fontSize: 25,
-  }
+  },
 }));
 const Description = styled(Typography)(({ theme }) => ({
   fontSize: 20,
   marginBottom: 1.5,
   color: Colors.dim_grey,
-  fontFamily: "Poppins",  
-  textAlign: 'left',
+  fontFamily: "Poppins",
+  textAlign: "left",
   [theme.breakpoints.down("lg")]: {
     fontSize: 18,
-  }
+  },
 }));
 
 const Paper = styled(Card)(({ theme }) => ({
@@ -66,7 +72,7 @@ const Paper = styled(Card)(({ theme }) => ({
   borderRadius: "10px",
   padding: "10px",
   width: "100%",
-  margin: '10px',
+  margin: "10px",
   textAlign: "center",
   zIndex: 999,
   [theme.breakpoints.down("md")]: {
@@ -84,44 +90,42 @@ const PaperButton = styled(Button)(({ theme }) => ({
   padding: "10px",
   margin: "10px",
   "&:hover": {
-    backgroundColor: lighten(0.04,  Colors.primary),
+    backgroundColor: lighten(0.04, Colors.primary),
   },
   [theme.breakpoints.down("lg")]: {
     fontSize: 16,
     padding: "8px",
-    
-  }
+  },
 }));
 
+const AppointmentCard = ({ appointment }) => {
+  const { setSelectedDate, setStaff, setDepartment, setSelectedStaffEmail } =
+    useUIContext();
+  const [thisStaff, setThisStaff] = useState({});
+  const navigate = useNavigate();
+  useEffect(() => {
+    const getStaff = async () => {
+      const url = `https://ams-backend-hvfj.onrender.com/db/staff/details/${appointment.Lecturer_mail}`;
+      const response = await axios.get(url);
+      setThisStaff(response.data[0]);
+    };
+    getStaff();
+  }, []);
 
-
-const AppointmentCard = ({appointment}) => {
- const { setSelectedDate, setStaff, setDepartment, setSelectedStaffEmail } = useUIContext();
- const [thisStaff, setThisStaff] = useState({});
- const navigate = useNavigate();
- useEffect(() => {
-   const getStaff = async () => {
-     const url = `${process.env.REACT_APP_BACKEND_URL}/db/staff/details/${appointment.Lecturer_mail}`;
-     const response = await axios.get(url);
-     setThisStaff(response.data[0]);
-   };
-   getStaff();
- }, []);
-
- const truncateText = (text) => {
-   const words = text.split(" ");
-   if (words.length > 50) {
-     return words.slice(0, 50).join(" ") + "...";
-   }
-   return text;
- };
- const handleNavigate = () => {
-   setSelectedDate(new Date(appointment.StartTime));
-   setStaff(thisStaff);
-   setDepartment(thisStaff.Department);
-   setSelectedStaffEmail(thisStaff.Email);
-   navigate("/calendar");
- };
+  const truncateText = (text) => {
+    const words = text.split(" ");
+    if (words.length > 50) {
+      return words.slice(0, 50).join(" ") + "...";
+    }
+    return text;
+  };
+  const handleNavigate = () => {
+    setSelectedDate(new Date(appointment.StartTime));
+    setStaff(thisStaff);
+    setDepartment(thisStaff.Department);
+    setSelectedStaffEmail(thisStaff.Email);
+    navigate("/calendar");
+  };
 
   return (
     <Paper>
@@ -143,6 +147,6 @@ const AppointmentCard = ({appointment}) => {
       </CardActions>
     </Paper>
   );
-}
+};
 
-export default AppointmentCard
+export default AppointmentCard;
