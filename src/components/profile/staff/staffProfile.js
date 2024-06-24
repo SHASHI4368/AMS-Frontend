@@ -63,7 +63,7 @@ const StaffProfile = () => {
 
   useEffect(() => {
     const getStaff = async () => {
-      const url = `http://194.238.23.116:8080/db/staff/details/${email}`;
+      const url = `http://194.238.23.116.nip.io:8080/db/staff/details/${email}`;
       const response = await axios.get(url);
       setFirstName(response.data[0].First_name);
       setLastName(response.data[0].Last_name);
@@ -76,7 +76,7 @@ const StaffProfile = () => {
 
   const updateStaffPassword = async () => {
     try {
-      const url = `http://194.238.23.116:8080/db/staff/password`;
+      const url = `http://194.238.23.116.nip.io:8080/db/staff/password`;
       const response = await axios.put(url, {
         Email: email,
         Password: profilePassword,
@@ -97,7 +97,7 @@ const StaffProfile = () => {
 
   const updateStaff = async () => {
     try {
-      const url = `http://194.238.23.116:8080/db/staff`;
+      const url = `http://194.238.23.116.nip.io:8080/db/staff`;
       const data = {
         First_name: firstName,
         Last_name: lastName,
