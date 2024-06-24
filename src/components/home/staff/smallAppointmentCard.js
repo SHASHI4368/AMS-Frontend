@@ -102,7 +102,7 @@ const SmallAppointmentCard = ({ appointment }) => {
   const [student, setStudent] = useState({});
   useEffect(() => {
     const getStudent = async () => {
-      const url = `https://ams-backend-hvfj.onrender.com/db/student/details/${appointment.Student_reg}`;
+      const url = `http://localhost:8080/db/student/details/${appointment.Student_reg}`;
       const response = await axios.get(url);
       setStudent(response.data[0]);
     };
