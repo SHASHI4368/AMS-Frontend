@@ -46,7 +46,7 @@ const StaffHome = () => {
   useEffect(() => {
     const getStaffAppointments = async () => {
       try {
-        const url = `http://194.238.23.116.nip.io:8080/db/appointments/${email}`;
+        const url = `https://ams-backend-hvfj.onrender.com/db/appointments/${email}`;
         const response = await axios.get(url);
         setStaffAppointments(response.data);
       } catch (err) {
@@ -59,7 +59,7 @@ const StaffHome = () => {
   useEffect(() => {
     const getStaffAppointments = async () => {
       try {
-        const url = `http://194.238.23.116.nip.io:8080/db/appointments/${email}`;
+        const url = `https://ams-backend-hvfj.onrender.com/db/appointments/${email}`;
         const response = await axios.get(url);
         setStaffAppointments(response.data);
       } catch (err) {
