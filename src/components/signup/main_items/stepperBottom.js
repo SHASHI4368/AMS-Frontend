@@ -85,9 +85,8 @@ const StepperBottom = () => {
   };
 
   const sendVerificationMail = async (email, code) => {
-    console.log("Hello");
     try {
-      const url = `http://localhost:8080/mail/student/verify`;
+      const url = `http://194.238.23.116.nip.io:8080/mail/student/verify`;
       const { data } = await axios.post(url, { email, code });
       console.log(data);
     } catch (err) {
@@ -97,7 +96,7 @@ const StepperBottom = () => {
 
   const updateVerificationCode = async (Email, Verification_Code) => {
     try {
-      const url = `http://localhost:8080/db/tempUser`;
+      const url = `http://194.238.23.116.nip.io:8080/db/tempUser`;
       const { data } = await axios.put(url, { Email, Verification_Code });
       console.log(data);
     } catch (err) {
@@ -107,7 +106,7 @@ const StepperBottom = () => {
 
   const addTempUser = async (Email, Verification_Code) => {
     try {
-      const url = `http://localhost:8080/db/tempUser`;
+      const url = `http://194.238.23.116.nip.io:8080/db/tempUser`;
       const { data } = await axios.post(url, { Email, Verification_Code });
       console.log(data);
     } catch (err) {
@@ -117,7 +116,7 @@ const StepperBottom = () => {
 
   const getTempUser = async (Email) => {
     try {
-      const url = `http://localhost:8080/db/tempUser/${Email}`;
+      const url = `http://194.238.23.116.nip.io:8080/db/tempUser/${Email}`;
       const { data } = await axios.get(url);
       return data;
     } catch (err) {
@@ -127,7 +126,7 @@ const StepperBottom = () => {
 
   const getStudent = async (Email) => {
     try {
-      const url = `http://localhost:8080/db/student/${Email}`;
+      const url = `http://194.238.23.116.nip.io:8080/db/student/${Email}`;
       const { data } = await axios.get(url);
       return data;
     } catch (err) {
@@ -137,7 +136,7 @@ const StepperBottom = () => {
 
   const getStaff = async (Email) => {
     try {
-      const url = `http://localhost:8080/db/staff/${Email}`;
+      const url = `http://194.238.23.116.nip.io:8080/db/staff/${Email}`;
       const { data } = await axios.get(url);
       return data;
     } catch (err) {
@@ -199,7 +198,7 @@ const StepperBottom = () => {
 
   const getPasscode = async (Email) => {
     try {
-      const url = `http://localhost:8080/db/tempUser/passcode/${Email}`;
+      const url = `http://194.238.23.116.nip.io:8080/db/tempUser/passcode/${Email}`;
       const response = await axios.get(url, {
         withCredentials: true,
       });
@@ -232,7 +231,7 @@ const StepperBottom = () => {
     Password
   ) => {
     try {
-      const url = `http://localhost:8080/db/students`;
+      const url = `http://194.238.23.116.nip.io:8080/db/students`;
       const response = await axios.post(url, {
         Reg_number,
         First_name,
@@ -271,7 +270,7 @@ const StepperBottom = () => {
     Title
   ) => {
     try {
-      const url = `http://localhost:8080/db/staff`;
+      const url = `http://194.238.23.116.nip.io:8080/db/staff`;
       const response = await axios.post(url, {
         First_name,
         Last_name,
@@ -297,7 +296,7 @@ const StepperBottom = () => {
 
   const deleteTempUser = async (Email) => {
     try {
-      const url = `http://localhost:8080/db/tempUser/${Email}`;
+      const url = `http://194.238.23.116.nip.io:8080/db/tempUser/${Email}`;
       const response = await axios.delete(url);
       console.log(response.data);
     } catch (err) {
@@ -346,7 +345,7 @@ const StepperBottom = () => {
         setMessage("Password is required");
       } else {
         const picture = googleAuth
-          ? staff.picture
+          ? staff.picture ? staff.picture 
           : "https://www.w3schools.com/howto/img_avatar.png";
         console.log(picture);
         deleteTempUser(email);

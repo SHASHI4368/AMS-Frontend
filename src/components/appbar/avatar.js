@@ -35,7 +35,7 @@ const Avatar = () => {
       const config = {
         headers: { Authorization: jwt },
       };
-      const url = `http://localhost:8080/db/student/logout`;
+      const url = `http://194.238.23.116.nip.io:8080/db/student/logout`;
       const response = await axios.get(url, config);
       setEmail("");
       setJwt("");
@@ -58,7 +58,7 @@ const Avatar = () => {
       const config = {
         headers: { Authorization: jwt },
       };
-      const url = `http://localhost:8080/db/staff/logout`;
+      const url = `http://194.238.23.116.nip.io:8080/db/staff/logout`;
       const response = await axios.get(url, config);
       setEmail("");
       setJwt("");
