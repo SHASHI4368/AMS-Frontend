@@ -344,9 +344,16 @@ const StepperBottom = () => {
       } else if (password === "") {
         setMessage("Password is required");
       } else {
-        const picture = googleAuth
-          ? staff.picture ? staff.picture 
-          : "https://www.w3schools.com/howto/img_avatar.png";
+        const picture = "";
+        if(googleAuth && staff) {
+          if(staff.picture !== undefined && staff.picture !== null) {
+            picture = staff.picture;
+          } else {
+            picture = "https://www.w3schools.com/howto/img_avatar.png";
+          }
+        }else{
+          picture = staff.picture;
+        }
         console.log(picture);
         deleteTempUser(email);
         addStaff(
