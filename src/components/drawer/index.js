@@ -57,7 +57,7 @@ const AppDrawer = () => {
   const getDepartmentStaff = async (Department) => {
     console.log(Department);
     try {
-      const url = `https://ams-backend-hvfj.onrender.com/db/department/${Department}`;
+      const url = `http://194.238.23.116:8080/db/department/${Department}`;
       const response = await axios.get(url);
       console.log(response.data);
       setStaffList(response.data);
@@ -103,7 +103,7 @@ const AppDrawer = () => {
       const config = {
         headers: { Authorization: jwt },
       };
-      const url = `https://ams-backend-hvfj.onrender.com/db/student/logout`;
+      const url = `http://194.238.23.116:8080/db/student/logout`;
       const response = await axios.get(url, config);
       setEmail("");
       setJwt("");
@@ -120,7 +120,7 @@ const AppDrawer = () => {
       const config = {
         headers: { Authorization: jwt },
       };
-      const url = `https://ams-backend-hvfj.onrender.com/db/staff/logout`;
+      const url = `http://194.238.23.116:8080/db/staff/logout`;
       const response = await axios.get(url, config);
       setEmail("");
       setJwt("");

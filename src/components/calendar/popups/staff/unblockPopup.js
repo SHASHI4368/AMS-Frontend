@@ -44,7 +44,7 @@ const UnblockPopup = () => {
   const deleteBlockTimeSlot = async () => {
     console.log(aptId);
     try {
-      const url = `https://ams-backend-hvfj.onrender.com/db/appointment/${aptId}`;
+      const url = `http://194.238.23.116:8080/db/appointment/${aptId}`;
       const response = await axios.delete(url);
       console.log(response.data);
       const msg = { email };

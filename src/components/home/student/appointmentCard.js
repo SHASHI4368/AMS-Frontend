@@ -105,7 +105,7 @@ const AppointmentCard = ({ appointment }) => {
   const navigate = useNavigate();
   useEffect(() => {
     const getStaff = async () => {
-      const url = `https://ams-backend-hvfj.onrender.com/db/staff/details/${appointment.Lecturer_mail}`;
+      const url = `http://194.238.23.116:8080/db/staff/details/${appointment.Lecturer_mail}`;
       const response = await axios.get(url);
       setThisStaff(response.data[0]);
     };

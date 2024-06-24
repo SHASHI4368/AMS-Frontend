@@ -45,7 +45,7 @@ const StudentHome = () => {
   useEffect(() => {
     const getStudentAppointments = async () => {
       try {
-        const url = `https://ams-backend-hvfj.onrender.com/db/student/appointments/${regNumber}`;
+        const url = `http://194.238.23.116:8080/db/student/appointments/${regNumber}`;
         const response = await axios.get(url);
         setStudentAppointments(response.data);
       } catch (err) {
@@ -58,7 +58,7 @@ const StudentHome = () => {
   useEffect(() => {
     const getStudentAppointments = async () => {
       try {
-        const url = `https://ams-backend-hvfj.onrender.com/db/student/appointments/${regNumber}`;
+        const url = `http://194.238.23.116:8080/db/student/appointments/${regNumber}`;
         const response = await axios.get(url);
         setStudentAppointments(response.data);
       } catch (err) {
