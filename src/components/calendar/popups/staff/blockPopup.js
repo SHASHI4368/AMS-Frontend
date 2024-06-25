@@ -44,7 +44,7 @@ const BlockPopup = () => {
 
   const getLastAppointment = async () => {
     try {
-      const url = `https://ams-backend-hvfj.onrender.com/db/appointment/last`;
+      const url = `http://192.168.1.12.nip.io:8080/db/appointment/last`;
       const response = await axios.get(url);
       console.log(response.data);
       if (response.data.length === 0) {
@@ -61,7 +61,7 @@ const BlockPopup = () => {
     const id = (await getLastAppointment()) + 1;
     console.log(id);
     try {
-      const url = `https://ams-backend-hvfj.onrender.com/db/appointment/block`;
+      const url = `http://192.168.1.12.nip.io:8080/db/appointment/block`;
       const data = {
         Id: id,
         Lecturer_mail: email,
