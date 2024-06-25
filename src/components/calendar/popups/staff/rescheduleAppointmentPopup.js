@@ -68,7 +68,7 @@ const RescheduleAppointmentPopup = () => {
   const deleteAppointment = async (Id, EventType, StdReg) => {
     setProgressOpen(true);
     try {
-      const url = `http://192.168.1.12.nip.io:8080/db/appointment/${aptId}`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/appointment/${aptId}`;
       const response = await axios.delete(url);
 
       const msg = { email, EventType };
@@ -82,7 +82,7 @@ const RescheduleAppointmentPopup = () => {
     console.log("hello");
     const getStudentDetails = async () => {
       try {
-        const url = `http://192.168.1.12.nip.io:8080/db/student/details/${reg}`;
+        const url = `https://ams-backend-hvfj.onrender.com/db/student/details/${reg}`;
         const { data } = await axios.get(url, reg);
         return data;
       } catch (err) {
@@ -91,7 +91,7 @@ const RescheduleAppointmentPopup = () => {
     };
     const getStaffDetails = async () => {
       try {
-        const url = `http://192.168.1.12.nip.io:8080/db/staff/details/${email}`;
+        const url = `https://ams-backend-hvfj.onrender.com/db/staff/details/${email}`;
         const { data } = await axios.get(url);
         return data[0];
       } catch (err) {
@@ -104,7 +104,7 @@ const RescheduleAppointmentPopup = () => {
       const staffDetails = await getStaffDetails();
       console.log(staffDetails);
       const stdMail = student[0].Email;
-      const url = `http://192.168.1.12.nip.io:8080/mail/student/update/appointment`;
+      const url = `https://ams-backend-hvfj.onrender.com/mail/student/update/appointment`;
       const subject = "Your appointment has been removed";
       const content = `
         <p>Dear student,</p>

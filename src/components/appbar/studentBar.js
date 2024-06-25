@@ -26,7 +26,7 @@ const StudentBar = () => {
   const getDepartmentStaff = async (Department) => {
     console.log(Department);
     try {
-      const url = `http://192.168.1.12.nip.io:8080/db/department/${Department}`;
+      const url = `https://ams-backend-hvfj.onrender.com/db/department/${Department}`;
       const response = await axios.get(url);
       console.log(response.data);
       setStaffList(response.data);
