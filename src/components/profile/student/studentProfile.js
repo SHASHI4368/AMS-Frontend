@@ -61,7 +61,7 @@ const StudentProfile = () => {
 
   useEffect(() => {
     const getStudent = async () => {
-      const url = `https://ams-backend-hvfj.onrender.com/db/student/details/${regNumber}`;
+      const url = `http://192.168.1.12.nip.io:8080/db/student/details/${regNumber}`;
       const response = await axios.get(url);
       setFirstName(response.data[0].First_name);
       setLastName(response.data[0].Last_name);
@@ -73,7 +73,7 @@ const StudentProfile = () => {
 
   const updateStudentPassword = async () => {
     try {
-      const url = `https://ams-backend-hvfj.onrender.com/db/student/password`;
+      const url = `http://192.168.1.12.nip.io:8080/db/student/password`;
       const response = await axios.put(url, {
         Email: email,
         Password: profilePassword,
@@ -94,7 +94,7 @@ const StudentProfile = () => {
 
   const updateStudent = async () => {
     try {
-      const url = `https://ams-backend-hvfj.onrender.com/db/student`;
+      const url = `http://192.168.1.12.nip.io:8080/db/student`;
       const data = {
         First_name: firstName,
         Last_name: lastName,
