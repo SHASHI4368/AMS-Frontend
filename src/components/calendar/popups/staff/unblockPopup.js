@@ -44,7 +44,7 @@ const UnblockPopup = () => {
   const deleteBlockTimeSlot = async () => {
     console.log(aptId);
     try {
-      const url = `http://192.168.1.12.nip.io:8080/db/appointment/${aptId}`;
+      const url = `https://api.swargadhi.lk/db/appointment/${aptId}`;
       const response = await axios.delete(url);
       console.log(response.data);
       const msg = { email };

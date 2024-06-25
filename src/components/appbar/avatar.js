@@ -35,7 +35,7 @@ const Avatar = () => {
       const config = {
         headers: { Authorization: jwt },
       };
-      const url = `http://192.168.1.12.nip.io:8080/db/student/logout`;
+      const url = `https://api.swargadhi.lk/db/student/logout`;
       const response = await axios.get(url, config);
       setEmail("");
       setJwt("");
@@ -58,7 +58,7 @@ const Avatar = () => {
       const config = {
         headers: { Authorization: jwt },
       };
-      const url = `http://192.168.1.12.nip.io:8080/db/staff/logout`;
+      const url = `https://api.swargadhi.lk/db/staff/logout`;
       const response = await axios.get(url, config);
       setEmail("");
       setJwt("");

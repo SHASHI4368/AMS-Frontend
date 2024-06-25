@@ -60,7 +60,7 @@ const AddAppointmentPopup = () => {
     setProgressOpen(true);
     try {
       const id = (await getLastAppointment()) + 1;
-      const url = `http://192.168.1.12.nip.io:8080/db/appointment/add`;
+      const url = `https://api.swargadhi.lk/db/appointment/add`;
       const data = {
         Id: id,
         Lecturer_mail: selectedStaffEmail,
@@ -89,7 +89,7 @@ const AddAppointmentPopup = () => {
 
     const getStudentDetails = async () => {
       try {
-        const url = `http://192.168.1.12.nip.io:8080/db/student/details/${regNumber}`;
+        const url = `https://api.swargadhi.lk/db/student/details/${regNumber}`;
         const { data } = await axios.get(url, regNumber);
         return data;
       } catch (err) {
@@ -100,8 +100,8 @@ const AddAppointmentPopup = () => {
     try {
       const id = await getLastAppointment();
       const student = await getStudentDetails();
-      const url = `http://192.168.1.12.nip.io:8080/mail/student/request/appointment`;
-      const acceptUrl = `http://192.168.1.12.nip.io:8080/db/appointment/accept/${id}`;
+      const url = `https://api.swargadhi.lk/mail/student/request/appointment`;
+      const acceptUrl = `https://api.swargadhi.lk/db/appointment/accept/${id}`;
       const subject = "Request for an appointment";
       const content = `
         <h1>${subject}</h1>
@@ -136,7 +136,7 @@ const AddAppointmentPopup = () => {
 
   const getLastAppointment = async () => {
     try {
-      const url = `http://192.168.1.12.nip.io:8080/db/appointment/last`;
+      const url = `https://api.swargadhi.lk/db/appointment/last`;
       const response = await axios.get(url);
       console.log(response.data);
       if (response.data.length === 0) {

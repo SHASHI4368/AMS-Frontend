@@ -64,7 +64,7 @@ const CancelAppointmentPopup = () => {
   const updateAppointment = async () => {
     setProgressOpen(true);
     try {
-      const url = `http://192.168.1.12.nip.io:8080/db/appointment`;
+      const url = `https://api.swargadhi.lk/db/appointment`;
       const data = {
         Id: aptId,
         Subject: subject,
@@ -84,7 +84,7 @@ const CancelAppointmentPopup = () => {
   const sendAppointmentChangeMail = async () => {
     const getStudentDetails = async () => {
       try {
-        const url = `http://192.168.1.12.nip.io:8080/db/student/details/${regNumber}`;
+        const url = `https://api.swargadhi.lk/db/student/details/${regNumber}`;
         const { data } = await axios.get(url, regNumber);
         return data;
       } catch (err) {
@@ -93,8 +93,8 @@ const CancelAppointmentPopup = () => {
     };
     try {
       const student = await getStudentDetails(regNumber);
-      const url = `http://192.168.1.12.nip.io:8080/mail/student/request/appointment`;
-      const deleteURL = `http://192.168.1.12.nip.io:8080/db/appointment/delete/${aptId}`;
+      const url = `https://api.swargadhi.lk/mail/student/request/appointment`;
+      const deleteURL = `https://api.swargadhi.lk/db/appointment/delete/${aptId}`;
       const subject = "Notifying of Appointment Cancellation";
       const content = `
         <h2>Student Details:</h2>

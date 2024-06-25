@@ -105,7 +105,7 @@ const AppointmentCard = ({ appointment }) => {
   const navigate = useNavigate();
   useEffect(() => {
     const getStaff = async () => {
-      const url = `http://192.168.1.12.nip.io:8080/db/staff/details/${appointment.Lecturer_mail}`;
+      const url = `https://api.swargadhi.lk/db/staff/details/${appointment.Lecturer_mail}`;
       const response = await axios.get(url);
       setThisStaff(response.data[0]);
     };

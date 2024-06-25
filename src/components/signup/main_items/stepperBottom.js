@@ -86,7 +86,7 @@ const StepperBottom = () => {
 
   const sendVerificationMail = async (email, code) => {
     try {
-      const url = `http://192.168.1.12.nip.io:8080/mail/student/verify`;
+      const url = `https://api.swargadhi.lk/mail/student/verify`;
       const { data } = await axios.post(url, { email, code });
       console.log(data);
     } catch (err) {
@@ -96,7 +96,7 @@ const StepperBottom = () => {
 
   const updateVerificationCode = async (Email, Verification_Code) => {
     try {
-      const url = `http://192.168.1.12.nip.io:8080/db/tempUser`;
+      const url = `https://api.swargadhi.lk/db/tempUser`;
       const { data } = await axios.put(url, { Email, Verification_Code });
       console.log(data);
     } catch (err) {
@@ -106,7 +106,7 @@ const StepperBottom = () => {
 
   const addTempUser = async (Email, Verification_Code) => {
     try {
-      const url = `http://192.168.1.12.nip.io:8080/db/tempUser`;
+      const url = `https://api.swargadhi.lk/db/tempUser`;
       const { data } = await axios.post(url, { Email, Verification_Code });
       console.log(data);
     } catch (err) {
@@ -116,7 +116,7 @@ const StepperBottom = () => {
 
   const getTempUser = async (Email) => {
     try {
-      const url = `http://192.168.1.12.nip.io:8080/db/tempUser/${Email}`;
+      const url = `https://api.swargadhi.lk/db/tempUser/${Email}`;
       const { data } = await axios.get(url);
       return data;
     } catch (err) {
@@ -126,7 +126,7 @@ const StepperBottom = () => {
 
   const getStudent = async (Email) => {
     try {
-      const url = `http://192.168.1.12.nip.io:8080/db/student/${Email}`;
+      const url = `https://api.swargadhi.lk/db/student/${Email}`;
       const { data } = await axios.get(url);
       return data;
     } catch (err) {
@@ -136,7 +136,7 @@ const StepperBottom = () => {
 
   const getStaff = async (Email) => {
     try {
-      const url = `http://192.168.1.12.nip.io:8080/db/staff/${Email}`;
+      const url = `https://api.swargadhi.lk/db/staff/${Email}`;
       const { data } = await axios.get(url);
       return data;
     } catch (err) {
@@ -198,7 +198,7 @@ const StepperBottom = () => {
 
   const getPasscode = async (Email) => {
     try {
-      const url = `http://192.168.1.12.nip.io:8080/db/tempUser/passcode/${Email}`;
+      const url = `https://api.swargadhi.lk/db/tempUser/passcode/${Email}`;
       const response = await axios.get(url, {
         withCredentials: true,
       });
@@ -231,7 +231,7 @@ const StepperBottom = () => {
     Password
   ) => {
     try {
-      const url = `http://192.168.1.12.nip.io:8080/db/students`;
+      const url = `https://api.swargadhi.lk/db/students`;
       const response = await axios.post(url, {
         Reg_number,
         First_name,
@@ -270,7 +270,7 @@ const StepperBottom = () => {
     Title
   ) => {
     try {
-      const url = `http://192.168.1.12.nip.io:8080/db/staff`;
+      const url = `https://api.swargadhi.lk/db/staff`;
       const response = await axios.post(url, {
         First_name,
         Last_name,
@@ -296,7 +296,7 @@ const StepperBottom = () => {
 
   const deleteTempUser = async (Email) => {
     try {
-      const url = `http://192.168.1.12.nip.io:8080/db/tempUser/${Email}`;
+      const url = `https://api.swargadhi.lk/db/tempUser/${Email}`;
       const response = await axios.delete(url);
       console.log(response.data);
     } catch (err) {
