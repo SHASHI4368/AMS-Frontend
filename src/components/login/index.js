@@ -185,7 +185,7 @@ const Login = () => {
       const getStaff = async () => {
         try {
           const url = `http://194.238.23.116.nip.io:8080/auth/login/success`;
-          const { data } = await axios.get(url, { withCredentials: false });
+          const { data } = await axios.get(url, { withCredentials: true });
           if (data.error === false && googleAuth) {
             console.log(data.user._json.email);
             setTempEmail(data.user._json.email);
