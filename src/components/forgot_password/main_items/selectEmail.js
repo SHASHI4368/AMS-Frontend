@@ -21,7 +21,7 @@ const SelectEmail = () => {
   const handleGoogleAuth = (e, action) => {
     e.preventDefault();
     window.open(
-      `http://194.238.23.116.nip.io:8080/auth/google?action=${action}`,
+      `https://ams-backend-hvfj.onrender.com/auth/google?action=${action}`,
       "_self"
     );
   };
@@ -29,7 +29,7 @@ const SelectEmail = () => {
   useEffect(() => {
     const getStaff = async () => {
       try {
-        const url = `http://194.238.23.116.nip.io:8080/auth/login/success`;
+        const url = `https://ams-backend-hvfj.onrender.com/auth/login/success`;
         const { data } = await axios.get(url, { withCredentials: true });
         if (data.error === false) {
           setStaff(data.user._json);
