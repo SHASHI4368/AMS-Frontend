@@ -215,7 +215,7 @@ const CancelAppointmentPopup = () => {
             label="Description"
             placeholder="Please enter a brief description about the reason"
             multiline
-            rows={3}
+            rows={2}
             disabled
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -224,7 +224,7 @@ const CancelAppointmentPopup = () => {
             label="Reason for unavailability"
             placeholder="Please enter a brief description about the reason and any alternative times you are available for the appointment"
             multiline
-            rows={3}
+            rows={2}
             value={reason}
             onChange={(e) => setReason(e.target.value)}
           />
