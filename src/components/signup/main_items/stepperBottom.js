@@ -344,17 +344,22 @@ const StepperBottom = () => {
       } else if (password === "") {
         setMessage("Password is required");
       } else {
-        const picture = "";
+        let picture = "";
         if (googleAuth && staff) {
-          if (staff.picture !== undefined && staff.picture !== null && staff.picture !== "") {
+          if (
+            staff.picture !== undefined &&
+            staff.picture !== null &&
+            staff.picture !== ""
+          ) {
             picture = staff.picture;
           } else {
-            picture = "https://www.w3schools.com/howto/img_avatar.png";
+            picture =
+              "https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o=";
           }
         } else {
-          picture = staff.picture;
+          picture =
+            "https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o=";
         }
-        console.log(picture);
         deleteTempUser(email);
         addStaff(
           firstName,
