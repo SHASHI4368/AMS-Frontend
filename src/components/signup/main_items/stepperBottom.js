@@ -346,7 +346,7 @@ const StepperBottom = () => {
       } else {
         const picture = "";
         if (googleAuth && staff) {
-          if (staff.picture !== undefined && staff.picture !== null) {
+          if (staff.picture !== undefined && staff.picture !== null && staff.picture !== "") {
             picture = staff.picture;
           } else {
             picture = "https://www.w3schools.com/howto/img_avatar.png";
