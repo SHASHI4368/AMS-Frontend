@@ -545,7 +545,7 @@ const StaffCalendarComponent = () => {
     <Box sx={{ fontFamily: "Raleway" }}>
       <div className="calendar">
         <ScheduleComponent
-          currentView="Day"
+          currentView="Week"
           eventSettings={{
             dataSource: appointments.dataSource,
             fields: appointments.fields,
