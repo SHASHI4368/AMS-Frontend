@@ -379,7 +379,7 @@ const StudentCalendarComponent = () => {
               interval={dayCount}
               displayName={dayDisplay}
             />
-            <ViewDirective option="Week" startHour="08:00" endHour="16:00" />
+            <ViewDirective option="Week" startHour="08:00" endHour="17:00" />
           </ViewsDirective>
           <Inject
             services={[
