@@ -375,7 +375,7 @@ const StudentCalendarComponent = () => {
             <ViewDirective
               option="Day"
               startHour="08:00"
-              endHour="16:00"
+              endHour="17:00"
               interval={dayCount}
               displayName={dayDisplay}
             />
